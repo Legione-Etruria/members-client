@@ -1,0 +1,46 @@
+<fieldset class="mb-4" [formGroup]="parent">
+  <legend class="sr-only">{{ label }}</legend>
+
+  <div class="-space-y-px rounded-md bg-white">
+    <label
+      class="relative flex cursor-pointer border p-4 focus:outline-none"
+      *ngFor="let radio of radioList; let i = index"
+      [ngClass]="{
+        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+          showValidationErrors,
+        'rounded-tl-md rounded-tr-md': 0 === i,
+        'rounded-bl-md rounded-br-md': radioList.length - 1 === i
+      }"
+    >
+      <input
+        type="radio"
+        [formControlName]="name"
+        [value]="radio.value"
+        [id]="name + '-' + i"
+        class="text-app-color-600 focus:ring-app-color-500 mt-0.5 h-4 w-4 cursor-pointer border-gray-300"
+      />
+      <div class="ml-3 flex flex-col">
+        <span
+          [id]="name + '-' + radio.value + '-label'"
+          class="block text-sm font-medium"
+        >
+          {{ radio.name }}
+        </span>
+        <span
+          [id]="name + '-' + radio.value + '-description'"
+          class="block text-sm"
+        >
+          {{ radio.description }}
+        </span>
+      </div>
+    </label>
+  </div>
+
+  <p
+    class="mt-2 text-sm text-red-600"
+    [id]="name + '-error'"
+    *ngIf="showValidationErrors"
+  >
+    {{ validationErrorMessage }}
+  </p>
+</fieldset>

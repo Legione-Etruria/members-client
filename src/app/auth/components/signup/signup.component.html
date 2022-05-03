@@ -1,0 +1,117 @@
+<div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img
+      class="mx-auto h-12 w-auto"
+      src="assets/logo.png"
+      alt="Golden Italia"
+    />
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Crea un account
+    </h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      {{
+        adminSelectors
+          ? "Compila il modulo con i dati dell'utente che vuoi creare e fai click su 'Crea utente'"
+          : "Compila il modulo con i tuoi dati e fai click su 'registrati'"
+      }}
+    </p>
+  </div>
+
+  <div
+    class="mt-8"
+    [ngClass]="{
+      'sm:mx-auto sm:w-full sm:max-w-md': !adminSelectors,
+      'mx-auto': adminSelectors
+    }"
+  >
+    <div class="rounded-lg bg-white py-8 px-4 shadow sm:px-10">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div
+          [ngClass]="{ 'w-full lg:w-6/12': adminSelectors }"
+          [ngClass]="{
+            'flex flex-wrap justify-center sm:space-x-0 lg:flex-nowrap lg:space-x-10':
+              adminSelectors
+          }"
+          [class.space-y-6]="!adminSelectors"
+        >
+          <div [ngClass]="{ 'w-5/12': adminSelectors }">
+            <golden-tailwind-input
+              [parent]="form"
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="tuaemail@email.it"
+              class="border-none"
+              [validationErrors]="{
+                required: 'Email obbligatoria',
+                email: 'Email non valida'
+              }"
+            ></golden-tailwind-input>
+
+            <golden-tailwind-input
+              [parent]="form"
+              label="Password"
+              name="password"
+              type="password"
+              class="border-none"
+              [showToggleEye]="true"
+              [validationErrors]="{
+                required: 'Password obbligatoria',
+                minlength: 'Deve contenere almeno 6 caratteri',
+                maxlength: 'Deve contenere al massimo 20 caratteri'
+              }"
+            ></golden-tailwind-input>
+
+            <golden-tailwind-input
+              [parent]="form"
+              label="Conferma password"
+              name="passwordConfirm"
+              type="password"
+              class="border-none"
+              [showToggleEye]="true"
+              [validationErrors]="{
+                required: 'Conferma password obbligatoria',
+                matching: 'Le password non corrispondono'
+              }"
+            ></golden-tailwind-input>
+          </div>
+          <golden-tailwind-radio-list-description-panel
+            [parent]="form"
+            label="Tipo account"
+            name="role"
+            class="mt-2 w-6/12"
+            [radioList]="[
+              {
+                name: 'Atleta',
+                value: 'athlete',
+                description:
+                  'Seleziona questa opzione se intendi creare un account per un atleta iscritto a Legione etruria'
+              },
+
+              {
+                name: 'Admin',
+                value: 'admin',
+                description:
+                  'Seleziona questa opzione se intendi creare un account che ha il massimo controllo sul portale Legione etruria'
+              }
+            ]"
+            [validationErrors]="{
+              required: 'Tipo obbligatorio'
+            }"
+          ></golden-tailwind-radio-list-description-panel>
+        </div>
+        <golden-back-to-login-button
+          *ngIf="!adminSelectors"
+        ></golden-back-to-login-button>
+
+        <div class="mt-5">
+          <golden-tailwind-submit-button
+            [label]="adminSelectors ? 'Crea utente' : 'Registrati'"
+            [invalid]="form.invalid"
+            [loading]="loading"
+          ></golden-tailwind-submit-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

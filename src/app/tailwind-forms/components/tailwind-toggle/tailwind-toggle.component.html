@@ -1,0 +1,32 @@
+<div class="flex items-center justify-between" [formGroup]="parent">
+  <span class="flex-grow flex flex-col mr-4">
+    <span class="text-sm font-medium text-gray-900" id="availability-label">{{
+      label
+    }}</span>
+    <span
+      class="text-sm text-gray-500"
+      id="availability-description"
+      *ngIf="helpText"
+      >{{ helpText }}</span
+    >
+  </span>
+
+  <golden-tailwind-toggle-button
+    [formControlName]="name"
+    [showValueLabel]="showValueLabel"
+    [valueLabelTrue]="valueLabelTrue"
+    [valueLabelFalse]="valueLabelFalse"
+  ></golden-tailwind-toggle-button>
+
+  <span *ngIf="showValueLabel" class="text-sm font-medium text-gray-900 mx-4">{{
+    parent.get(name)?.value ? valueLabelTrue : valueLabelFalse
+  }}</span>
+</div>
+
+<p
+  class="mt-2 text-sm text-red-600"
+  [id]="name + '-error'"
+  *ngIf="showValidationErrors"
+>
+  {{ validationErrorMessage }}
+</p>
