@@ -50,13 +50,14 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       .pipe(
         first(),
         takeUntil(this.destroy$),
-        catchError(async (error: ErrorEvent) => {
-          console.log('errore in front', error);
-          return (this.loading = false);
-        }),
         tap(() => {
           this.router.navigate(['/signin']);
           this.toastr.success(`Ti abbiamo inviato un'email con le istruzioni`);
+        }),
+        catchError(async (error: ErrorEvent) => {
+          this.toastr.error(error.error.errors[0].message);
+          console.log('errore in front', error);
+          return (this.loading = false);
         })
       )
       .subscribe();
