@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   localStorageJWT: 'legio.JWT',
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://legione-etruria-api.herokuapp.com',
 };
