@@ -25,12 +25,6 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-      if ('tecnico' === user.role && route.url[0].path.startsWith('home')) {
-        console.log(route.url);
-        this.router.navigate(['/pages/interventi/assistenza/browse']);
-        return true;
-      }
-
       // authorised so return true
       return true;
     }

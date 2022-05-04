@@ -1,10 +1,18 @@
 export interface User {
   _id: string;
   __v: number;
+  token: string;
   email: string;
   password: string;
-  role: 'user' | 'admin' | 'tecnico';
+  role: 'athlete' | 'admin';
+  firstName: string;
+  lastName: string;
+  battleName: string;
+  figtMembership: string;
+  legioMembershipDate: Date;
+  legioMembershipExpirationDate: Date;
+  legioMembershipSubscriptionCost: number;
+  documentURL: string;
   active: boolean;
-  token?: string;
   signedUpAt: Date;
 }

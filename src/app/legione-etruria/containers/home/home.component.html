@@ -2,19 +2,28 @@
   src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
   defer
 ></script>
-<div class="md:flex flex-col md:flex-row md:min-h-screen w-full shadow">
+<div class="md:flex flex-col md:flex-row md:min-h-screen w-full">
   <div
-    class="flex flex-col w-full md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0"
-    x-data="{ open: false }"
+    class="flex flex-col w-full md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0 border-b-8 md:border-b-0 md:border-r-8 border-legio-green-500 shadow-lg"
   >
-    <div
-      class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between"
-    >
-      <a
-        href="#"
-        class="text-lg font-semibold tracking-widest text-white uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"
-        >Legione etruria</a
-      >
+    <div class="py-8 px-4 flex justify-between">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span
+            class="bg-legio-gold-500 inline-flex h-8 w-8 items-center justify-center rounded-full"
+          >
+            <span class="text-sm font-medium leading-none text-white">{{
+              user?.email | slice: 0:2 | uppercase
+            }}</span>
+          </span>
+        </div>
+        <div class="ml-3">
+          <div class="text-sm font-medium text-gray-200">
+            {{ user?.email }}
+          </div>
+        </div>
+      </div>
+
       <button
         class="rounded-lg md:hidden focus:outline-none focus:shadow-outline text-white"
         (click)="openMobileDropdown = !openMobileDropdown"
@@ -43,11 +52,11 @@
     </div>
     <nav
       *ngIf="openMobileDropdown"
-      class="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto"
+      class="flex-grow md:block px-2 pb-4 md:pb-0 md:overflow-y-auto space-y-2"
     >
       <ng-container *ngFor="let navItem of navItems">
         <a
-          class="flex"
+          class="flex hover:bg-legio-gold-500 cursor-pointer rounded-md"
           [target]="
             navItem.routerLink || navItem.dropdownData?.label
               ? '_self'
@@ -71,7 +80,7 @@
               )
             "
             [queryParams]="navItem.routerParams"
-            class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-legio-gold-500 cursor-pointer"
+            class="px-3 py-2 font-medium text-sm text-white w-full"
             [class.active]="showDropdown === navItem.dropdownData?.label"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
@@ -87,10 +96,11 @@
                 stroke="currentColor"
               >
                 <path
+                  *ngFor="let path of navItem.svgPath"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  [attr.d]="navItem.svgPath"
+                  [attr.d]="path"
                 /></svg
               >{{ navItem.label
               }}<svg
@@ -117,44 +127,69 @@
         </a>
       </ng-container>
     </nav>
+    <div class="flex items-center py-8 px-4" *ngIf="openMobileDropdown">
+      <div
+        class="flex-shrink-0 flex items-center align-middle text-white p-2 w-full hover:bg-legio-gold rounded cursor-pointer justify-end text-end space-x-2"
+        (click)="logout()"
+      >
+        <div class="ml-3 align-middle">
+          <div class="text-sm font-medium text-gray-200">Log out</div>
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #dropdownOptions let-dropdownData="rows">
+    <div
+      id="dropdownDivider"
+      #dropdownInstance
+      class="z-10 w-64 md:w-44 bg-white rounded shadow fixed"
+    >
+      <ul
+        class="py-1 text-md md:text-xs text-gray-700 divide-y divide-gray-200"
+        aria-labelledby="dropdownDividerButton"
+      >
+        <ng-container *ngFor="let sections of dropdownData">
+          <div class="py-1" role="none">
+            <ng-container *ngFor="let item of sections">
+              <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+              <a
+                [href]="item.href"
+                [target]="item.routerLink ? '_self' : '_blank'"
+                *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
+              >
+                <a
+                  class="block py-2 px-4 hover:bg-gray-200 mx-2 rounded"
+                  role="menuitem"
+                  (click)="handleShowDropdown('')"
+                  [routerLink]="
+                    item.routerLink ? '/pages' + item.routerLink : null
+                  "
+                  routerLinkActive="active"
+                  tabindex="-1"
+                  id="menu-item-0"
+                  >{{ item.label }}
+                </a>
+              </a>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ul>
+    </div>
+  </ng-template>
+  <div class="m-10">
+    <router-outlet></router-outlet>
   </div>
 </div>
-
-<ng-template #dropdownOptions let-dropdownData="rows">
-  <div
-    id="dropdownDivider"
-    #dropdownInstance
-    class="z-10 w-64 md:w-44 bg-white rounded shadow fixed"
-  >
-    <ul
-      class="py-1 text-md md:text-xs text-gray-700 divide-y divide-gray-200"
-      aria-labelledby="dropdownDividerButton"
-    >
-      <ng-container *ngFor="let sections of dropdownData">
-        <div class="py-1" role="none">
-          <ng-container *ngFor="let item of sections">
-            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-            <a
-              [href]="item.href"
-              [target]="item.routerLink ? '_self' : '_blank'"
-              *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
-            >
-              <a
-                class="block py-2 px-4 hover:bg-gray-200 mx-2 rounded"
-                role="menuitem"
-                (click)="handleShowDropdown('')"
-                [routerLink]="
-                  item.routerLink ? '/pages' + item.routerLink : null
-                "
-                routerLinkActive="active"
-                tabindex="-1"
-                id="menu-item-0"
-                >{{ item.label }}
-              </a>
-            </a>
-          </ng-container>
-        </div>
-      </ng-container>
-    </ul>
-  </div>
-</ng-template>

@@ -14,14 +14,6 @@ export class UserGuard implements CanActivate {
     const user = this.authService.currentUserValue;
 
     if (user) {
-      switch (user.role) {
-        case 'tecnico': {
-          if (route.url[0].path !== 'interventi') {
-            this.router.navigate(['/pages/interventi/assistenza/browse']);
-          }
-          return true;
-        }
-      }
       return true;
     }
 
