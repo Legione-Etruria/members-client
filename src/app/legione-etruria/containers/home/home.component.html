@@ -1,1 +1,160 @@
-<p>home works!</p>
+<script
+  src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+  defer
+></script>
+<div class="md:flex flex-col md:flex-row md:min-h-screen w-full shadow">
+  <div
+    class="flex flex-col w-full md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0"
+    x-data="{ open: false }"
+  >
+    <div
+      class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between"
+    >
+      <a
+        href="#"
+        class="text-lg font-semibold tracking-widest text-white uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"
+        >Legione etruria</a
+      >
+      <button
+        class="rounded-lg md:hidden focus:outline-none focus:shadow-outline text-white"
+        (click)="openMobileDropdown = !openMobileDropdown"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+            *ngIf="!openMobileDropdown"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+            *ngIf="openMobileDropdown"
+          />
+        </svg>
+      </button>
+    </div>
+    <nav
+      *ngIf="openMobileDropdown"
+      class="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto"
+    >
+      <ng-container *ngFor="let navItem of navItems">
+        <a
+          class="flex"
+          [target]="
+            navItem.routerLink || navItem.dropdownData?.label
+              ? '_self'
+              : '_blank'
+          "
+          [attr.href]="navItem.href"
+        >
+          <a
+            *ngIf="navItem.roles?.includes(user.role) || 'admin' === user.role"
+            [routerLink]="
+              !navItem.dropdownData?.rows?.length
+                ? navItem.routerLink
+                  ? '/pages' + navItem.routerLink
+                  : null
+                : null
+            "
+            (click)="
+              handleShowDropdown(
+                navItem.dropdownData?.label || '',
+                navItem.dropdownData?.rows || []
+              )
+            "
+            [queryParams]="navItem.routerParams"
+            class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-legio-gold-500 cursor-pointer"
+            [class.active]="showDropdown === navItem.dropdownData?.label"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            aria-current="page"
+          >
+            <span class="flex">
+              <svg
+                *ngIf="navItem.svgPath"
+                xmlns="http://www.w3.org/2000/svg"
+                class="mr-2 h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  [attr.d]="navItem.svgPath"
+                /></svg
+              >{{ navItem.label
+              }}<svg
+                *ngIf="navItem.dropdownData?.rows?.length"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 ml-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                /></svg
+            ></span>
+            <ng-container
+              *ngIf="navItem.dropdownData?.label === showDropdown"
+              [ngTemplateOutlet]="dropdownOptions"
+              [ngTemplateOutletContext]="navItem.dropdownData || { rows: [] }"
+            ></ng-container>
+          </a>
+        </a>
+      </ng-container>
+    </nav>
+  </div>
+</div>
+
+<ng-template #dropdownOptions let-dropdownData="rows">
+  <div
+    id="dropdownDivider"
+    #dropdownInstance
+    class="z-10 w-64 md:w-44 bg-white rounded shadow fixed"
+  >
+    <ul
+      class="py-1 text-md md:text-xs text-gray-700 divide-y divide-gray-200"
+      aria-labelledby="dropdownDividerButton"
+    >
+      <ng-container *ngFor="let sections of dropdownData">
+        <div class="py-1" role="none">
+          <ng-container *ngFor="let item of sections">
+            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+            <a
+              [href]="item.href"
+              [target]="item.routerLink ? '_self' : '_blank'"
+              *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
+            >
+              <a
+                class="block py-2 px-4 hover:bg-gray-200 mx-2 rounded"
+                role="menuitem"
+                (click)="handleShowDropdown('')"
+                [routerLink]="
+                  item.routerLink ? '/pages' + item.routerLink : null
+                "
+                routerLinkActive="active"
+                tabindex="-1"
+                id="menu-item-0"
+                >{{ item.label }}
+              </a>
+            </a>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ul>
+  </div>
+</ng-template>
