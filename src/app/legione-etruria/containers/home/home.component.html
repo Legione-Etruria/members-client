@@ -19,7 +19,11 @@
         </div>
         <div class="ml-3">
           <div class="text-sm font-medium text-gray-200">
-            {{ user?.email }}
+            {{
+              user.email.length > 20
+                ? (user.email | slice: 0:20) + "..."
+                : user.email
+            }}
           </div>
         </div>
       </div>
@@ -69,7 +73,7 @@
             [routerLink]="
               !navItem.dropdownData?.rows?.length
                 ? navItem.routerLink
-                  ? '/pages' + navItem.routerLink
+                  ? navItem.routerLink
                   : null
                 : null
             "
@@ -80,9 +84,9 @@
               )
             "
             [queryParams]="navItem.routerParams"
-            class="px-3 py-2 font-medium text-sm text-white w-full"
+            class="px-3 py-2 font-medium text-sm text-white w-full rounded"
             [class.active]="showDropdown === navItem.dropdownData?.label"
-            routerLinkActive="active"
+            routerLinkActive="bg-legio-gold-500"
             [routerLinkActiveOptions]="{ exact: true }"
             aria-current="page"
           >
