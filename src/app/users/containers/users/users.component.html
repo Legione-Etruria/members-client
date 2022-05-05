@@ -1,0 +1,12 @@
+<golden-page-header
+  headerText="Atleti iscritti ({{ (users$ | async)?.length }})"
+></golden-page-header>
+<main>
+  <div class="py-6 px-6 lg:px-8 mx-2 md:mx-10">
+    <golden-users-table
+      [users]="users$"
+      [loading]="false"
+      [currentUser]="currentUser"
+    ></golden-users-table>
+  </div>
+</main>

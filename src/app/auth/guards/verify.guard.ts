@@ -14,7 +14,7 @@ export class VerifyGuard implements CanActivate {
     const user = this.authService.currentUserValue;
     console.log('🚀 ~ VerifyGuard ~ canActivate ~ user', user);
 
-    if (user) {
+    if (user?.active) {
       // // check if route is restricted by role
       // if (user.accountVerified === true) {
       //   this.router.navigate(['/tickets']);
@@ -24,7 +24,7 @@ export class VerifyGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/inactive-account']);
     return false;
   }
 }

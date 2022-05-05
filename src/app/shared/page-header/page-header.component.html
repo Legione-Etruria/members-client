@@ -1,0 +1,24 @@
+<header class="bg-white w-full shadow-sm z-10">
+  <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
+    <div class="md:flex md:items-center md:justify-between">
+      <div class="min-w-0 flex-1">
+        <h2
+          class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl"
+          [innerHTML]="headerText"
+        ></h2>
+      </div>
+
+      <ng-container *ngFor="let button of buttons; let i = index">
+        <div class="mt-4 flex md:mt-0 md:ml-4" *ngIf="!button.hidden">
+          <button
+            type="button"
+            class="bg-app-main-color-600 hover:bg-app-main-color-700 focus:ring-app-main-color-500 ml-3 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
+            [routerLink]="button.routerLink"
+          >
+            {{ button.label }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</header>

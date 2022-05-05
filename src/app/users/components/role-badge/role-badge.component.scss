@@ -1,0 +1,15 @@
+.role-badge {
+  @apply inline-flex rounded-full px-2 text-xs font-semibold leading-5;
+
+  &.admin {
+    @apply bg-yellow-100 text-yellow-600;
+  }
+
+  &.athlete {
+    @apply bg-app-main-color-200 text-white;
+  }
+
+  &.default {
+    @apply bg-gray-100 text-gray-800;
+  }
+}

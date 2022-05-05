@@ -1,0 +1,54 @@
+<div class="bg-white shadow" id="main-wrapper">
+  <div class="px-4 flex">
+    <div
+      class="py-6 md:flex md:items-center lg:border-t lg:border-gray-200 justify-between w-full"
+    >
+      <div class="w-16">
+        <img src="https://avatars.dicebear.com/api/bottts/{{ user._id }}.svg" />
+      </div>
+      <div class="flex-1">
+        <!-- Profile -->
+        <div class="flex items-center">
+          <div>
+            <div class="flex items-center justify-start">
+              <h1
+                class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate"
+                id="welcome-text"
+              >
+                {{ user.firstName + " " + user.lastName | titlecase }}
+              </h1>
+            </div>
+            <dl
+              class="md:mt-2 flex flex-col ml-3 sm:mt-1 sm:flex-row sm:flex-wrap"
+            >
+              <app-account-status-badge
+                [user]="user"
+              ></app-account-status-badge>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+        <button
+          routerLink="/settings"
+          routerLinkActive="bg-gray-100 text-gray-800 pointer-events-none"
+          type="button"
+          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-app-main-color"
+        >
+          Impostazioni
+        </button>
+        <!-- <ng-container *ngIf="companyData$ | async as company">
+            <button
+              id="public-profile"
+              [disabled]="!company.areRequiredFieldsFilled"
+              routerLink="/public/profile/{{ company?._id }}"
+              type="button"
+              class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md disabled:bg-app-main-color-200 text-white bg-app-main-color-600 hover:bg-app-main-color-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-app-main-color"
+            >
+              Visualizza profilo pubblico
+            </button>
+          </ng-container> -->
+      </div>
+    </div>
+  </div>
+</div>

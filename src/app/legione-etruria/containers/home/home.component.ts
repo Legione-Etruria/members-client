@@ -22,11 +22,26 @@ export class HomeComponent {
       roles: ['admin', 'athlete'],
     },
     {
-      label: 'Gestione Atleti',
-      routerLink: '/athletes',
+      label: 'Atleti',
+
       svgPath: [
         'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
       ],
+      dropdownData: {
+        label: 'atleti',
+        rows: [
+          [
+            {
+              label: 'Atleti iscritti',
+              routerLink: '/users/browse',
+            },
+            {
+              label: 'Aggiungi',
+              routerLink: '/users/create',
+            },
+          ],
+        ],
+      },
       roles: ['admin'],
     },
     {

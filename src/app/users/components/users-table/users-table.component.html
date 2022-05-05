@@ -1,0 +1,184 @@
+<ng-container *ngIf="filteredUsers$ | async as filteredUsers">
+  <div class="mb-4 w-full">
+    <label for="search-field" class="text-sm font-medium"
+      >Cerca tra gli atleti</label
+    >
+    <input
+      class="w-full rounded-lg border-none p-2 text-sm font-medium shadow focus:ring-2"
+      placeholder="es. Smith"
+      [formControl]="searchField"
+      id="search-field"
+      type="text"
+    />
+  </div>
+  <div class="flex flex-col" *ngIf="!loading && filteredUsers.length! > 0">
+    <div class="-my-2 mx-0 rounded lg:-mx-8 overflow-scroll">
+      <div
+        class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 rounded"
+      >
+        <div
+          class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg"
+        >
+          <table
+            class="min-w-full table-auto divide-y divide-gray-200 lg:max-w-screen-lg"
+          >
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="header-col">Nome di Battaglia</th>
+
+                <th scope="col" class="header-col">Data Iscrizione</th>
+                <th scope="col" class="header-col">Tipo account</th>
+                <th scope="col" class="header-col">Stato</th>
+                <th scope="col" class="header-col"></th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr
+                *ngFor="let user of filteredUsers"
+                class="border-b text-gray-700"
+              >
+                <!-- <td class="table-td">
+                  <golden-table-cell
+                    [label]="
+                      user.email +
+                      (user.email === currentUser.email ? ' (Tu)' : '')
+                    "
+                  ></golden-table-cell>
+                </td> -->
+                <td class="table-td">
+                  <golden-table-cell
+                    [label]="
+                      user.battleName +
+                      (currentUser.battleName === user.battleName
+                        ? ' (Tu)'
+                        : '')
+                    "
+                  ></golden-table-cell>
+                </td>
+                <td class="table-td">
+                  <golden-table-cell
+                    [label]="user.signedUpAt | date: 'dd/MM/yyyy'"
+                  ></golden-table-cell>
+                </td>
+                <td class="table-td">
+                  <golden-role-badge
+                    [role]="user.role"
+                    class="mx-5"
+                  ></golden-role-badge>
+                </td>
+                <td class="table-td">
+                  <div
+                    class="flex  text-white font-medium tracking-wide max-w-fit px-4 py-1 space-x-2 rounded-full text-xs {{
+                      user.active ? 'bg-app-main-color-200' : 'bg-black'
+                    }}"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        [attr.d]="
+                          user.active
+                            ? 'M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z'
+                            : 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+                        "
+                      />
+                    </svg>
+                    <span>{{ user.active ? "Attivo" : "Bloccato" }}</span>
+                  </div>
+                </td>
+
+                <td class="table-action">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="hover:-translate-t-1 h-10 w-10 cursor-pointer bg-white p-2 text-gray-600 transition duration-300 ease-in-out hover:scale-110 hover:text-indigo-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    [appContextMenu]="{
+                      contextMenuLabel: user.email.split('@')[0],
+                      actions: [
+                        {
+                          label: 'Modifica utente (N/A)',
+                          isDisabled: true,
+                          svgPath:
+                            'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z',
+                          routingData: {
+                            routerLink: '/users/browse',
+                            queryParams: {
+                              id: user._id,
+                              action: 'edit'
+                            }
+                          }
+                        },
+                        {
+                          label: 'Reimposta password (N/A)',
+                          isDisabled: true,
+                          svgPath:
+                            'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2',
+                          routingData: {
+                            routerLink: '/users/browse',
+                            queryParams: {
+                              id: user._id,
+                              action: 'reset-password'
+                            }
+                          }
+                        },
+                        {
+                          label: user.active
+                            ? 'Blocca utente'
+                            : 'Sblocca utente',
+                          svgPath: user.active
+                            ? 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'
+                            : 'M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z',
+                          routingData: {
+                            routerLink: '/users/browse',
+                            queryParams: {
+                              id: user._id,
+                              action: user.active ? 'block' : 'unblock'
+                            }
+                          }
+                        },
+                        {
+                          label: 'Elimina utente',
+                          svgPath:
+                            'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16',
+                          routingData: {
+                            routerLink: '/users/browse',
+                            queryParams: {
+                              id: user._id,
+                              action: 'delete'
+                            }
+                          }
+                        }
+                      ]
+                    }"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex justify-center rounded-lg bg-white p-2 font-medium shadow"
+    *ngIf="!filteredUsers.length && !loading"
+  >
+    Nessun utente da mostrare.
+  </div></ng-container
+>

@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="role">
+  <span *ngSwitchCase="'admin'" class="role-badge admin">Admin</span>
+  <span *ngSwitchCase="'athlete'" class="role-badge athlete">Atleta</span>
+
+  <span *ngSwitchDefault class="role-badge default">Ruolo non trovato </span>
+</ng-container>
