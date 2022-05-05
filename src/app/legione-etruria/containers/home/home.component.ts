@@ -9,7 +9,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class HomeComponent {
   public user = this.authService.currentUserValue;
 
-  public openMobileDropdown = true;
+  public openMobileDropdown = false;
   public showDropdown = 'none';
 
   public navItems: INavOption[] = [
