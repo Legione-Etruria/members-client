@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, first, Subject, takeUntil, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -43,6 +44,12 @@ export class SignupComponent {
             Validators.maxLength(20),
           ],
         ],
+        figtMembership: ['', Validators.required],
+        battleName: ['', Validators.required],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        legioMembershipDate: [new Date(), Validators.required],
+        legioMembershipCost: [0, Validators.required],
         passwordConfirm: ['', Validators.required],
         role: [''],
       },
@@ -59,6 +66,10 @@ export class SignupComponent {
   // convenience getter for easy access to form fields
   get f(): any {
     return this.form.controls;
+  }
+
+  todayFormatted() {
+    return format(new Date(), 'dd/MM/yyyy');
   }
 
   matchPasswords: ValidatorFn = (

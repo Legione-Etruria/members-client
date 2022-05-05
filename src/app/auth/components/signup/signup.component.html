@@ -6,7 +6,7 @@
       alt="Golden Italia"
     />
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      Crea un account
+      Crea un utente
     </h2>
     <p class="mt-2 text-center text-sm text-gray-600">
       {{
@@ -29,22 +29,114 @@
         <div
           [ngClass]="{ 'w-full lg:w-6/12': adminSelectors }"
           [ngClass]="{
-            'flex flex-wrap justify-center sm:space-x-0 lg:flex-nowrap lg:space-x-10':
+            'flex flex-wrap justify-center sm:space-x-0 lg:space-x-10 lg:flex-nowrap':
               adminSelectors
           }"
           [class.space-y-6]="!adminSelectors"
         >
+          <div [ngClass]="{ 'w-5/12': adminSelectors }">
+            <golden-tailwind-radio-list-description-panel
+              [parent]="form"
+              label="Tipo account"
+              name="role"
+              class="mt-2 w-6/12"
+              [radioList]="[
+                {
+                  name: 'Atleta',
+                  value: 'athlete',
+                  description:
+                    'Seleziona questa opzione se intendi creare un account per un atleta iscritto a Legione etruria'
+                },
+
+                {
+                  name: 'Admin',
+                  value: 'admin',
+                  description:
+                    'Seleziona questa opzione se intendi creare un account che ha il massimo controllo sul portale Legione etruria'
+                }
+              ]"
+              [validationErrors]="{
+                required: 'Tipo obbligatorio'
+              }"
+            ></golden-tailwind-radio-list-description-panel>
+
+            <golden-tailwind-input
+              [parent]="form"
+              label="Nome di Battaglia"
+              name="battleName"
+              type="text"
+              placeholder="Es. Smith"
+              class="border-none"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-input>
+            <golden-tailwind-input
+              [parent]="form"
+              label="N. Tessera FIGT"
+              name="figtMembership"
+              type="text"
+              class="border-none"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-input>
+            <golden-tailwind-input
+              [parent]="form"
+              label="Importo iscrizione a Legione Etrurira"
+              name="legioMembershipCost"
+              placeholder="Es. 100"
+              type="number"
+              class="border-none"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-input>
+            <golden-tailwind-datepicker
+              [parent]="form"
+              label="Data iscrizione a legione etruria"
+              name="legioMembershipDate"
+              [placeholder]="todayFormatted()"
+              [toggleTimelineAxis]="false"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-datepicker>
+          </div>
+
           <div [ngClass]="{ 'w-5/12': adminSelectors }">
             <golden-tailwind-input
               [parent]="form"
               label="Email"
               name="email"
               type="email"
-              placeholder="tuaemail@email.it"
+              placeholder="Es. mail@domain.it"
               class="border-none"
               [validationErrors]="{
                 required: 'Email obbligatoria',
                 email: 'Email non valida'
+              }"
+            ></golden-tailwind-input>
+            <golden-tailwind-input
+              [parent]="form"
+              label="Nome"
+              name="firstName"
+              type="text"
+              placeholder="Es. Mario"
+              class="border-none"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-input>
+            <golden-tailwind-input
+              [parent]="form"
+              label="Cognome"
+              name="lastName"
+              type="text"
+              placeholder="Es. Rossi"
+              class="border-none"
+              [validationErrors]="{
+                required: ' '
               }"
             ></golden-tailwind-input>
 
@@ -75,30 +167,6 @@
               }"
             ></golden-tailwind-input>
           </div>
-          <golden-tailwind-radio-list-description-panel
-            [parent]="form"
-            label="Tipo account"
-            name="role"
-            class="mt-2 w-6/12"
-            [radioList]="[
-              {
-                name: 'Atleta',
-                value: 'athlete',
-                description:
-                  'Seleziona questa opzione se intendi creare un account per un atleta iscritto a Legione etruria'
-              },
-
-              {
-                name: 'Admin',
-                value: 'admin',
-                description:
-                  'Seleziona questa opzione se intendi creare un account che ha il massimo controllo sul portale Legione etruria'
-              }
-            ]"
-            [validationErrors]="{
-              required: 'Tipo obbligatorio'
-            }"
-          ></golden-tailwind-radio-list-description-panel>
         </div>
         <golden-back-to-login-button
           *ngIf="!adminSelectors"

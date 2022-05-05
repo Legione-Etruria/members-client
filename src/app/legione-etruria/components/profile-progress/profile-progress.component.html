@@ -1,0 +1,41 @@
+<ng-container *ngIf="getMissingEntries().length > 0">
+  <h2
+    id="done-soon"
+    class="text leading-6 font-medium text-gray-900"
+    *ngIf="3 > getMissingEntries().length"
+  >
+    Ti manca poco per completare il profilo
+  </h2>
+
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <nav aria-label="Progress" class="mt-2">
+    <ol role="list" class="space-y-4 md:flex md:space-y-0 md:space-x-8">
+      <li
+        class="md:flex-1"
+        [routerLink]="step.routerLink"
+        [ngClass]="{ 'pointer-events-none': step.isCompleted }"
+        *ngFor="let step of profileProgressSteps; let stepIndex = index"
+      >
+        <!-- Current Step -->
+        <a
+          class="pl-4 py-2 flex flex-col border-l-4 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-4"
+          [ngClass]="
+            step.isCompleted
+              ? 'border-green-600'
+              : 'border-gray-200 cursor-pointer'
+          "
+          aria-current="step"
+        >
+          <span
+            [id]="'step-' + (stepIndex + 1)"
+            class="text-xs font-semibold tracking-wide uppercase"
+            [ngClass]="step.isCompleted ? 'text-green-600 ' : 'text-gray-500  '"
+            >Step {{ stepIndex + 1 }}
+            <small *ngIf="step.isCompleted">(completato)</small></span
+          >
+          <span class="text-sm font-medium">{{ step.label | titlecase }}</span>
+        </a>
+      </li>
+    </ol>
+  </nav>
+</ng-container>
