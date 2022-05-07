@@ -49,7 +49,7 @@ export class SignupComponent {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         legioMembershipDate: [new Date(), Validators.required],
-        legioMembershipCost: [0, Validators.required],
+        legioMembershipSubscriptionCost: [0, Validators.required],
         passwordConfirm: ['', Validators.required],
         role: [''],
       },
@@ -96,7 +96,17 @@ export class SignupComponent {
     this.loading = true;
 
     this.authService
-      .signUp(this.f.email.value, this.f.password.value, this.f.role.value)
+      .signUp(
+        this.f.email.value,
+        this.f.password.value,
+        this.f.role.value,
+        this.f.firstName.value,
+        this.f.lastName.value,
+        this.f.battleName.value,
+        this.f.figtMembership.value,
+        this.f.legioMembershipDate.value,
+        this.f.legioMembershipSubscriptionCost.value
+      )
       ?.pipe(
         first(),
         takeUntil(this.destroy$),

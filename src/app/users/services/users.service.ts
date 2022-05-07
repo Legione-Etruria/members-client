@@ -19,7 +19,10 @@ export class UsersService {
   }
 
   public editUser(id: string, toEdit: Partial<User>) {
-    return this.apiHttpService.post<User>(`/api/v1/users/edit`, { id, toEdit });
+    return this.apiHttpService.post<{ user: User; token: string }>(
+      `/api/v1/users/edit`,
+      { id, toEdit }
+    );
   }
 
   public deleteUser(id: string) {

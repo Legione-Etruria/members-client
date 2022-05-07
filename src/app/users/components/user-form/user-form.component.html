@@ -1,0 +1,155 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="flex flex-wrap sm:space-x-0 lg:space-x-10 lg:flex-nowrap">
+    <div class="">
+      <golden-tailwind-radio-list-description-panel
+        *ngIf="isHidden('role')"
+        [parent]="form"
+        label="Tipo account"
+        name="role"
+        class="mt-2"
+        [radioList]="[
+          {
+            name: 'Atleta',
+            value: 'athlete',
+            description:
+              'Seleziona questa opzione se intendi creare un account per un atleta iscritto a Legione etruria'
+          },
+
+          {
+            name: 'Admin',
+            value: 'admin',
+            description:
+              'Seleziona questa opzione se intendi creare un account che ha il massimo controllo sul portale Legione etruria'
+          }
+        ]"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-radio-list-description-panel>
+
+      <golden-tailwind-input
+        [parent]="form"
+        label="Nome di Battaglia"
+        name="battleName"
+        type="text"
+        placeholder="Es. Smith"
+        class="border-none"
+        [validationErrors]="{
+          required: ' '
+        }"
+        *ngIf="isHidden('battleName')"
+      ></golden-tailwind-input>
+      <golden-tailwind-input
+        *ngIf="isHidden('figtMembership')"
+        [parent]="form"
+        label="N. Tessera FIGT"
+        name="figtMembership"
+        type="text"
+        class="border-none"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-input>
+      <golden-tailwind-input
+        *ngIf="isHidden('legioMembershipDate')"
+        [parent]="form"
+        label="Importo iscrizione a Legione Etrurira"
+        name="legioMembershipSubscriptionCost"
+        placeholder="Es. 100"
+        type="number"
+        class="border-none"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-input>
+      <golden-tailwind-datepicker
+        *ngIf="isHidden('legioMembershipDate')"
+        [parent]="form"
+        label="Data iscrizione a legione etruria"
+        name="legioMembershipDate"
+        [placeholder]="todayFormatted()"
+        [toggleTimelineAxis]="false"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-datepicker>
+    </div>
+
+    <div class="w-full">
+      <golden-tailwind-input
+        *ngIf="isHidden('email')"
+        [parent]="form"
+        label="Email"
+        name="email"
+        type="email"
+        placeholder="Es. mail@domain.it"
+        class="border-none"
+        [validationErrors]="{
+          required: ' ',
+          email: 'Email non valida'
+        }"
+      ></golden-tailwind-input>
+      <golden-tailwind-input
+        *ngIf="isHidden('firstName')"
+        [parent]="form"
+        label="Nome"
+        name="firstName"
+        type="text"
+        placeholder="Es. Mario"
+        class="border-none"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-input>
+      <golden-tailwind-input
+        *ngIf="isHidden('lastName')"
+        [parent]="form"
+        label="Cognome"
+        name="lastName"
+        type="text"
+        placeholder="Es. Rossi"
+        class="border-none"
+        [validationErrors]="{
+          required: ' '
+        }"
+      ></golden-tailwind-input>
+
+      <golden-tailwind-input
+        *ngIf="isHidden('password')"
+        [parent]="form"
+        label="Password"
+        name="password"
+        type="password"
+        class="border-none"
+        [showToggleEye]="true"
+        [validationErrors]="{
+          required: 'Password obbligatoria',
+          minlength: 'Deve contenere almeno 6 caratteri',
+          maxlength: 'Deve contenere al massimo 20 caratteri'
+        }"
+      ></golden-tailwind-input>
+
+      <golden-tailwind-input
+        *ngIf="isHidden('passwordConfirm')"
+        [parent]="form"
+        label="Conferma password"
+        name="passwordConfirm"
+        type="password"
+        class="border-none"
+        [showToggleEye]="true"
+        [validationErrors]="{
+          required: 'Conferma password obbligatoria',
+          matching: 'Le password non corrispondono'
+        }"
+      ></golden-tailwind-input>
+    </div>
+  </div>
+
+  <div class="mb-4 mt-1">
+    <golden-tailwind-submit-button
+      label="Conferma"
+      [invalid]="false"
+      [loading]="loading"
+    ></golden-tailwind-submit-button>
+  </div>
+</form>

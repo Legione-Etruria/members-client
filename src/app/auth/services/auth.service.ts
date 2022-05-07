@@ -19,7 +19,7 @@ export class AuthService {
     this.refreshUserSubject();
   }
 
-  private refreshUserSubject() {
+  public refreshUserSubject() {
     if (
       localStorage.getItem(environment.localStorageJWT) &&
       this.jwtHelperService.isTokenExpired(
@@ -56,11 +56,28 @@ export class AuthService {
       );
   }
 
-  signUp(email: string, password: string, role?: string) {
+  signUp(
+    email: string,
+    password: string,
+    role: string,
+    firstName: string,
+    lastName: string,
+    battleName: string,
+    figtMembership: string,
+    legioMembershipDate: Date,
+    legioMembershipSubscriptionCost: number
+  ) {
     return this.apiHttpService.post<User>('/api/v1/users/signup', {
       email,
       password,
       role,
+      firstName,
+      lastName,
+      battleName,
+      figtMembership,
+      legioMembershipDate,
+
+      legioMembershipSubscriptionCost,
     });
   }
 
@@ -79,5 +96,9 @@ export class AuthService {
       confirmPassword,
       token,
     });
+  }
+
+  public deleteUser(userId: string) {
+    return this.apiHttpService.delete(`/api/v1/users/delete/${userId}`);
   }
 }
