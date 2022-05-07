@@ -11,8 +11,9 @@
   <nav aria-label="Progress" class="mt-2">
     <ol role="list" class="space-y-4 md:flex md:space-y-0 md:space-x-8">
       <li
-        class="md:flex-1"
+        class="md:flex-1 hover:bg-slate-200 rounded p-2"
         [routerLink]="step.routerLink"
+        [queryParams]="step.queryParams"
         [ngClass]="{ 'pointer-events-none': step.isCompleted }"
         *ngFor="let step of profileProgressSteps; let stepIndex = index"
       >
@@ -22,7 +23,7 @@
           [ngClass]="
             step.isCompleted
               ? 'border-green-600'
-              : 'border-gray-200 cursor-pointer'
+              : 'border-gray-300 cursor-pointer'
           "
           aria-current="step"
         >

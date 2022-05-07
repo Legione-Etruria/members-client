@@ -63,6 +63,9 @@
       <ng-container *ngFor="let navItem of navItems">
         <a
           class="flex hover:bg-legio-gold-500 cursor-pointer rounded-md"
+          [ngClass]="{
+            'pointer-events-none ': navItem.disabled
+          }"
           [target]="
             navItem.routerLink || navItem.dropdownData?.label
               ? '_self'
@@ -86,10 +89,18 @@
               )
             "
             [queryParams]="navItem.routerParams"
+            [ngClass]="{
+              'pointer-events-none text-slate-400 ': navItem.disabled
+            }"
             class="px-3 py-2 font-medium text-sm text-white w-full rounded"
             [class.active]="showDropdown === navItem.dropdownData?.label"
             routerLinkActive="bg-legio-gold-500"
-            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLinkActiveOptions]="{
+              queryParams: 'ignored',
+              matrixParams: 'subset',
+              paths: 'subset',
+              fragment: 'exact'
+            }"
             aria-current="page"
           >
             <span class="flex">
@@ -186,7 +197,13 @@
                 *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
               >
                 <a
-                  class="block py-2 px-4 hover:bg-gray-200 mx-2 rounded"
+                  [ngClass]="{
+                    'pointer-events-none text-gray-900 hover:bg-none':
+                      item.disabled
+                  }"
+                  class="block py-2 px-4 {{
+                    item.disabled ? null : 'hover:bg-gray-200'
+                  }} mx-2 rounded"
                   role="menuitem"
                   (click)="handleShowDropdown('')"
                   [routerLink]="item.routerLink ? item.routerLink : null"

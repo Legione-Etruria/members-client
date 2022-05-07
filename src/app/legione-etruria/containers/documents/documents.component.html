@@ -1,1 +1,8 @@
 <golden-page-header headerText="Documenti Legio"></golden-page-header>
+
+<div class="m-10 p-4 flex justify-around flex-wrap space-y-6 md:space-y-0">
+  <app-document-card
+    *ngFor="let document of documents"
+    [document]="document"
+  ></app-document-card>
+</div>

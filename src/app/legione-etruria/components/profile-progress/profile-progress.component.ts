@@ -11,6 +11,7 @@ export class ProfileProgressComponent implements OnInit {
   public profileProgressSteps!: {
     label: string;
     routerLink?: string;
+    queryParams?: { [key: string]: string };
     isCompleted: boolean;
   }[];
   constructor() {}
@@ -22,8 +23,9 @@ export class ProfileProgressComponent implements OnInit {
         isCompleted: true,
       },
       {
-        label: 'Aggiungi documenti',
-        routerLink: '/pages/settings/company/open-hours',
+        label: 'Aggiungi un documento di riconoscimento',
+        routerLink: '/settings',
+        queryParams: { tab: 'account' },
         isCompleted: false,
       },
     ];

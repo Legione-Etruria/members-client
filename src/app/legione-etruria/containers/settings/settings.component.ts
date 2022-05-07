@@ -50,6 +50,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    if (!this.route.snapshot.queryParamMap.get('tab')) {
+      this.router.navigate(['/settings'], { queryParams: { tab: 'general' } });
+    }
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
