@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from '../auth/guards/user.guard';
 import { VerifyGuard } from '../auth/guards/verify.guard';
 import { InactiveAccountComponent } from './components/inactive-account/inactive-account.component';
+import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
 import { HomeComponent } from './containers/home/home.component';
@@ -38,6 +39,21 @@ const routes: Routes = [
         path: 'settings',
         component: SettingsComponent,
         canActivate: [VerifyGuard],
+      },
+      {
+        path: 'orders',
+        canActivate: [VerifyGuard],
+        children: [
+          {
+            path: '',
+            redirectTo: '/orders/current',
+            pathMatch: 'full',
+          },
+          {
+            path: 'current',
+            component: CurrentOrderComponent,
+          },
+        ],
       },
       {
         path: 'users',

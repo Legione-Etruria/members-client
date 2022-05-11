@@ -1,0 +1,101 @@
+<div class="lg:flex bg-white rounded-lg">
+  <div
+    class="h-40 lg:h-full lg:w-24 flex-none bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
+  >
+    <img [src]="item.imgSrc" alt="" class="rounded-lg" />
+  </div>
+  <div
+    class="py-3 flex md:flex-col justify-between leading-normal h-fit w-full px-2"
+  >
+    <div class="lg:mb-4">
+      <div class="flex justify-between">
+        <p
+          class="text-sm text-gray-600 flex items-center hover:text-legio-gold"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+            />
+          </svg>
+          <a [href]="item.itemUrl" target="_blank"
+            >{{ getHostname(item.itemUrl) }}...</a
+          >
+        </p>
+        <ng-container [ngTemplateOutlet]="badge"></ng-container>
+      </div>
+      <div class="text-gray-800 font-medium my-1">
+        {{ item.itemName | uppercase }}
+      </div>
+      <p class="text-gray-700 text-base">
+        {{ item.itemPrice | currency: "€" }}
+      </p>
+      <p class="text-gray-400 text-base">{{ item.itemQuantity }} Pz.</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #badge>
+  <span
+    class="rounded-full px-2 py-1 inline-flex space-x-1 md:mx-2 max-w-fit text-sm flex-nowrap"
+    [ngClass]="{
+      'text-green-500 bg-green-200': item.itemStatus === 'confirmed',
+      'text-red-400 bg-red-200': item.itemStatus === 'cancelled',
+      'text-yellow-500 bg-yellow-200': item.itemStatus === 'pending-payment',
+      'text-legio-green-500 bg-legio-green-200':
+        item.itemStatus === 'pending-confirmation'
+    }"
+  >
+    <svg
+      class="flex-shrink-0 h-5 w-5"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        *ngIf="'confirmed' === item.itemStatus"
+        fill-rule="evenodd"
+        d="
+          M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z
+        "
+        clip-rule="evenodd"
+      />
+
+      <path
+        *ngIf="'pending-payment' === item.itemStatus"
+        fill-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+        clip-rule="evenodd"
+      />
+      <path
+        *ngIf="'cancelled' === item.itemStatus"
+        fill-rule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+        clip-rule="evenodd"
+      />
+      <path
+        *ngIf="'pending-confirmation' === item.itemStatus"
+        fill-rule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+        clip-rule="evenodd"
+      />
+    </svg>
+    <p class="flex flex-nowrap">
+      <span *ngIf="'cancelled' === item.itemStatus">Annullato</span>
+      <span
+        *ngIf="'pending-payment' === item.itemStatus"
+        class="whitespace-nowrap"
+        >Non pagato</span
+      >
+      <span *ngIf="'confirmed' === item.itemStatus">Pagato</span>
+      <span *ngIf="'pending-confirmation' === item.itemStatus"
+        >Da confermare</span
+      >
+    </p>
+  </span>
+</ng-template>

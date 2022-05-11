@@ -45,7 +45,6 @@ export class HomeComponent {
     },
     {
       label: 'Ordini Legio',
-      disabled: true,
       routerLink: '/ordini',
       roles: ['admin', 'athlete'],
       svgPath: [
@@ -57,10 +56,18 @@ export class HomeComponent {
           [
             {
               label: 'Ordine in corso',
-              routerLink: '/ordini/in-corso',
+              disabled: false, //TODO: disabilita il tasto se non ci sono ordini in corso
+              routerLink: '/orders/current',
             },
             {
               label: 'Storico Ordini',
+              disabled: true,
+              routerLink: '/ordini/storico',
+            },
+            {
+              label: 'Aggiungi ordine di gruppo',
+              roles: ['admin'],
+              disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
               routerLink: '/ordini/storico',
             },
           ],
