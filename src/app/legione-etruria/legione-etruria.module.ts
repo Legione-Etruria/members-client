@@ -16,6 +16,9 @@ import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { OrderItemCardComponent } from './components/order-item-card/order-item-card.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { OrderInstructionsComponent } from './components/order-instructions/order-instructions.component';
+import { AddItemComponent } from './containers/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { OrderItemCardComponent } from './components/order-item-card/order-item-
     SettingsComponent,
     CurrentOrderComponent,
     OrderItemCardComponent,
+    OrderSummaryComponent,
+    OrderInstructionsComponent,
+    AddItemComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { addDays } from 'date-fns';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';
 
@@ -11,14 +12,22 @@ export class CurrentOrderComponent implements OnInit {
   public currentOrder: GroupOrder = {
     _id: '',
     startDate: new Date(),
-    dueDate: new Date(),
+    dueDate: addDays(new Date(), 9),
     items: [],
     shops: ['ilsemaforo', 'taiwangun'],
     issuedBy: '',
     orderStatus: 'pending',
-    orderNotes: 'test notes',
+    orderNotes:
+      'In questo ordine sono abilitati i pallini traccianti, si consiglia a tutti i partecipanti alla gara di acquistartli.',
     orderPublicId: 'LE9999',
   };
+
+  public orderInstructionsBody = `Durante il periodo di un ordine di gruppo puoi inserire ed eliminare oggetti liberamente fino ad una settimana prima della chiusura dell'ordine. 
+  
+  <br /><br /> In quest'ultima settimana sarà possibile solo rimuovere oggetti o confermare e saldare l'ordine stesso. 
+  <br /> gli oggetti non confermati saranno automaticamente rimossi dall'ordine all'evasione dello stesso, di solito il giorno dopo alla conclusione. 
+  
+  <br /><br /> Tutti gli oggetti inseriti sono arrotondati alla cifra piena più vicina per facilitare le transazioni <br />(per esempio. €33.15 diventa €33; €10.95 diventa €11).`;
 
   public items: OrderItem[] = [
     {
@@ -77,28 +86,4 @@ export class CurrentOrderComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  //a function that asks for an OrderItems array and sums all the items quantities
-  getTotalQuantity(items: OrderItem[]): number {
-    return items.reduce((acc, item) => acc + item.itemQuantity, 0);
-  }
-
-  //a function that sums all the items' prices that have an itemstatus of 'pending-payment'
-  getPriceToPay(
-    items: OrderItem[],
-    condition: OrderItem['itemStatus']
-  ): number {
-    return items.reduce((acc: number, curr) => {
-      if (curr.itemStatus === condition) {
-        return acc + curr.itemPrice * curr.itemQuantity;
-      }
-
-      return acc;
-    }, 0);
-  }
-
-  //a function that asks for an orderitem array and checks wheter or not at least one item has an itemstatus of 'pending-payment'
-  isPaymentPending(items: OrderItem[]): boolean {
-    return items.some((item) => item.itemStatus === 'pending-payment');
-  }
 }

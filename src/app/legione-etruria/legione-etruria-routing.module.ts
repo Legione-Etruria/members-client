@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from '../auth/guards/user.guard';
 import { VerifyGuard } from '../auth/guards/verify.guard';
 import { InactiveAccountComponent } from './components/inactive-account/inactive-account.component';
+import { AddItemComponent } from './containers/add-item/add-item.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
@@ -52,6 +53,15 @@ const routes: Routes = [
           {
             path: 'current',
             component: CurrentOrderComponent,
+          },
+          {
+            path: 'items',
+            children: [
+              {
+                path: 'add',
+                component: AddItemComponent,
+              },
+            ],
           },
         ],
       },
