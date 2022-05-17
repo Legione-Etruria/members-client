@@ -65,10 +65,10 @@ export class HomeComponent {
               routerLink: '/ordini/storico',
             },
             {
-              label: 'Aggiungi ordine di gruppo',
+              label: 'Aggiungi ordine',
               roles: ['admin'],
-              disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
-              routerLink: '/ordini/storico',
+              disabled: false, //TODO: disabilita il tasto se ci sono ordini in corso
+              routerLink: '/orders/add',
             },
           ],
         ],
