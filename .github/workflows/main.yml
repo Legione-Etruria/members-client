@@ -21,8 +21,8 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.legioneetruria.com
+          server: legioneetruria.com
           local-dir: ./dist/le-members-client/
-          server-dir: ./public_html/members/
+          server-dir: ./domains/legioneetruria.com/public_html/members/
           username: u651057516
           password: ${{ secrets.FTP_PW }}
