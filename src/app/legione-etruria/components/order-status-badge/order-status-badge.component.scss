@@ -1,0 +1,20 @@
+.status-badge {
+    @apply inline-flex rounded-full px-2 text-xs font-semibold leading-5;
+  
+    &.pending {
+      @apply bg-yellow-100 text-yellow-600;
+    }
+  
+    &.confirmed {
+      @apply bg-green-200 text-green-400;
+    }
+
+    &.cancelled {
+      @apply bg-red-100 text-red-600;
+    }
+  
+    &.default {
+      @apply bg-gray-100 text-gray-800;
+    }
+  }
+  

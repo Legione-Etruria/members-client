@@ -25,6 +25,7 @@ import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { CurrentOrderWidgetComponent } from './components/current-order-widget/current-order-widget.component';
+import { OrderStatusBadgeComponent } from './components/order-status-badge/order-status-badge.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { CurrentOrderWidgetComponent } from './components/current-order-widget/c
     OrderFormComponent,
     OrdersDashboardComponent,
     CurrentOrderWidgetComponent,
+    OrderStatusBadgeComponent,
   ],
   providers: [OrdersService],
   imports: [

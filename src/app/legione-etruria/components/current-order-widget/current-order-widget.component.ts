@@ -7,7 +7,7 @@ import { GroupOrder } from '../../../models/group-order';
   styleUrls: ['./current-order-widget.component.scss'],
 })
 export class CurrentOrderWidgetComponent implements OnInit {
-  @Input() currentOrder!: GroupOrder | null;
+  @Input() currentOrder?: GroupOrder | null = undefined;
 
   constructor() {}
 

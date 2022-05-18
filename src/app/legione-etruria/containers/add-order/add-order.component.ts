@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, tap } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -20,10 +20,10 @@ export class AddOrderComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(form: Partial<GroupOrder>) {
-    console.log(form);
     this.ordersService
       .addOrder(form)
       .pipe(
+        switchMap(() => this.ordersService.getCurrentOrder()),
         tap(() => {
           this.toastr.success('Ordine Aggiunto');
           this.router.navigate(['/orders/current']);
