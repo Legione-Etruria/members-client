@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   public user = this.authService.currentUserValue;
   public openMobileDropdown = false;
   public showDropdown = 'none';
-  public currentOrder$ = this.ordersService.getCurrentOrder();
+  public currentOrder$ = this.ordersService.ordersSubject$;
   public currentOrder!: GroupOrder | null;
 
   constructor(
@@ -29,14 +29,26 @@ export class HomeComponent implements OnInit {
       if (!this.navItems[2].dropdownData?.rows) {
         throw new Error('Impossibile error, navBar is missing items');
       }
-
-      this.navItems[2].dropdownData.rows[0][2] = {
+      this.navItems[2].dropdownData.rows[0][0] = {
         label:
           null !== this.currentOrder
-            ? `Ordine #${this.currentOrder?.orderPublicId} in corso`
+            ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
+            : 'Nessun ordine disp.',
+        routerLink: '/orders/current',
+        disabled: null === this.currentOrder,
+      };
+
+      this.navItems[2].dropdownData.rows[0][2] = {
+        roles: ['admin'],
+        label:
+          null !== this.currentOrder
+            ? `Modifica #${this.currentOrder?.orderPublicId}`
             : 'Aggiungi ordine',
-        routerLink: '/orders/add',
-        disabled: null !== this.currentOrder,
+        routerLink:
+          null !== this.currentOrder
+            ? '/orders/edit/' + this.currentOrder._id
+            : '/orders/add',
+        disabled: false,
       };
     });
   }
@@ -84,7 +96,7 @@ export class HomeComponent implements OnInit {
         rows: [
           [
             {
-              label: 'Ordine in corso',
+              label: '',
               disabled: false, //TODO: disabilita il tasto se non ci sono ordini in corso
               routerLink: '/orders/current',
             },
@@ -98,6 +110,11 @@ export class HomeComponent implements OnInit {
               roles: ['admin'],
               disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
               routerLink: '',
+            },
+            {
+              label: 'Dashboard Ordini',
+              roles: ['admin'],
+              routerLink: '/orders/dashboard',
             },
           ],
         ],

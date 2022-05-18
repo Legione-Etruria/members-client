@@ -1,0 +1,9 @@
+<golden-page-header headerText="Dashboard ordini"></golden-page-header>
+
+<div class="m-10 rounded-lg shadow bg-white p-4">
+  <div class="md:w-64">
+    <app-current-order-widget
+      [currentOrder]="currentOrder$ | async"
+    ></app-current-order-widget>
+  </div>
+</div>

@@ -23,6 +23,8 @@ import { HomeComponent } from './containers/home/home.component';
 import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
+import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
+import { CurrentOrderWidgetComponent } from './components/current-order-widget/current-order-widget.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { OrdersService } from './services/orders.service';
     AddItemComponent,
     AddOrderComponent,
     OrderFormComponent,
+    OrdersDashboardComponent,
+    CurrentOrderWidgetComponent,
   ],
   providers: [OrdersService],
   imports: [

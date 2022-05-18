@@ -15,7 +15,7 @@ export class OrderSummaryComponent {
   constructor() {}
   //a function that asks for an OrderItems array and sums all the items quantities
   getTotalQuantity(items: OrderItem[]): number {
-    return items.reduce((acc, item) => acc + item.itemQuantity, 0);
+    return items?.reduce((acc, item) => acc + item.itemQuantity, 0) || 0;
   }
 
   //a function that sums all the items' prices that have an itemstatus of 'pending-payment'
@@ -23,26 +23,28 @@ export class OrderSummaryComponent {
     items: OrderItem[],
     condition: OrderItem['itemStatus']
   ): number {
-    return items.reduce((acc: number, curr) => {
-      if (curr.itemStatus === condition) {
-        return acc + Math.round(curr.itemPrice) * curr.itemQuantity;
-      }
+    return (
+      items?.reduce((acc: number, curr) => {
+        if (curr.itemStatus === condition) {
+          return acc + Math.round(curr.itemPrice) * curr.itemQuantity;
+        }
 
-      return acc;
-    }, 0);
+        return acc;
+      }, 0) || 0
+    );
   }
 
   //a function that asks for an orderitem array and checks wheter or not at least one item has an itemstatus of 'pending-payment'
   isPaymentPending(items: OrderItem[]): boolean {
-    return items.some((item) => item.itemStatus === 'pending-payment');
+    return items?.some((item) => item.itemStatus === 'pending-payment');
   }
 
   lastOrderWeek() {
-    return subDays(this.currentOrder.dueDate, 7);
+    return subDays(new Date(this.currentOrder.dueDate), 7);
   }
 
   isLastOrderWeek() {
     const today = new Date();
-    return differenceInDays(this.currentOrder.dueDate, today) < 7;
+    return differenceInDays(new Date(this.currentOrder.dueDate), today) < 7;
   }
 }

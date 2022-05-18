@@ -9,6 +9,7 @@ import { CurrentOrderComponent } from './containers/current-order/current-order.
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
 import { HomeComponent } from './containers/home/home.component';
+import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { SettingsComponent } from './containers/settings/settings.component';
 
 //laazy load auth module
@@ -50,6 +51,10 @@ const routes: Routes = [
             path: '',
             redirectTo: '/orders/current',
             pathMatch: 'full',
+          },
+          {
+            path: 'dashboard',
+            component: OrdersDashboardComponent,
           },
           {
             path: 'add',
