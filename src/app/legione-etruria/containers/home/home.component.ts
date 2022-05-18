@@ -14,7 +14,31 @@ export class HomeComponent implements OnInit {
   public openMobileDropdown = false;
   public showDropdown = 'none';
   public currentOrder$ = this.ordersService.getCurrentOrder();
-  public currentOrder!: GroupOrder | null;
+  public currentOrder!: GroupOrder | undefined;
+
+  constructor(
+    private authService: AuthService,
+    private ordersService: OrdersService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentOrder$.subscribe((order) => {
+      this.currentOrder = order;
+
+      if (!this.navItems[2].dropdownData?.rows) {
+        throw new Error('Impossibile error, navBar is missing items');
+      }
+
+      this.navItems[2].dropdownData.rows[0][2] = {
+        label:
+          undefined !== this.currentOrder
+            ? `Ordine #${this.currentOrder?.orderPublicId} in corso`
+            : 'Aggiungi ordine',
+        routerLink: '/orders/add',
+        disabled: undefined !== this.currentOrder,
+      };
+    });
+  }
 
   public navItems: INavOption[] = [
     {
@@ -114,30 +138,6 @@ export class HomeComponent implements OnInit {
       ],
     },
   ];
-
-  constructor(
-    private authService: AuthService,
-    private ordersService: OrdersService
-  ) {}
-
-  ngOnInit(): void {
-    this.currentOrder$.subscribe((order) => {
-      this.currentOrder = order;
-
-      if (!this.navItems[2].dropdownData?.rows) {
-        throw new Error('Impossibile error, navBar is missing items');
-      }
-
-      this.navItems[2].dropdownData.rows[0][2] = {
-        label:
-          null !== this.currentOrder
-            ? `Ordine #${this.currentOrder.orderPublicId} in corso`
-            : 'Aggiungi ordine',
-        routerLink: '/orders/add',
-        disabled: null !== this.currentOrder,
-      };
-    });
-  }
 
   handleShowDropdown(rowLabel: string, rows?: INavOption[][]) {
     if (!rows?.length) {
