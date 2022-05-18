@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiHttpService } from '../../api-http/services/api-http.service';
 import { GroupOrder } from '../../models/group-order';
@@ -12,12 +11,12 @@ export class OrdersService {
   }
 
   getOrders() {
-    return this.apiHttp.get<GroupOrder>('/api/v1/orders');
+    return this.apiHttp.get<GroupOrder[]>('/api/v1/orders');
   }
 
   getCurrentOrder() {
-    return this.apiHttp.get<GroupOrder>('/api/v1/orders', {
-      params: new HttpParams({ fromObject: { current: true } }),
-    });
+    return this.apiHttp.get<GroupOrder | null>(
+      '/api/v1/orders/get?current=' + true
+    );
   }
 }

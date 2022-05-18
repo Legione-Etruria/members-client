@@ -12,7 +12,6 @@ export class VerifyGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     const user = this.authService.currentUserValue;
-    console.log('🚀 ~ VerifyGuard ~ canActivate ~ user', user);
 
     if (user?.active) {
       // // check if route is restricted by role

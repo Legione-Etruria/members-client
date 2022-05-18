@@ -64,7 +64,7 @@
         <a
           class="flex hover:bg-legio-gold-500 cursor-pointer rounded-md"
           [ngClass]="{
-            'pointer-events-none ': navItem.disabled
+            'pointer-events-none cursor-default ': navItem.disabled
           }"
           [target]="
             navItem.routerLink || navItem.dropdownData?.label
@@ -188,19 +188,19 @@
         aria-labelledby="dropdownDividerButton"
       >
         <ng-container *ngFor="let sections of dropdownData">
-          <div class="py-1" role="none">
+          <li class="py-1" role="none">
             <ng-container *ngFor="let item of sections">
               <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
               <a
-                [href]="item.href"
+                [href]="item.href || null"
                 [target]="item.routerLink ? '_self' : '_blank'"
                 *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
+                [ngClass]="{
+                  'pointer-events-none text-gray-300 hover:bg-none cursor-default':
+                    item.disabled
+                }"
               >
                 <a
-                  [ngClass]="{
-                    'pointer-events-none text-gray-300 hover:bg-none':
-                      item.disabled
-                  }"
                   class="block py-2 px-4 {{
                     item.disabled ? null : 'hover:bg-gray-200'
                   }} mx-2 rounded"
@@ -214,7 +214,7 @@
                 </a>
               </a>
             </ng-container>
-          </div>
+          </li>
         </ng-container>
       </ul>
     </div>

@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GroupOrder } from 'src/app/models/group-order';
 import { AuthService } from '../../../auth/services/auth.service';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   public user = this.authService.currentUserValue;
 
   public openMobileDropdown = false;
   public showDropdown = 'none';
+  public currentOrder$ = this.ordersService.getCurrentOrder();
+  public currentOrder!: GroupOrder | null;
 
   public navItems: INavOption[] = [
     {
@@ -65,10 +69,10 @@ export class HomeComponent {
               routerLink: '/ordini/storico',
             },
             {
-              label: 'Aggiungi ordine',
+              label: 'ottengo ordini',
               roles: ['admin'],
-              disabled: false, //TODO: disabilita il tasto se ci sono ordini in corso
-              routerLink: '/orders/add',
+              disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
+              routerLink: '',
             },
           ],
         ],
@@ -111,7 +115,30 @@ export class HomeComponent {
     },
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private ordersService: OrdersService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentOrder$.subscribe((order) => {
+      this.currentOrder = order;
+
+      if (!this.navItems[2].dropdownData?.rows) {
+        throw new Error('Impossibile error, navBar is missing items');
+      }
+
+      this.navItems[2].dropdownData.rows[0][2] = {
+        label:
+          null !== this.currentOrder
+            ? `Ordine #${this.currentOrder.orderPublicId} in corso`
+            : 'Aggiungi ordine',
+        routerLink: '/orders/add',
+        disabled: null !== this.currentOrder,
+      };
+    });
+  }
+
   handleShowDropdown(rowLabel: string, rows?: INavOption[][]) {
     if (!rows?.length) {
       return;
