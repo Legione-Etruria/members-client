@@ -172,10 +172,13 @@
       </div>
     </div>
 
-    <div class="bottom-0 left-0 p-2">
-      <small class="text-xs font-medium text-gray-500">{{
-        CURRENT_VERSION
-      }}</small>
+    <div
+      class="bottom-0 left-0 p-2 md:block"
+      [class.hidden]="!openMobileDropdown"
+    >
+      <small class="text-xs font-medium text-gray-400 flex justify-end md:block"
+        >ver. {{ CURRENT_VERSION }}</small
+      >
     </div>
   </div>
   <div class="py-14 md:py-0 md:hidden w-screen"></div>
