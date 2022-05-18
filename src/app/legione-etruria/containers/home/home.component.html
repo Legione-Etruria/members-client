@@ -216,7 +216,13 @@
                   routerLinkActive="active"
                   tabindex="-1"
                   id="menu-item-0"
-                  >{{ item.label }}
+                >
+                  {{ item.label }}
+                  <div *ngIf="!item.label" class="animate-pulse w-full -mx-2">
+                    <div
+                      class="bg-gray-200 col-span-12 rounded py-2 px-16"
+                    ></div>
+                  </div>
                 </a>
               </a>
             </ng-container>

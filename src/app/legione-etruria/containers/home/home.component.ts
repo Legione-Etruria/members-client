@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
               routerLink: '/ordini/storico',
             },
             {
-              label: 'ottengo ordini',
+              label: '',
               roles: ['admin'],
               disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
               routerLink: '',
