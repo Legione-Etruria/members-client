@@ -26,6 +26,7 @@ import { OrdersService } from './services/orders.service';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { CurrentOrderWidgetComponent } from './components/current-order-widget/current-order-widget.component';
 import { OrderStatusBadgeComponent } from './components/order-status-badge/order-status-badge.component';
+import { OrderInfoComponent } from './components/order-info/order-info.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { OrderStatusBadgeComponent } from './components/order-status-badge/order
     OrdersDashboardComponent,
     CurrentOrderWidgetComponent,
     OrderStatusBadgeComponent,
+    OrderInfoComponent,
   ],
   providers: [OrdersService],
   imports: [

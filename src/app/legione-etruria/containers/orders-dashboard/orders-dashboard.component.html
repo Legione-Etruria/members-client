@@ -1,9 +1,80 @@
 <golden-page-header headerText="Dashboard ordini"></golden-page-header>
 
-<div class="m-10 rounded-lg shadow bg-white p-4">
-  <div class="md:w-64">
-    <app-current-order-widget
-      [currentOrder]="currentOrder$ | async"
-    ></app-current-order-widget>
-  </div>
+<div class="flex justify-center w-full" *ngIf="loading">
+  <golden-tailwind-loading label="Carico ordini"></golden-tailwind-loading>
 </div>
+
+<ng-container *ngIf="currentOrder$ | async as currentOrder">
+  {{ assignInitialActiveOrder(currentOrder) }}
+  <ng-container *ngIf="pastOrders$ | async as pastOrders">
+    <div class="m-2 md:m-10">
+      <div class="flex space-x-4 w-full overflow-x-scroll p-5">
+        <button
+          *ngIf="currentOrder.no_order"
+          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2"
+          routerLink="/orders/add"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>Aggiungi Ordine</span>
+        </button>
+
+        <ng-container
+          *ngFor="let pastOrder of pastOrders"
+          [ngTemplateOutlet]="orderCard"
+          [ngTemplateOutletContext]="{ currentOrder: pastOrder }"
+        ></ng-container>
+      </div>
+      <div class="p-2 py-4">
+        <div class="h-full w-72">
+          <app-order-info [currentOrder]="activeOrder"></app-order-info>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #orderCard let-currentOrder="currentOrder">
+  <div
+    [ngClass]="
+      currentOrder._id === activeOrder?._id
+        ? 'bg-legio-gold-500 text-white'
+        : 'text-gray-500 bg-white'
+    "
+    class="p-2 rounded-lg shadow hover:bg-legio-green-400 cursor-pointer hover:text-white px-4"
+    (click)="
+      activeOrder === currentOrder
+        ? (activeOrder = undefined)
+        : (activeOrder = currentOrder)
+    "
+  >
+    <div class="flex flex-col justify-center">
+      <h1
+        class="text-lg font-bold tracking-wider uppercase text-center space-x-2"
+      >
+        <span> #{{ currentOrder.orderPublicId }}</span>
+      </h1>
+    </div>
+    <div class="flex justify-center">
+      <app-order-status-badge
+        [status]="currentOrder.orderStatus"
+      ></app-order-status-badge>
+    </div>
+    <div class="flex flex-col justify-center">
+      <h1 class="text font-medium tracking-wider uppercase text-center">
+        {{ currentOrder.startDate | date: "dd/MM/yyyy" }} -
+        {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
+      </h1>
+    </div>
+  </div>
+</ng-template>

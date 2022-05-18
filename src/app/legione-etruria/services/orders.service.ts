@@ -16,7 +16,9 @@ export class OrdersService {
   }
 
   getOrders() {
-    return this.apiHttp.get<GroupOrder[]>('/api/v1/orders');
+    return this.apiHttp.get<GroupOrder[]>(
+      '/api/v1/orders/get?current=' + false
+    );
   }
 
   getCurrentOrder() {

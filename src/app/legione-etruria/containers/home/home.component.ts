@@ -9,7 +9,7 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.45';
+  public CURRENT_VERSION = '0.46';
 
   public user = this.authService.currentUserValue;
   public openMobileDropdown = false;
@@ -30,25 +30,11 @@ export class HomeComponent implements OnInit {
         throw new Error('Impossibile error, navBar is missing items');
       }
       this.navItems[2].dropdownData.rows[0][0] = {
-        label:
-          null !== this.currentOrder
-            ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
-            : 'Nessun ordine disp.',
+        label: !this.currentOrder?.no_order
+          ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
+          : 'Nessun ordine disp.',
         routerLink: '/orders/current',
-        disabled: null === this.currentOrder,
-      };
-
-      this.navItems[2].dropdownData.rows[0][2] = {
-        roles: ['admin'],
-        label:
-          null !== this.currentOrder
-            ? `Modifica #${this.currentOrder?.orderPublicId}`
-            : 'Aggiungi ordine',
-        routerLink:
-          null !== this.currentOrder
-            ? '/orders/edit/' + this.currentOrder._id
-            : '/orders/add',
-        disabled: false,
+        disabled: this.currentOrder?.no_order,
       };
     });
   }
@@ -97,19 +83,13 @@ export class HomeComponent implements OnInit {
           [
             {
               label: '',
-              disabled: false, //TODO: disabilita il tasto se non ci sono ordini in corso
+              disabled: true,
               routerLink: '/orders/current',
             },
             {
               label: 'Storico Ordini',
               disabled: true,
               routerLink: '/ordini/storico',
-            },
-            {
-              label: '',
-              roles: ['admin'],
-              disabled: true, //TODO: disabilita il tasto se ci sono ordini in corso
-              routerLink: '',
             },
             {
               label: 'Dashboard Ordini',

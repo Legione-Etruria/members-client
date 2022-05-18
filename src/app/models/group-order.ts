@@ -11,5 +11,6 @@ export interface GroupOrder {
   orderStatus: 'pending' | 'issued' | 'cancelled';
   orderNotes: string;
   orderPublicId: string;
+  no_order: boolean;
   // Se ci sono riferimenti ad ID di altri documenti, usa `Types.ObjectId`
 }

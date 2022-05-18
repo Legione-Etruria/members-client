@@ -24,10 +24,10 @@
   </div>
 
   <div class="p-4">
-    <div *ngIf="undefined === currentOrder">
+    <div *ngIf="!currentOrder">
       <golden-tailwind-loading></golden-tailwind-loading>
     </div>
-    <div *ngIf="null === currentOrder">
+    <div *ngIf="currentOrder?.no_order">
       <div class="flex flex-col justify-center">
         <h1
           class="text-lg font-bold tracking-wider text-gray-500 uppercase text-center"
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div *ngIf="currentOrder" class="">
+    <div *ngIf="currentOrder && currentOrder?.orderPublicId" class="">
       <div class="flex flex-col justify-center">
         <h1
           class="text font-bold tracking-wider text-gray-500 uppercase text-center"

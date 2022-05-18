@@ -26,7 +26,7 @@ export class AddOrderComponent implements OnInit {
         switchMap(() => this.ordersService.getCurrentOrder()),
         tap(() => {
           this.toastr.success('Ordine Aggiunto');
-          this.router.navigate(['/orders/current']);
+          this.router.navigate(['/orders/dashboard']);
         }),
         catchError((err) => {
           this.toastr.error(err.message);
