@@ -9,12 +9,13 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public user = this.authService.currentUserValue;
+  public CURRENT_VERSION = '0.41';
 
+  public user = this.authService.currentUserValue;
   public openMobileDropdown = false;
   public showDropdown = 'none';
   public currentOrder$ = this.ordersService.getCurrentOrder();
-  public currentOrder!: GroupOrder | undefined;
+  public currentOrder!: GroupOrder | null;
 
   constructor(
     private authService: AuthService,
@@ -31,11 +32,11 @@ export class HomeComponent implements OnInit {
 
       this.navItems[2].dropdownData.rows[0][2] = {
         label:
-          undefined !== this.currentOrder
+          null !== this.currentOrder
             ? `Ordine #${this.currentOrder?.orderPublicId} in corso`
             : 'Aggiungi ordine',
         routerLink: '/orders/add',
-        disabled: undefined !== this.currentOrder,
+        disabled: null !== this.currentOrder,
       };
     });
   }
