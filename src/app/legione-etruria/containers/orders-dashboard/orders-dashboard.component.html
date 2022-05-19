@@ -11,12 +11,12 @@
       <div class="flex space-x-4 w-full overflow-x-scroll p-5">
         <button
           *ngIf="currentOrder.no_order"
-          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-4"
+          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-6"
           routerLink="/orders/add"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            class="h-10 w-10"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -26,7 +26,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span>Aggiungi Ordine</span>
+          <span class="text-xs">Aggiungi Ordine</span>
         </button>
 
         <ng-container
@@ -59,7 +59,7 @@
         ? 'bg-legio-green-400 text-white pointer-events-none ring ring-legio-gold-400 '
         : 'text-gray-500 bg-white'
     "
-    class="p-2 rounded-lg shadow hover:bg-legio-green-400 cursor-pointer hover:text-white px-6"
+    class="p-2 rounded-lg shadow hover:bg-gray-200 cursor-pointer px-6"
     (click)="
       activeOrder === currentOrder
         ? (activeOrder = undefined)

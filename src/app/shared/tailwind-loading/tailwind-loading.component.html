@@ -1,8 +1,14 @@
-<div class="inline-flex space-x-4 p-4 rounded-lg">
+<div
+  class="inline-flex space-x-4 p-4 rounded-lg bg-white border shadow-lg fixed bottom-0 md:bottom-auto md:top-0 right-0 m-4 md:m-10 animate__fadeInRight animate__animated"
+>
   <div
-    class="rounded-full p-2 animate-spin w-4 h-4 border-4 border-solid border-white border-t-app-main-color-300"
-  ></div>
-  <span class="text-lg font-semibold text-app-main-color-300">{{
+    class="flex items-center justify-center space-x-2 animate__animated animate__flash animate__slower animate__slower animate__infinite"
+  >
+    <div class="w-4 h-4 rounded-full dark:bg-slate-400"></div>
+    <div class="w-4 h-4 rounded-full dark:bg-slate-400"></div>
+    <div class="w-4 h-4 rounded-full dark:bg-slate-400"></div>
+  </div>
+  <span class="text-lg font-semibold text-legio-gold-500">{{
     label | uppercase
   }}</span>
 </div>

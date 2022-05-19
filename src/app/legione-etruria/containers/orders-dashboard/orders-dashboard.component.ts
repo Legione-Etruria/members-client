@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -10,11 +10,11 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./orders-dashboard.component.scss'],
 })
 export class OrdersDashboardComponent implements OnInit {
+  private pastOrdersSubject$ = new ReplaySubject<GroupOrder[]>();
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
-  public pastOrders$ = this.ordersService
-    .getOrders()
-    .pipe(tap(() => (this.loading = false)));
+
+  public pastOrders$: Observable<GroupOrder[]> = this.pastOrdersSubject$;
 
   public activeOrder?: GroupOrder;
   loading = true;
@@ -24,7 +24,9 @@ export class OrdersDashboardComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.emitGetPastOrders().subscribe();
+  }
 
   assignInitialActiveOrder(order: GroupOrder) {
     if (order.no_order || this.activeOrder) {
@@ -47,8 +49,21 @@ export class OrdersDashboardComponent implements OnInit {
       .pipe(
         tap(() => this.toastr.success('Ordine aggiornato')),
         switchMap(() => this.ordersService.getCurrentOrder()),
-        tap(() => (this.loading = false))
+        switchMap(() => this.emitGetPastOrders()),
+        tap((val) => {
+          this.activeOrder = val[0];
+        })
       )
       .subscribe();
+  }
+
+  emitGetPastOrders() {
+    this.loading = true;
+    return this.ordersService.getOrders().pipe(
+      tap((value) => {
+        this.loading = false;
+        this.pastOrdersSubject$.next(value);
+      })
+    );
   }
 }

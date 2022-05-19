@@ -2,7 +2,7 @@
   <div
     class="h-40 lg:h-full lg:w-24 flex-none bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
   >
-    <img [src]="item.imgSrc" alt="" class="rounded-lg" />
+    <img [src]="itemAlt?.imgSrc || item.imgSrc" alt="" class="rounded-lg" />
   </div>
   <div
     class="py-3 flex md:flex-col justify-between leading-normal h-fit w-full px-2"
@@ -22,21 +22,26 @@
               d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
             />
           </svg>
-          <a [href]="item.itemUrl" target="_blank"
-            >{{ getHostname(item.itemUrl) }}...</a
+          <a [href]="itemAlt?.itemUrl || item.itemUrl" target="_blank"
+            >{{ getHostname(itemAlt?.itemUrl || item.itemUrl || "") }}...</a
           >
         </p>
-        <ng-container [ngTemplateOutlet]="badge"></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="badge"
+          *ngIf="!itemAlt"
+        ></ng-container>
       </div>
       <div class="flex justify-between">
         <div>
           <div class="text-gray-800 font-medium my-1">
-            {{ item.itemName | uppercase }}
+            {{ itemAlt?.name || item?.itemName || "" | uppercase }}
           </div>
           <p class="text-gray-700 text-base">
-            {{ item.itemPrice | currency: "€" }}
+            {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}
           </p>
-          <p class="text-gray-400 text-base">{{ item.itemQuantity }} Pz.</p>
+          <p class="text-gray-400 text-base">
+            {{ itemAlt?.itemQuantity || item?.itemQuantity || "1" }} Pz.
+          </p>
         </div>
         <button
           class="flex flex-col justify-end mx-2 text-gray-600 hover:text-red-500 transition eas-in hover:-translate-y-1 hover:scale-110 duration-300"

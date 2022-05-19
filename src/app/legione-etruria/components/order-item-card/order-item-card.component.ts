@@ -8,6 +8,13 @@ import { OrderItem } from 'src/app/models/order-item';
 })
 export class OrderItemCardComponent {
   @Input() item!: OrderItem;
+  @Input() itemAlt?: {
+    price?: number;
+    imgSrc?: string;
+    name?: string;
+    itemUrl?: string;
+    itemQuantity?: number;
+  };
 
   getHostname(url: string): string {
     const hostname = new URL(url).hostname;
