@@ -11,7 +11,7 @@
       <div class="flex space-x-4 w-full overflow-x-scroll p-5">
         <button
           *ngIf="currentOrder.no_order"
-          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2"
+          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-4"
           routerLink="/orders/add"
         >
           <svg
@@ -35,8 +35,16 @@
           [ngTemplateOutletContext]="{ currentOrder: pastOrder }"
         ></ng-container>
       </div>
-      <div class="p-2 py-4">
-        <div class="h-full w-72">
+      <div
+        class="flex justify-center md:justify-between flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
+      >
+        <div class="w-10/12 md:w-72">
+          <app-order-action
+            [currentOrder]="activeOrder"
+            (handleAction)="onActionSelected($event)"
+          ></app-order-action>
+        </div>
+        <div class="h-full md:w-72 w-full">
           <app-order-info [currentOrder]="activeOrder"></app-order-info>
         </div>
       </div>
@@ -48,10 +56,10 @@
   <div
     [ngClass]="
       currentOrder._id === activeOrder?._id
-        ? 'bg-legio-gold-500 text-white'
+        ? 'bg-legio-green-400 text-white pointer-events-none ring ring-legio-gold-400 '
         : 'text-gray-500 bg-white'
     "
-    class="p-2 rounded-lg shadow hover:bg-legio-green-400 cursor-pointer hover:text-white px-4"
+    class="p-2 rounded-lg shadow hover:bg-legio-green-400 cursor-pointer hover:text-white px-6"
     (click)="
       activeOrder === currentOrder
         ? (activeOrder = undefined)
@@ -59,9 +67,7 @@
     "
   >
     <div class="flex flex-col justify-center">
-      <h1
-        class="text-lg font-bold tracking-wider uppercase text-center space-x-2"
-      >
+      <h1 class="text font-bold tracking-wider uppercase text-center space-x-2">
         <span> #{{ currentOrder.orderPublicId }}</span>
       </h1>
     </div>
@@ -69,12 +75,6 @@
       <app-order-status-badge
         [status]="currentOrder.orderStatus"
       ></app-order-status-badge>
-    </div>
-    <div class="flex flex-col justify-center">
-      <h1 class="text font-medium tracking-wider uppercase text-center">
-        {{ currentOrder.startDate | date: "dd/MM/yyyy" }} -
-        {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
-      </h1>
     </div>
   </div>
 </ng-template>

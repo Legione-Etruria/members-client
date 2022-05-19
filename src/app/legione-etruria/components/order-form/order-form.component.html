@@ -34,17 +34,11 @@
             </div>
           </div>
           <div class="col-span-12 lg:col-span-3 flex flex-col">
-            <label for="area" class="text-gray-700 font-medium text-sm"
-              >Note dell'ordine</label
-            >
-            <textarea
-              id="area"
-              [formGroup]="form"
-              formGroupName="orderNotes"
-              class="border rounded-lg p-2"
-              rows="12"
-              cols="50"
-            ></textarea>
+            <golden-tailwind-input
+              [parent]="form"
+              name="orderNotes"
+              label="Note dell'ordine"
+            ></golden-tailwind-input>
           </div>
         </div>
       </div>

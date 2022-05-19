@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -18,7 +19,10 @@ export class OrdersDashboardComponent implements OnInit {
   public activeOrder?: GroupOrder;
   loading = true;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -27,5 +31,24 @@ export class OrdersDashboardComponent implements OnInit {
       return;
     }
     this.activeOrder = order;
+  }
+
+  onActionSelected(action?: 'issued' | 'cancelled') {
+    this.loading = true;
+    if (!this.activeOrder || !action) {
+      return;
+    }
+
+    this.ordersService
+      .editOrder({
+        orderStatus: action,
+        orderID: this.activeOrder?._id,
+      })
+      .pipe(
+        tap(() => this.toastr.success('Ordine aggiornato')),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        tap(() => (this.loading = false))
+      )
+      .subscribe();
   }
 }

@@ -1,0 +1,148 @@
+<div
+  class="rounded-lg bg-white text-sm p-4 shadow-lg flex flex-col space-y-6"
+  *ngIf="currentOrder?.orderPublicId"
+>
+  <div class="flex flex-col space-y-2">
+    <button
+      [disabled]="
+        'pending' !== currentOrder?.orderStatus ||
+        !currentOrder?.shops?.includes('ilsemaforo')
+      "
+      class="flex space-x-2 justify-center rounded-lg px-4 py-2 font-medium text-white bg-slate-800 hover:opacity-80 uppercase tracking-wider transition ease-in scale-90 hover:scale-100 delay-75 duration-300 disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700"
+      routerLink="/orders/compare"
+      [queryParams]="{ order: currentOrder?.orderPublicId, shop: 'ilsemaforo' }"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+        />
+      </svg>
+
+      <span
+        class="my-1"
+        [ngClass]="
+          'pending' !== currentOrder?.orderStatus ||
+          !currentOrder?.shops?.includes('ilsemaforo')
+            ? 'text-slate-700'
+            : 'text-red-500 font-bold'
+        "
+        >IlSemaforo</span
+      >
+    </button>
+    <button
+      [disabled]="
+        'pending' !== currentOrder?.orderStatus ||
+        !currentOrder?.shops?.includes('taiwangun')
+      "
+      class="flex space-x-2 justify-center rounded-lg px-4 py-2 font-medium text-black bg-gray-100 transition ease-in scale-90 hover:scale-100 delay-75 duration-300 uppercase tracking-wider hover:opacity-50 disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700"
+      routerLink="/orders/compare"
+      [queryParams]="{ order: currentOrder?.orderPublicId, shop: 'taiwangun' }"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+        />
+      </svg>
+      <span
+        class="my-1"
+        [ngClass]="
+          'pending' !== currentOrder?.orderStatus ||
+          !currentOrder?.shops?.includes('taiwangun')
+            ? 'text-slate-700'
+            : 'text-legio-gold-400 font-bold'
+        "
+        >Taiwangun</span
+      >
+    </button>
+  </div>
+
+  <div *ngIf="pendingConfirmation">
+    <p class="text-xs italic text-center my-2 font-medium text-slate-400">
+      Stai per
+      <b
+        [ngClass]="
+          'issued' === pendingConfirmation ? 'text-green-500' : 'text-red-500'
+        "
+        >{{ "issued" === pendingConfirmation ? "confermare" : "annullare" }}</b
+      >
+      l'ordine #{{ currentOrder?.orderPublicId }}, sei sicuro della tua scelta?
+    </p>
+    <div class="flex justify-between space-x-2">
+      <button
+        class="rounded bg-gray-800 hover:bg-slate-600 text-white font-medium uppercase tracking-wider w-full p-2"
+        (click)="pendingConfirmation = undefined"
+      >
+        Annulla
+      </button>
+      <button
+        class="rounded bg-yellow-500 hover:bg-yellow-600 text-white font-bold uppercase tracking-wider w-full p-2"
+        (click)="onAction(); pendingConfirmation = undefined"
+      >
+        Procedi
+      </button>
+    </div>
+  </div>
+  <div class="flex flex-col space-y-2">
+    <button
+      *ngIf="!pendingConfirmation"
+      [disabled]="'issued' === currentOrder?.orderStatus"
+      class="rounded-lg px-4 py-2 text-white uppercase font-medium tracking-wider disabled:bg-green-400 disabled:pointer-events-none inline-flex justify-between"
+      (click)="pendingConfirmation = 'issued'"
+      [ngClass]="
+        'cancelled' === currentOrder?.orderStatus
+          ? 'pointer-events-none bg-gray-200 text-black'
+          : 'bg-green-500 hover:bg-green-600'
+      "
+    >
+      Conferma #{{ currentOrder?.orderPublicId }}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 mx-2"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+    <button
+      *ngIf="!pendingConfirmation"
+      [disabled]="'cancelled' === currentOrder?.orderStatus"
+      class="rounded-lg px-4 py-2 uppercase font-medium tracking-wider inline-flex justify-between"
+      (click)="pendingConfirmation = 'cancelled'"
+      [ngClass]="
+        'issued' === currentOrder?.orderStatus
+          ? 'pointer-events-none bg-gray-200 text-black'
+          : 'text-white bg-red-500 hover:bg-red-600'
+      "
+      routerLink="/orders/compare"
+    >
+      annulla #{{ currentOrder?.orderPublicId }}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5 mx-2"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+  </div>
+</div>

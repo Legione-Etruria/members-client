@@ -26,4 +26,8 @@ export class OrdersService {
       .get<GroupOrder | null>('/api/v1/orders/get?current=' + true)
       .pipe(tap((order) => this.ordersSubject$.next(order)));
   }
+
+  editOrder(toEdit: Partial<GroupOrder> & { orderID: string }) {
+    return this.apiHttp.post('/api/v1/orders/edit', toEdit);
+  }
 }
