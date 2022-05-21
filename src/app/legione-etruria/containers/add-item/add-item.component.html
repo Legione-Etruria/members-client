@@ -1,4 +1,7 @@
-<golden-page-header headerText="Aggiungi oggetto"></golden-page-header>
+<golden-page-header
+  headerText="Aggiungi oggetto"
+  [buttons]="[{ label: 'Indietro', routerLink: '/orders/current' }]"
+></golden-page-header>
 
 <div class="mx-2 mt-2 md:m-10">
   <app-order-instructions
@@ -16,51 +19,85 @@
 
 <ng-container *ngIf="currentOrder$ | async as currentOrder">
   <div
-    class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm"
+    class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-full md:w-auto md:space-x-2"
     *ngIf="currentOrder.orderPublicId"
   >
-    <!-- component -->
-
-    <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>
-    <div
-      class="flex rounded-lg bg-white border mt-1 peer-focus:ring-2"
-      [class.border-red-500]="isInvalid && itemURL.length"
-      x-data="{ search: '' }"
-    >
-      <input
-        type="search"
-        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none peer"
-        placeholder="Es. https://www.ilsemaforo-softair.com/it/kit-risparmio-pistole/cyma-g18c-tan-elettrica-gear-box-metal-con-batteria-e-caricatore-p17008"
-        x-model="search"
-        [(ngModel)]="itemURL"
-        (ngModelChange)="validateURL(itemURL, currentOrder)"
-      />
-
-      <button
-        type="button"
-        class="m-2 rounded px-4 py-2 font-semibold text-gray-100 bg-legio-green-300 hover:bg-legio-gold-400 disabled:bg-gray-500 disabled:pointer-events-none"
-        [disabled]="itemURL.length == 0 || isInvalid || loading"
-        (click)="getItemData()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
+    <div class="md:h-10 md:w-32 mt-4 md:mt-2">
+      <label
+        for="custom-input-number"
+        class="w-full text-gray-700 text-sm font-semibold"
+        >Quantità
+      </label>
+      <div class="flex flex-row h-10 w-full rounded-lg bg-transparent mt-1">
+        <button
+          data-action="decrement"
+          (click)="itemQuantity = itemQuantity - 1; updateItemQuantity()"
+          class="bg-legio-green-300 text-legio-green-600 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-l cursor-pointer outline-none"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
+          <span class="m-auto text-2xl font-thin">−</span>
+        </button>
+        <input
+          type="number"
+          class="focus:outline-none text-center w-full bg-legio-green-300 font-semibold text-md md:text-basecursor-default flex items-center text-white"
+          name="custom-input-number"
+          [(ngModel)]="itemQuantity"
+          (ngModelChange)="updateItemQuantity()"
+        />
+        <button
+          data-action="increment"
+          (click)="itemQuantity = itemQuantity + 1; updateItemQuantity()"
+          class="bg-legio-green-300 text-legio-green-600 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-r cursor-pointer"
+        >
+          <span class="m-auto text-2xl font-thin">+</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full">
+      <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>
+      <div
+        class="flex rounded-lg bg-white border mt-1 peer-focus:ring-2"
+        [class.border-red-500]="isInvalid && itemURL.length"
+        x-data="{ search: '' }"
+      >
+        <input
+          type="search"
+          class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none peer"
+          placeholder="Es. https://www.ilsemaforo-softair.com/it/kit-risparmio-pistole/cyma-g18c-tan-elettrica-gear-box-metal-con-batteria-e-caricatore-p17008"
+          x-model="search"
+          [(ngModel)]="itemURL"
+          (ngModelChange)="validateURL(itemURL, currentOrder)"
+        />
+
+        <button
+          type="button"
+          class="m-2 rounded px-4 py-2 font-semibold text-gray-100 bg-legio-green-300 hover:bg-legio-gold-400 disabled:bg-gray-500 disabled:pointer-events-none"
+          [disabled]="itemURL.length == 0 || isInvalid || loading"
+          (click)="getItemData()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="mx-2 md:mx-10" *ngIf="item">
-    <app-order-item-card [itemAlt]="item"></app-order-item-card>
+    <app-order-item-card
+      [itemAlt]="item"
+      (removeItem)="item = null"
+    ></app-order-item-card>
   </div>
 </ng-container>

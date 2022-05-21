@@ -86,7 +86,8 @@
               handleShowDropdown(
                 navItem.dropdownData?.label || '',
                 navItem.dropdownData?.rows || []
-              )
+              );
+              navItem.routerLink ? (openMobileDropdown = false) : null
             "
             [queryParams]="navItem.routerParams"
             [ngClass]="{
@@ -214,7 +215,7 @@
                     item.disabled ? null : 'hover:bg-gray-200'
                   }} mx-2 rounded"
                   role="menuitem"
-                  (click)="handleShowDropdown('')"
+                  (click)="handleShowDropdown(''); openMobileDropdown = false"
                   [routerLink]="item.routerLink ? item.routerLink : null"
                   routerLinkActive="active"
                   tabindex="-1"

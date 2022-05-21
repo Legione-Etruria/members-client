@@ -11,9 +11,10 @@ import { OrdersService } from '../../services/orders.service';
 })
 export class AddItemComponent {
   public itemURL: string = '';
+  public itemQuantity = 1;
   public loading = true;
 
-  public item!: fetchedItem;
+  public item!: fetchedItem | null;
   public isInvalid = false;
 
   public currentOrder$ = this.ordersService.ordersSubject$
@@ -53,6 +54,18 @@ export class AddItemComponent {
     return;
   }
 
+  updateItemQuantity() {
+    if (this.itemQuantity < 1) {
+      this.itemQuantity = 1;
+    }
+
+    if (!this.item) {
+      return;
+    }
+
+    this.item.itemQuantity = this.itemQuantity;
+  }
+
   getItemData() {
     this.loading = true;
     this.loading = true;
@@ -62,7 +75,7 @@ export class AddItemComponent {
         tap((value) => {
           this.item = value;
           this.item.itemUrl = this.itemURL;
-          this.item.itemQuantity = 1;
+          this.item.itemQuantity = this.itemQuantity;
           this.loading = false;
         }),
         catchError(async (err) => {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OrderItem } from 'src/app/models/order-item';
 
 @Component({
@@ -15,6 +15,11 @@ export class OrderItemCardComponent {
     itemUrl?: string;
     itemQuantity?: number;
   };
+  @Output() removeItem = new EventEmitter<void>();
+
+  emitRemove() {
+    this.removeItem.emit();
+  }
 
   getHostname(url: string): string {
     const hostname = new URL(url).hostname;
