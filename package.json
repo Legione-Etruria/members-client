@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build  --configuration production --output-hashing=all",
     "watch": "ng build --watch --configuration development",
+    "deploy": "rm -rf ./dist && npm run build && cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n legio -a web-client && rm ./deploy.tar",
     "test": "ng test"
   },
   "private": true,
