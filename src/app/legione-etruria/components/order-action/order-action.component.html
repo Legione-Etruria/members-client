@@ -73,7 +73,7 @@
         [ngClass]="
           'issued' === pendingConfirmation ? 'text-green-500' : 'text-red-500'
         "
-        >{{ "issued" === pendingConfirmation ? "confermare" : "annullare" }}</b
+        >{{ "issued" === pendingConfirmation ? "evadere" : "annullare" }}</b
       >
       l'ordine #{{ currentOrder?.orderPublicId }}, sei sicuro della tua scelta?
     </p>
@@ -104,7 +104,7 @@
           : 'bg-green-500 hover:bg-green-600'
       "
     >
-      Conferma #{{ currentOrder?.orderPublicId }}
+      Evadi #{{ currentOrder?.orderPublicId }}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-5 w-5 mx-2"
