@@ -19,10 +19,10 @@
 
 <ng-container *ngIf="currentOrder$ | async as currentOrder">
   <div
-    class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-full md:w-auto md:space-x-2"
+    class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-auto md:space-x-2"
     *ngIf="currentOrder.orderPublicId"
   >
-    <div class="md:h-10 md:w-32 mt-4 md:mt-2">
+    <div class="md:h-10 md:w-32 mt-4 md:mt-2 w-full">
       <label
         for="custom-input-number"
         class="w-full text-gray-700 text-sm font-semibold"
@@ -32,7 +32,7 @@
         <button
           data-action="decrement"
           (click)="itemQuantity = itemQuantity - 1; updateItemQuantity()"
-          class="bg-legio-green-300 text-legio-green-600 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-l cursor-pointer outline-none"
+          class="bg-legio-green-300 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-l cursor-pointer outline-none text-white"
         >
           <span class="m-auto text-2xl font-thin">−</span>
         </button>
@@ -46,7 +46,7 @@
         <button
           data-action="increment"
           (click)="itemQuantity = itemQuantity + 1; updateItemQuantity()"
-          class="bg-legio-green-300 text-legio-green-600 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-r cursor-pointer"
+          class="bg-legio-green-300 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-r cursor-pointer text-white"
         >
           <span class="m-auto text-2xl font-thin">+</span>
         </button>
@@ -70,7 +70,8 @@
         />
 
         <button
-          type="button"
+          type="submit"
+          (keyup.enter)="getItemData()"
           class="m-2 rounded px-4 py-2 font-semibold text-gray-100 bg-legio-green-300 hover:bg-legio-gold-400 disabled:bg-gray-500 disabled:pointer-events-none"
           [disabled]="itemURL.length == 0 || isInvalid || loading"
           (click)="getItemData()"
@@ -94,10 +95,11 @@
     </div>
   </div>
 
-  <div class="mx-2 md:mx-10" *ngIf="item">
+  <div class="mx-2 md:mx-10 my-4" *ngIf="item">
     <app-order-item-card
       [itemAlt]="item"
       (removeItem)="item = null"
+      (addItem)="addItem(currentOrder._id)"
     ></app-order-item-card>
   </div>
 </ng-container>

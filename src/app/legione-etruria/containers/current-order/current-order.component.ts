@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Observable, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -8,7 +9,7 @@ import { OrdersService } from '../../services/orders.service';
   templateUrl: './current-order.component.html',
   styleUrls: ['./current-order.component.scss'],
 })
-export class CurrentOrderComponent implements OnInit {
+export class CurrentOrderComponent {
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
 
@@ -19,7 +20,22 @@ export class CurrentOrderComponent implements OnInit {
   
   <br /><br /> Tutti gli oggetti inseriti sono arrotondati alla cifra piena più vicina per facilitare le transazioni <br />(per esempio. €33.15 diventa €33; €10.95 diventa €11).`;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService,
+    private toastrService: ToastrService
+  ) {}
 
-  ngOnInit(): void {}
+  public removeItem(itemId: string) {
+    this.ordersService
+      .removeItem(itemId)
+      .pipe(
+        tap(() => this.toastrService.success('Oggetto rimosso')),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        catchError((err) => {
+          this.toastrService.error(err.error.errors[0].message);
+          return this.ordersService.getCurrentOrder();
+        })
+      )
+      .subscribe();
+  }
 }

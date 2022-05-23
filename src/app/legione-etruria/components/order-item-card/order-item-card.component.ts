@@ -16,9 +16,14 @@ export class OrderItemCardComponent {
     itemQuantity?: number;
   };
   @Output() removeItem = new EventEmitter<void>();
+  @Output() addItem = new EventEmitter<void>();
 
   emitRemove() {
     this.removeItem.emit();
+  }
+
+  emitAdd() {
+    this.addItem.emit();
   }
 
   getHostname(url: string): string {

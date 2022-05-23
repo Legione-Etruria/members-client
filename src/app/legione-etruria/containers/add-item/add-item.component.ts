@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, tap } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs';
 import { GroupOrder } from 'src/app/models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -12,18 +13,17 @@ import { OrdersService } from '../../services/orders.service';
 export class AddItemComponent {
   public itemURL: string = '';
   public itemQuantity = 1;
-  public loading = true;
+  public loading = false;
 
   public item!: fetchedItem | null;
   public isInvalid = false;
 
-  public currentOrder$ = this.ordersService.ordersSubject$
-    .asObservable()
-    .pipe(tap(() => (this.loading = false)));
+  public currentOrder$ = this.ordersService.ordersSubject$.asObservable();
 
   constructor(
     private ordersService: OrdersService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private routerService: Router
   ) {}
 
   validateURL(url: string, currentOrder: GroupOrder) {
@@ -82,6 +82,29 @@ export class AddItemComponent {
           this.loading = false;
           this.toastrService.error(err.message);
         })
+      )
+      .subscribe();
+  }
+
+  addItem(orderID: string) {
+    if (!this.item) {
+      return;
+    }
+
+    this.ordersService
+      .addItem(orderID, this.item)
+      .pipe(
+        tap(() => {
+          this.toastrService.success(
+            this.item?.name,
+            "Oggetto aggiunto all'ordine"
+          );
+        }),
+        catchError(async (err) =>
+          this.toastrService.error(this.item?.name, err)
+        ),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        tap(() => this.routerService.navigate(['/orders/current']))
       )
       .subscribe();
   }

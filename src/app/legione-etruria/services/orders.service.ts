@@ -23,6 +23,16 @@ export class OrdersService {
     return this.apiHttp.post('/api/v1/orders/add', order);
   }
 
+  addItem(orderID: string, item: fetchedItem) {
+    return this.apiHttp.post('/api/v1/orders/items/add?order=' + orderID, {
+      itemUrl: item.itemUrl,
+      itemName: item.name,
+      itemPrice: item.price,
+      imgSrc: item.imgSrc,
+      itemQuantity: item.itemQuantity,
+    });
+  }
+
   getOrders() {
     return this.apiHttp.get<GroupOrder[]>(
       '/api/v1/orders/get?current=' + false
@@ -46,4 +56,15 @@ export class OrdersService {
         '&apikey=3f77f60c-cbfa-4779-aac8-1e36d95f100e'
     );
   }
+
+  removeItem(itemId: string) {
+    return this.apiHttp.delete('/api/v1/orders/items/remove?item=' + itemId);
+  }
+}
+interface fetchedItem {
+  price?: number;
+  name?: string;
+  imgSrc?: string;
+  itemUrl?: string;
+  itemQuantity?: number;
 }
