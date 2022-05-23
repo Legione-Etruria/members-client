@@ -1,7 +1,10 @@
-<nav class="flex my-2 mx-2 justify-between" aria-label="Breadcrumb">
+<nav
+  class="flex my-2 mx-2 justify-between scale-90 md:scale-100"
+  aria-label="Breadcrumb"
+>
   <ol
     role="list"
-    class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg"
+    class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg shadow"
   >
     <li class="flex items-center" *ngFor="let crumb of sliceBreadcrumbs()">
       <a
@@ -39,7 +42,7 @@
       </span>
 
       <a
-        class="flex items-center h-10 pr-4 px-4 text-xs font-medium transition-colors bg-white hover:text-gray-900"
+        class="flex items-center h-10 pr-4 px-4 text-xs font-medium transition-colors bg-white hover:text-gray-900 space-x-2"
         [class.pl-8]="breadcrumbs.length > 1"
       >
         <svg
@@ -57,7 +60,7 @@
             [attr.d]="path"
           />
         </svg>
-        {{ currentCrub.label }}
+        <span>{{ currentCrub.label }}</span>
       </a>
     </li>
   </ol>

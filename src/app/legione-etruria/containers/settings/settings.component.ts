@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import {
   catchError,
@@ -61,7 +62,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
       )
       .subscribe();
   }
-
+  public currentDate() {
+    return format(new Date(), 'dd/MM/yyyy HH:mm');
+  }
   private onNavigationEnd(): any {
     this.currentTab = this.route.snapshot.queryParamMap.get('tab') || '';
     return of();
