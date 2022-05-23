@@ -1,24 +1,76 @@
-<header class="bg-white w-full shadow-sm z-10">
-  <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
-    <div class="md:flex md:items-center md:justify-between">
-      <div class="min-w-0 flex-1">
-        <h2
-          class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl"
-          [innerHTML]="headerText"
-        ></h2>
-      </div>
+<nav class="flex my-2 mx-2 justify-between" aria-label="Breadcrumb">
+  <ol
+    role="list"
+    class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg"
+  >
+    <li class="flex items-center" *ngFor="let crumb of sliceBreadcrumbs()">
+      <a
+        class="flex items-center h-10 px-4 transition-colors bg-gray-100 hover:text-gray-300"
+        [routerLink]="crumb.routerLink"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            *ngFor="let path of crumb.svgPath"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            [attr.d]="path"
+          />
+        </svg>
 
-      <ng-container *ngFor="let button of buttons; let i = index">
-        <div class="mt-4 flex md:mt-0 md:ml-4" *ngIf="!button.hidden">
-          <button
-            type="button"
-            class="bg-app-main-color hover:bg-app-main-color-600 focus:ring-app-main-color-500 ml-3 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
-            [routerLink]="button.routerLink"
-          >
-            {{ button.label }}
-          </button>
-        </div>
-      </ng-container>
+        <span class="ml-1.5 font-medium text-xs">
+          {{ crumb.label }}
+        </span>
+      </a>
+    </li>
+
+    <li class="relative flex items-center">
+      <span
+        *ngIf="breadcrumbs.length > 1"
+        class="absolute inset-y-0 w-4 h-10 bg-gray-100 -left-px clip"
+        style="clip-path: polygon(0 0, 0% 100%, 100% 50%)"
+      >
+      </span>
+
+      <a
+        class="flex items-center h-10 pr-4 px-4 text-xs font-medium transition-colors bg-white hover:text-gray-900"
+        [class.pl-8]="breadcrumbs.length > 1"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            *ngFor="let path of currentCrub.svgPath"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            [attr.d]="path"
+          />
+        </svg>
+        {{ currentCrub.label }}
+      </a>
+    </li>
+  </ol>
+
+  <ng-container *ngFor="let button of buttons; let i = index">
+    <div class="mt-4 flex md:mt-0 md:ml-4" *ngIf="!button.hidden">
+      <button
+        type="button"
+        class="bg-app-main-color hover:bg-app-main-color-600 focus:ring-app-main-color-500 ml-3 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
+        [routerLink]="button.routerLink"
+      >
+        {{ button.label }}
+      </button>
     </div>
-  </div>
-</header>
+  </ng-container>
+</nav>
