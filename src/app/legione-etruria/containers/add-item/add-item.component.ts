@@ -90,6 +90,7 @@ export class AddItemComponent {
     if (!this.item) {
       return;
     }
+    this.loading = true;
 
     this.ordersService
       .addItem(orderID, this.item)

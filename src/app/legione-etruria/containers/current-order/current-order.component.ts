@@ -13,6 +13,8 @@ export class CurrentOrderComponent {
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
 
+  public loading = false;
+
   public orderInstructionsBody = `Durante il periodo di un ordine di gruppo puoi inserire ed eliminare oggetti liberamente fino ad una settimana prima della chiusura dell'ordine. 
   
   <br /><br /> In quest'ultima settimana sarà possibile solo rimuovere oggetti o confermare e saldare l'ordine stesso. 
@@ -26,6 +28,7 @@ export class CurrentOrderComponent {
   ) {}
 
   public removeItem(itemId: string) {
+    this.loading = true;
     this.ordersService
       .removeItem(itemId)
       .pipe(
