@@ -9,22 +9,7 @@
     class="my-2 md:my-0 rounded-xl md:rounded-none mx-auto md:mx-0 flex flex-col w-11/12 md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0 border-b-8 md:border-b-0 md:border-r-8 border-legio-green-500 shadow-lg fixed md:relative left-0 right-0 md:h-screen z-50 animate__fadeInDown animate__animated md:animate-none"
   >
     <div class="py-4 md:py-8 px-4 flex justify-between">
-      <div class="flex items-center">
-        <div class="flex-shrink-0">
-          <span
-            class="bg-legio-gold-500 inline-flex h-8 w-8 items-center justify-center rounded-full"
-          >
-            <span class="text-sm font-medium leading-none text-white">{{
-              user?.battleName | slice: 0:2 | uppercase
-            }}</span>
-          </span>
-        </div>
-        <div class="ml-3">
-          <div class="text-sm font-medium text-gray-200 tracking-wider">
-            {{ user.battleName | titlecase }}
-          </div>
-        </div>
-      </div>
+      <app-user-avatar [user]="user.battleName"></app-user-avatar>
 
       <button
         class="rounded-lg focus:outline-none focus:shadow-outline text-white md:hidden"

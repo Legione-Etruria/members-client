@@ -1,0 +1,16 @@
+<div class="flex items-center">
+  <div class="flex-shrink-0">
+    <span
+      class="bg-legio-gold-400 shadow-lg shadow-legio-gold-500/50 inline-flex h-10 w-10 items-center justify-center rounded-full"
+    >
+      <span class="text font-medium leading-none text-white">{{
+        user | slice: 0:2 | uppercase
+      }}</span>
+    </span>
+  </div>
+  <div class="ml-3">
+    <div class="text-sm font-medium text-gray-200 tracking-wider">
+      {{ user | titlecase }}
+    </div>
+  </div>
+</div>

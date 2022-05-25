@@ -45,7 +45,7 @@
         ></ng-container>
       </div>
       <div
-        class="flex justify-center md:justify-between flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
+        class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
       >
         <div class="w-10/12 md:w-72">
           <app-order-action
@@ -55,7 +55,7 @@
         </div>
         <div class="w-full md:w-6/12">
           <app-items-list-widget
-            [orderItems]="(activeOrder?.items | slice: 0:4) || []"
+            [orderItems]="(activeOrder?.items?.reverse() | slice: 0:4) || []"
           ></app-items-list-widget>
         </div>
         <div class="h-full md:w-72 w-full">

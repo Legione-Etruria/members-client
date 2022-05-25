@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IAlbum, Lightbox } from 'ngx-lightbox';
 import { OrderItem } from 'src/app/models/order-item';
 
 @Component({
@@ -6,10 +7,21 @@ import { OrderItem } from 'src/app/models/order-item';
   templateUrl: './items-list-widget.component.html',
   styleUrls: ['./items-list-widget.component.scss'],
 })
-export class ItemsListWidgetComponent implements OnInit {
+export class ItemsListWidgetComponent {
   @Input() orderItems: OrderItem[] = [];
 
-  constructor() {}
+  constructor(private _lightbox: Lightbox) {}
 
-  ngOnInit(): void {}
+  open(index: number): void {
+    const album: IAlbum[] = this.orderItems.map((i) => ({
+      src: i.imgSrc,
+      caption: i.itemName,
+      thumb: i.imgSrc,
+      downloadUrl: i.imgSrc,
+    }));
+
+    console.log(index);
+    // open lightbox
+    this._lightbox.open(album, index);
+  }
 }
