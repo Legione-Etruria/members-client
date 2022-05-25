@@ -9,6 +9,7 @@ import { GroupOrder } from '../../../models/group-order';
 })
 export class OrderInfoComponent implements OnInit {
   @Input() currentOrder?: GroupOrder;
+  @Input() isEditable = false;
 
   constructor() {}
 

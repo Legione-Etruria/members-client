@@ -28,6 +28,7 @@ import { CurrentOrderWidgetComponent } from './components/current-order-widget/c
 import { OrderStatusBadgeComponent } from './components/order-status-badge/order-status-badge.component';
 import { OrderInfoComponent } from './components/order-info/order-info.component';
 import { OrderActionComponent } from './components/order-action/order-action.component';
+import { ItemsListWidgetComponent } from './components/items-list-widget/items-list-widget.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { OrderActionComponent } from './components/order-action/order-action.com
     OrderStatusBadgeComponent,
     OrderInfoComponent,
     OrderActionComponent,
+    ItemsListWidgetComponent,
   ],
   providers: [OrdersService],
   imports: [

@@ -53,6 +53,11 @@
             (handleAction)="onActionSelected($event)"
           ></app-order-action>
         </div>
+        <div class="w-full md:w-6/12">
+          <app-items-list-widget
+            [orderItems]="(activeOrder?.items | slice: 0:4) || []"
+          ></app-items-list-widget>
+        </div>
         <div class="h-full md:w-72 w-full">
           <app-order-info [currentOrder]="activeOrder"></app-order-info>
         </div>

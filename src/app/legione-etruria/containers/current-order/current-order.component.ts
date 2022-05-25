@@ -36,6 +36,7 @@ export class CurrentOrderComponent {
         switchMap(() => this.ordersService.getCurrentOrder()),
         catchError((err) => {
           this.toastrService.error(err.error.errors[0].message);
+          this.loading = false;
           return this.ordersService.getCurrentOrder();
         })
       )
