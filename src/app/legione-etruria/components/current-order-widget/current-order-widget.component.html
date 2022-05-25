@@ -1,6 +1,6 @@
 <div class="rounded-lg">
   <div class="flex space-x-2 text-gray-500 p-4 justify-between">
-    <div class="flex">
+    <div class="flex drop-shadow-lg">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"
@@ -37,30 +37,7 @@
 
     <div *ngIf="currentOrder && currentOrder?.orderPublicId" class="">
       <app-order-info [currentOrder]="currentOrder"></app-order-info>
-      <!-- <div class="flex flex-col justify-center">
-        <h1
-          class="text font-bold tracking-wider text-gray-500 uppercase text-center"
-        >
-          #{{ currentOrder.orderPublicId }}
-        </h1>
-      </div>
-      <div class="flex flex-col justify-center">
-        <h1
-          class="text-xs font-medium tracking-wider text-gray-500 uppercase text-center mb-2"
-        >
-          {{ currentOrder.shops.join(" - ") }}
-        </h1>
-      </div>
-      <div class="flex flex-col justify-center">
-        <h1
-          class="text font-medium tracking-wider text-gray-500 uppercase text-center"
-        >
-          {{ currentOrder.startDate | date: "dd/MM/yyyy" }} -
-          {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
-        </h1>
-      </div>
 
-      -->
       <div>
         <button
           class="rounded-lg w-full bg-legio-green-300 hover:bg-legio-green-200 p-2 uppercase font-medium text-white mt-4 text-sm shadow-lg shadow-legio-green-300/50 hover:shadow-legio-green-200/50"

@@ -1,4 +1,8 @@
+.selected {
+    @apply bg-legio-gold-500 text-white shadow
+  }
+  
 .active {
-    @apply bg-legio-gold-500 text-white
+    @apply bg-legio-gold-500 text-white shadow-md
   }
   
