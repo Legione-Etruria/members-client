@@ -35,7 +35,9 @@ export class HomeComponent implements OnInit {
           ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
           : 'Nessun ordine disp.',
         routerLink: '/orders/current',
-        disabled: this.currentOrder?.no_order,
+        disabled:
+          this.currentOrder?.no_order ||
+          (!environment.debugAddItems && 'admin' === this.user.role),
       };
     });
   }
@@ -84,7 +86,7 @@ export class HomeComponent implements OnInit {
           [
             {
               label: '',
-              disabled: environment.debugAddItems || 'admin' !== this.user.role,
+              disabled: true,
               routerLink: '/orders/current',
             },
             {
