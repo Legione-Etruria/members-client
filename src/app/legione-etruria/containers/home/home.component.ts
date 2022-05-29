@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupOrder } from 'src/app/models/group-order';
+import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../auth/services/auth.service';
 import { OrdersService } from '../../services/orders.service';
 
@@ -83,7 +84,7 @@ export class HomeComponent implements OnInit {
           [
             {
               label: '',
-              disabled: true,
+              disabled: environment.debugAddItems || 'admin' !== this.user.role,
               routerLink: '/orders/current',
             },
             {

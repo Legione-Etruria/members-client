@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   localStorageJWT: 'legio.JWT',
   apiUrl: 'http://localhost:3000',
+  debugAddItems: true,
 };
 
 /*
