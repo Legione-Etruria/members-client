@@ -34,6 +34,7 @@
         class="w-full text-gray-700 text-sm font-semibold"
         >Quantità
       </label>
+
       <div class="flex flex-row h-10 w-full rounded-lg bg-transparent mt-1">
         <button
           data-action="decrement"
@@ -44,6 +45,7 @@
         </button>
         <input
           type="number"
+          id="searchInput"
           class="focus:outline-none text-center w-full bg-legio-green-300 font-semibold text-md md:text-basecursor-default flex items-center text-white"
           name="custom-input-number"
           [(ngModel)]="itemQuantity"
@@ -98,6 +100,13 @@
           </svg>
         </button>
       </div>
+      <label
+        for="searchInput"
+        class="text-red-500"
+        *ngIf="isInvalid && itemURL.length"
+      >
+        {{ invalidMessage }}
+      </label>
     </div>
   </div>
 

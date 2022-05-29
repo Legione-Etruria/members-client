@@ -17,6 +17,7 @@ export class AddItemComponent {
 
   public item!: fetchedItem | null;
   public isInvalid = false;
+  public invalidMessage = '';
 
   public currentOrder$ = this.ordersService.ordersSubject$.asObservable();
 
@@ -34,6 +35,13 @@ export class AddItemComponent {
 
     if (!isUrl) {
       this.isInvalid = true;
+      this.invalidMessage = 'URL non valido';
+      return;
+    }
+
+    if (currentOrder.items.find((item) => item.itemUrl === url)) {
+      this.isInvalid = true;
+      this.invalidMessage = "Oggetto già presente nell'ordine";
       return;
     }
 
@@ -90,6 +98,7 @@ export class AddItemComponent {
     if (!this.item) {
       return;
     }
+
     this.loading = true;
 
     this.ordersService
