@@ -9,6 +9,7 @@ import { OrderItem } from 'src/app/models/order-item';
 })
 export class ItemsListWidgetComponent {
   @Input() orderItems: OrderItem[] = [];
+  @Input() currentOrderPublicId: string = '';
 
   constructor(private _lightbox: Lightbox) {}
 
@@ -19,8 +20,6 @@ export class ItemsListWidgetComponent {
       thumb: i.imgSrc,
       downloadUrl: i.imgSrc,
     }));
-
-    console.log(index);
     // open lightbox
     this._lightbox.open(album, index);
   }

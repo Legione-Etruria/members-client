@@ -9,6 +9,7 @@ import { CurrentOrderComponent } from './containers/current-order/current-order.
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
 import { HomeComponent } from './containers/home/home.component';
+import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { SettingsComponent } from './containers/settings/settings.component';
 
@@ -54,7 +55,17 @@ const routes: Routes = [
           },
           {
             path: 'dashboard',
-            component: OrdersDashboardComponent,
+
+            children: [
+              {
+                path: '',
+                component: OrdersDashboardComponent,
+              },
+              {
+                path: 'items',
+                component: ItemsListComponent,
+              },
+            ],
           },
           {
             path: 'add',

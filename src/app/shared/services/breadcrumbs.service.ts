@@ -13,7 +13,6 @@ export class BreadcrumbsService {
   }
 
   public add(breadcrumb: IBreadcrumb): void {
-    console.log(this._breadcrumbs);
     (this._breadcrumbs = this.breadcrumbs.filter(
       (i) => i.label !== breadcrumb.label
     )),

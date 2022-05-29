@@ -45,6 +45,12 @@ export class OrdersService {
       .pipe(tap((order) => this.ordersSubject$.next(order)));
   }
 
+  getOrder(publicOrderId: string) {
+    return this.apiHttp.get<GroupOrder | null>(
+      '/api/v1/orders/get?orderId=' + publicOrderId
+    );
+  }
+
   editOrder(toEdit: Partial<GroupOrder> & { orderID: string }) {
     return this.apiHttp.post('/api/v1/orders/edit', toEdit);
   }
@@ -55,6 +61,10 @@ export class OrdersService {
         url +
         '&apikey=3f77f60c-cbfa-4779-aac8-1e36d95f100e'
     );
+  }
+
+  editItem(item: string, toEdit: Partial<GroupOrder['items'][0]>) {
+    return this.apiHttp.post('/api/v1/orders/items/edit?item=' + item, toEdit);
   }
 
   removeItem(itemId: string) {

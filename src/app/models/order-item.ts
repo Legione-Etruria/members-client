@@ -4,6 +4,8 @@ import { GroupOrder } from './group-order';
 export interface OrderItem {
   _id: string;
   id?: string;
+  createdAt: Date;
+  updatedAt: Date;
   user: User | string;
   order: GroupOrder;
   itemUrl: string;
