@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
+import { OrderItem } from '../../../models/order-item';
 import { OrdersService } from '../../services/orders.service';
 
 @Component({
@@ -49,9 +50,9 @@ export class ItemsListComponent {
     );
   }
 
-  public cancelItem(item: string) {
+  public editItemStatus(item: string, itemStatus: OrderItem['itemStatus']) {
     this.ordersService
-      .editItem(item, { itemStatus: 'cancelled' })
+      .editItem(item, { itemStatus })
       .pipe(
         tap(() => {
           this.toastr.success('Articolo aggiornato');

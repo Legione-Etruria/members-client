@@ -13,6 +13,7 @@ export interface OrderItem {
   imgSrc: string;
   itemPrice: number;
   itemQuantity: number;
+  itemShop: 'ilsemaforo' | 'taiwangun';
   itemStatus:
     | 'pending-confirmation'
     | 'pending-payment'

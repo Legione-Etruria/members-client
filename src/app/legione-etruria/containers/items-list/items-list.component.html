@@ -8,6 +8,8 @@
   }"
 ></golden-page-header>
 
+[[filtri]] [[barra di ricerca]]
+
 <golden-tailwind-loading *ngIf="loading"></golden-tailwind-loading>
 <ng-container *ngIf="activeOrder$ | async as activeOrder">
   <div
@@ -17,7 +19,7 @@
       <h1 class="text-xl font-medium tracking-wider">
         {{ group.user | titlecase }} ({{ group.total | currency: "€" }})
       </h1>
-      <div class="p-3">
+      <div class="md:p-3">
         <div class="overflow-scroll">
           <table class="table-auto w-full">
             <thead
@@ -28,9 +30,6 @@
                   <div class="font-semibold text-left">Oggetto</div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Atleta</div>
-                </th>
-                <th class="p-2 whitespace-nowrap">
                   <div class="font-semibold text-left">Aggiunto il</div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
@@ -38,6 +37,11 @@
                 </th>
                 <th class="p-2 whitespace-nowrap">
                   <div class="font-semibold text-left">Importo</div>
+                </th>
+                <th>
+                  <div class="font-semibold text-left hidden md:block">
+                    Negozio
+                  </div>
                 </th>
                 <th class="p-2 whitespace-nowrap">
                   <div class="font-semibold text-center"></div>
@@ -64,11 +68,6 @@
                 </td>
                 <td class="p-2 whitespace-nowrap">
                   <div class="text-left font-semibold text-slate-500">
-                    {{ $any(item.user).battleName | titlecase }}
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left font-semibold text-slate-500">
                     {{ item.createdAt | date: "dd/MM/yyyy HH:mm" }}
                   </div>
                 </td>
@@ -83,6 +82,18 @@
                       {{ item.itemPrice | currency: "EUR" }}</span
                     >
                     x {{ item.itemQuantity }}
+                  </div>
+                </td>
+                <td
+                  class="whitespace-nowrap font-semibold pr-2"
+                  [ngClass]="
+                    'taiwangun' === item.itemShop
+                      ? 'text-legio-gold-500'
+                      : 'text-red-600'
+                  "
+                >
+                  <div class="hidden md:block">
+                    {{ item.itemShop | titlecase }}
                   </div>
                 </td>
                 <td class="p-2 whitespace-nowrap space-x-4">
@@ -106,24 +117,7 @@
                       </svg>
                     </button>
                   </a>
-                  <!-- <button
-                    class="text-lg text-center text-legio-green-300 hover:text-legio-green-200"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                  </button> -->
+
                   <button
                     class="text-lg text-center text-gray-500 hover:text-gray-600"
                   >
@@ -142,17 +136,12 @@
                       />
                     </svg>
                   </button>
+                  <!-- PENDING CONFIRMATION -->
                   <button
-                    class="text-lg text-center hover:text-red-600"
-                    [class.pointer-events-none]="
-                      item.itemStatus === 'cancelled'
-                    "
-                    [ngClass]="
-                      item.itemStatus === 'cancelled'
-                        ? 'text-gray-300'
-                        : 'text-red-400'
-                    "
-                    (click)="cancelItem(item._id)"
+                    class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
+                    [disabled]="item.itemStatus === 'pending-confirmation'"
+                    title="Da Confermare"
+                    (click)="editItemStatus(item._id, 'pending-confirmation')"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +154,73 @@
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                  <!-- PENDING PAYMENT -->
+                  <button
+                    class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
+                    [disabled]="item.itemStatus === 'pending-payment'"
+                    title="Non Pagato"
+                    (click)="editItemStatus(item._id, 'pending-payment')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                  </button>
+                  <!-- CONFIRMED -->
+                  <button
+                    class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
+                    title="Confermato"
+                    [disabled]="item.itemStatus === 'confirmed'"
+                    (click)="editItemStatus(item._id, 'confirmed')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </button>
+                  <!-- CANCELLED -->
+                  <button
+                    class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
+                    [disabled]="item.itemStatus === 'cancelled'"
+                    title="Annullato"
+                    (click)="editItemStatus(item._id, 'cancelled')"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
                   </button>
