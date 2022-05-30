@@ -36,3 +36,9 @@ input[type=number] {
     @apply text-app-main-color-600 hover:text-app-main-color-900;
   }
 }
+
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}

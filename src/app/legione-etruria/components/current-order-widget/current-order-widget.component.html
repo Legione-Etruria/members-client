@@ -41,7 +41,7 @@
       <div>
         <button
           class="rounded-lg w-full bg-legio-green-300 hover:bg-legio-green-200 p-2 uppercase font-medium text-white mt-4 text-sm shadow-lg shadow-legio-green-300/50 hover:shadow-legio-green-200/50"
-          routerLink="/orders/current"
+          [routerLink]="isAdmin ? '/orders/dashboard' : '/orders/current'"
         >
           Vai all'ordine
         </button>

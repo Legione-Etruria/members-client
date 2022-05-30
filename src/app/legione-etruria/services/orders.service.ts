@@ -51,8 +51,8 @@ export class OrdersService {
     );
   }
 
-  editOrder(toEdit: Partial<GroupOrder> & { orderID: string }) {
-    return this.apiHttp.post('/api/v1/orders/edit', toEdit);
+  editOrder(orderID: string, toEdit: Partial<GroupOrder>) {
+    return this.apiHttp.post('/api/v1/orders/edit/' + orderID, toEdit);
   }
 
   getItemData(url: string) {

@@ -8,6 +8,7 @@ import { GroupOrder } from '../../../models/group-order';
 })
 export class CurrentOrderWidgetComponent implements OnInit {
   @Input() currentOrder?: GroupOrder | null;
+  @Input() isAdmin = false;
 
   constructor() {}
 

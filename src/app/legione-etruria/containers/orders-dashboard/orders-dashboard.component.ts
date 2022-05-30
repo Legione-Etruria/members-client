@@ -42,9 +42,8 @@ export class OrdersDashboardComponent implements OnInit {
     }
 
     this.ordersService
-      .editOrder({
+      .editOrder(this.activeOrder?._id, {
         orderStatus: action,
-        orderID: this.activeOrder?._id,
       })
       .pipe(
         tap(() => this.toastr.success('Ordine aggiornato')),

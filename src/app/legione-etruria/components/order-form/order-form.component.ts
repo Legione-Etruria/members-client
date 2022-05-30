@@ -17,9 +17,10 @@ export class OrderFormComponent implements OnInit {
     | 'dueDate'
   )[] = [];
   @Input() loading = false;
+  @Input() orderData?: GroupOrder;
   @Output() submitted = new EventEmitter<Partial<GroupOrder>>();
 
-  public form: FormGroup;
+  public form!: FormGroup;
 
   public shopsDropdown = [
     {
@@ -32,20 +33,24 @@ export class OrderFormComponent implements OnInit {
     },
   ];
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit(): void {
     this.form = new FormGroup({
-      shops: new FormControl([], [Validators.required]),
-      startDate: new FormControl(new Date().toISOString(), [
+      shops: new FormControl(this.orderData?.shops || [], [
         Validators.required,
       ]),
-      dueDate: new FormControl(addMonths(new Date(), 1).toISOString(), [
-        Validators.required,
-      ]),
-      orderNotes: new FormControl('', []),
+      startDate: new FormControl(
+        this.orderData?.startDate || new Date().toISOString(),
+        [Validators.required]
+      ),
+      dueDate: new FormControl(
+        this.orderData?.dueDate || addMonths(new Date(), 1).toISOString(),
+        [Validators.required]
+      ),
+      orderNotes: new FormControl(this.orderData?.orderNotes || '', []),
     });
   }
-
-  ngOnInit(): void {}
 
   onSubmit() {
     if (this.form.invalid) {

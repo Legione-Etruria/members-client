@@ -8,6 +8,7 @@ import { AddOrderComponent } from './containers/add-order/add-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
+import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 import { HomeComponent } from './containers/home/home.component';
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
@@ -70,6 +71,10 @@ const routes: Routes = [
           {
             path: 'add',
             component: AddOrderComponent,
+          },
+          {
+            path: 'edit',
+            component: EditOrderComponent,
           },
           {
             path: 'current',

@@ -32,6 +32,7 @@ import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { ItemStatusBadgeComponent } from './components/item-status-badge/item-status-badge.component';
+import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ItemStatusBadgeComponent } from './components/item-status-badge/item-st
     ItemsListWidgetComponent,
     ItemsListComponent,
     ItemStatusBadgeComponent,
+    EditOrderComponent,
   ],
   providers: [OrdersService],
   imports: [

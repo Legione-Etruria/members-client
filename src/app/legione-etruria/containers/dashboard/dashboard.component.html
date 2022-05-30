@@ -9,15 +9,15 @@
 ></golden-page-header>
 
 <div class="m-2 md:m-10">
-  <app-profile-progress [userData]="user"></app-profile-progress>
+  <!-- <app-profile-progress [userData]="user"></app-profile-progress> -->
 
   <div
     class="flex justify-center md:justify-between flex-wrap md:space-x-2 flex-col md:flex-row mt-10"
   >
-    <div></div>
     <div class="md:w-72">
       <app-current-order-widget
         [currentOrder]="currentOrder$ | async"
+        [isAdmin]="'admin' === user.role"
       ></app-current-order-widget>
     </div>
   </div>
