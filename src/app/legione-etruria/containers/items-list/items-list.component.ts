@@ -1,8 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum, Lightbox } from 'ngx-lightbox';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';
@@ -13,12 +23,14 @@ import { OrdersService } from '../../services/orders.service';
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.scss'],
 })
-export class ItemsListComponent {
+export class ItemsListComponent implements OnInit {
   private activeOrderSubject$ = new Subject<GroupOrder>();
-  public orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
   public activeOrder$: Observable<GroupOrder> = this.activeOrderSubject$;
-
+  public filteredOrder$: Observable<OrderItem[]> = new Observable();
+  public orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
   public loading = true;
+
+  public searchField = new FormControl('');
 
   constructor(
     private ordersService: OrdersService,
@@ -33,6 +45,38 @@ export class ItemsListComponent {
     }
 
     this.emitGetActiveOrder().subscribe();
+  }
+
+  ngOnInit() {
+    const searchTerm$ = this.searchField.valueChanges.pipe(
+      startWith(this.searchField.value)
+    );
+
+    this.filteredOrder$ = combineLatest([this.activeOrder$, searchTerm$])
+      .pipe(
+        debounceTime(200),
+        map(([orderInstance, searchTerm]) =>
+          orderInstance.items.filter((item) => {
+            const itemsArr = [
+              item.itemName,
+              item.itemUrl,
+              item.itemShop,
+              item.itemStatus,
+              item.itemQuantity.toString(),
+              item.itemPrice.toString(),
+              (item.user as User).battleName,
+            ];
+
+            return (
+              searchTerm === '' ||
+              itemsArr.some((i) =>
+                i?.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+            );
+          })
+        )
+      )
+      .pipe(tap(() => (this.loading = false)));
   }
 
   public emitGetActiveOrder() {
@@ -75,10 +119,15 @@ export class ItemsListComponent {
 
   //a function that groups items by user
 
-  groupItemsByUser(activeOrder: GroupOrder) {
-    return activeOrder.items.reduce(
+  groupItemsByUser(activeOrder: OrderItem[]) {
+    return activeOrder.reduce(
       (
-        acc: { user: string; total: number; items: GroupOrder['items'] }[],
+        acc: {
+          user: string;
+          total: number;
+          notPayed: number;
+          items: GroupOrder['items'];
+        }[],
         curr
       ) => {
         const index = acc.findIndex(
@@ -94,6 +143,11 @@ export class ItemsListComponent {
                 'cancelled' !== curr.itemStatus
                   ? curr.itemQuantity * curr.itemPrice
                   : 0,
+              notPayed: ['pending-payment', 'pending-confirmation'].includes(
+                curr.itemStatus
+              )
+                ? curr.itemQuantity * curr.itemPrice
+                : 0,
               items: [curr],
             },
           ];
@@ -104,6 +158,13 @@ export class ItemsListComponent {
           'cancelled' !== curr.itemStatus
             ? curr.itemQuantity * curr.itemPrice
             : 0;
+
+        acc[index].notPayed += [
+          'pending-payment',
+          'pending-confirmation',
+        ].includes(curr.itemStatus)
+          ? curr.itemQuantity * curr.itemPrice
+          : 0;
         return acc;
       },
       []

@@ -8,98 +8,149 @@
   }"
 ></golden-page-header>
 
-[[filtri]] [[barra di ricerca]]
+[[filtri]]
 
-<golden-tailwind-loading *ngIf="loading"></golden-tailwind-loading>
-<ng-container *ngIf="activeOrder$ | async as activeOrder">
-  <div
-    class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm w-auto md:space-x-2"
-  >
-    <div *ngFor="let group of groupItemsByUser(activeOrder)">
-      <h1 class="text-xl font-medium tracking-wider">
-        {{ group.user | titlecase }} ({{ group.total | currency: "€" }})
-      </h1>
-      <div class="md:p-3">
-        <div class="overflow-scroll">
-          <table class="table-auto w-full">
-            <thead
-              class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
-            >
-              <tr>
-                <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Oggetto</div>
-                </th>
-                <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Aggiunto il</div>
-                </th>
-                <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Stato</div>
-                </th>
-                <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-left">Importo</div>
-                </th>
-                <th>
-                  <div class="font-semibold text-left hidden md:block">
-                    Negozio
-                  </div>
-                </th>
-                <th class="p-2 whitespace-nowrap">
-                  <div class="font-semibold text-center"></div>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="text-sm divide-y divide-gray-100">
-              <tr *ngFor="let item of group.items; let i = index">
-                <td class="p-2">
-                  <div class="flex items-center my-2">
-                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                      <img
-                        class="rounded-lg shadow transition-all ease-in hover:scale-125 cursor-zoom-in duration-300 delay-75 p-1"
-                        [src]="item.imgSrc"
-                        width="40"
-                        height="40"
-                        (click)="open(i, group.items)"
-                      />
+<div class="m-2 md:m-10">
+  <golden-tailwind-loading *ngIf="loading"></golden-tailwind-loading>
+  <ng-container *ngIf="filteredOrder$ | async as activeOrder">
+    <div class="mb-4 w-full">
+      <label for="search-field" class="text-sm font-medium"
+        >Cerca tra gli oggetti</label
+      >
+      <input
+        class="w-full rounded-lg border-none p-2 text-sm font-medium shadow focus:ring-2"
+        placeholder="es. Smith, Caricatore..."
+        [formControl]="searchField"
+        id="search-field"
+        type="text"
+      />
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 text-sm w-auto md:space-x-2">
+      <div *ngFor="let group of groupItemsByUser(activeOrder)">
+        <h1
+          class="text-xl font-medium tracking-wider"
+          [innerHTML]="group.user | titlecase | highlight: searchField.value"
+        ></h1>
+        <div class="flex flex-col text-gray-400">
+          <small>{{ group.total | currency: "€" }} Totale</small>
+          <small>{{ group.notPayed | currency: "€" }} Non pagato</small>
+        </div>
+        <div class="md:p-3">
+          <div class="overflow-scroll">
+            <table class="table-auto w-full">
+              <thead
+                class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
+              >
+                <tr>
+                  <th class="p-2 whitespace-nowrap">
+                    <div class="font-semibold text-left">Oggetto</div>
+                  </th>
+                  <th class="p-2 whitespace-nowrap">
+                    <div class="font-semibold text-left">Aggiunto il</div>
+                  </th>
+                  <th class="p-2 whitespace-nowrap">
+                    <div class="font-semibold text-left">Stato</div>
+                  </th>
+                  <th class="p-2 whitespace-nowrap">
+                    <div class="font-semibold text-left">Importo</div>
+                  </th>
+                  <th>
+                    <div class="font-semibold text-left hidden md:block">
+                      Negozio
                     </div>
-                    <div class="font-medium text-slate-600 text-xs">
-                      {{ item.itemName }}
+                  </th>
+                  <th class="p-2 whitespace-nowrap">
+                    <div class="font-semibold text-center"></div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="text-sm divide-y divide-gray-100">
+                <tr *ngFor="let item of group.items; let i = index">
+                  <td class="p-2">
+                    <div class="flex items-center my-2">
+                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                        <img
+                          class="rounded-lg shadow transition-all ease-in hover:scale-125 cursor-zoom-in duration-300 delay-75 p-1"
+                          [src]="item.imgSrc"
+                          width="40"
+                          height="40"
+                          (click)="open(i, group.items)"
+                        />
+                      </div>
+                      <div
+                        class="font-medium text-slate-600 text-xs"
+                        [innerHTML]="
+                          item.itemName | highlight: searchField.value
+                        "
+                      ></div>
                     </div>
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left font-semibold text-slate-500">
-                    {{ item.createdAt | date: "dd/MM/yyyy HH:mm" }}
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <app-item-status-badge
-                    [itemStatus]="item.itemStatus"
-                  ></app-item-status-badge>
-                </td>
-                <td class="p-2 whitespace-nowrap">
-                  <div class="text-left font-medium">
-                    <span class="text-green-500">
-                      {{ item.itemPrice | currency: "EUR" }}</span
-                    >
-                    x {{ item.itemQuantity }}
-                  </div>
-                </td>
-                <td
-                  class="whitespace-nowrap font-semibold pr-2"
-                  [ngClass]="
-                    'taiwangun' === item.itemShop
-                      ? 'text-legio-gold-500'
-                      : 'text-red-600'
-                  "
-                >
-                  <div class="hidden md:block">
-                    {{ item.itemShop | titlecase }}
-                  </div>
-                </td>
-                <td class="p-2 whitespace-nowrap space-x-4">
-                  <a [href]="item.itemUrl" target="_blank">
+                  </td>
+                  <td class="p-2 whitespace-nowrap">
+                    <div class="text-left font-semibold text-slate-500">
+                      {{ item.createdAt | date: "dd/MM/yyyy HH:mm" }}
+                    </div>
+                  </td>
+                  <td class="p-2 whitespace-nowrap">
+                    <app-item-status-badge
+                      [itemStatus]="item.itemStatus"
+                    ></app-item-status-badge>
+                  </td>
+                  <td class="p-2 whitespace-nowrap">
+                    <div class="text-left font-medium">
+                      <span
+                        class="text-green-500"
+                        [innerHTML]="
+                          item.itemPrice
+                            | currency: 'EUR'
+                            | highlight: searchField.value
+                        "
+                      >
+                      </span>
+                      x
+                      <span
+                        [innerHTML]="
+                          item.itemQuantity.toString()
+                            | highlight: searchField.value
+                        "
+                      ></span>
+                    </div>
+                  </td>
+                  <td
+                    class="whitespace-nowrap font-semibold pr-2"
+                    [ngClass]="
+                      'taiwangun' === item.itemShop
+                        ? 'text-legio-gold-500'
+                        : 'text-red-600'
+                    "
+                  >
+                    <div class="hidden md:block">
+                      {{ item.itemShop | titlecase }}
+                    </div>
+                  </td>
+                  <td class="p-2 whitespace-nowrap space-x-4">
+                    <a [href]="item.itemUrl" target="_blank">
+                      <button
+                        class="text-lg text-center text-blue-400 hover:text-blue-200"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                          />
+                        </svg>
+                      </button>
+                    </a>
+
                     <button
-                      class="text-lg text-center text-blue-400 hover:text-blue-200"
+                      class="text-lg text-center text-gray-500 hover:text-gray-600"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -112,124 +163,105 @@
                         <path
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                         />
                       </svg>
                     </button>
-                  </a>
-
-                  <button
-                    class="text-lg text-center text-gray-500 hover:text-gray-600"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                    <!-- PENDING CONFIRMATION -->
+                    <button
+                      class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
+                      [disabled]="item.itemStatus === 'pending-confirmation'"
+                      title="Da Confermare"
+                      (click)="editItemStatus(item._id, 'pending-confirmation')"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                      />
-                    </svg>
-                  </button>
-                  <!-- PENDING CONFIRMATION -->
-                  <button
-                    class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
-                    [disabled]="item.itemStatus === 'pending-confirmation'"
-                    title="Da Confermare"
-                    (click)="editItemStatus(item._id, 'pending-confirmation')"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                    <!-- PENDING PAYMENT -->
+                    <button
+                      class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
+                      [disabled]="item.itemStatus === 'pending-payment'"
+                      title="Non Pagato"
+                      (click)="editItemStatus(item._id, 'pending-payment')"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                  <!-- PENDING PAYMENT -->
-                  <button
-                    class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
-                    [disabled]="item.itemStatus === 'pending-payment'"
-                    title="Non Pagato"
-                    (click)="editItemStatus(item._id, 'pending-payment')"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                      </svg>
+                    </button>
+                    <!-- CONFIRMED -->
+                    <button
+                      class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
+                      title="Confermato"
+                      [disabled]="item.itemStatus === 'confirmed'"
+                      (click)="editItemStatus(item._id, 'confirmed')"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                  </button>
-                  <!-- CONFIRMED -->
-                  <button
-                    class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
-                    title="Confermato"
-                    [disabled]="item.itemStatus === 'confirmed'"
-                    (click)="editItemStatus(item._id, 'confirmed')"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                    <!-- CANCELLED -->
+                    <button
+                      class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
+                      [disabled]="item.itemStatus === 'cancelled'"
+                      title="Annullato"
+                      (click)="editItemStatus(item._id, 'cancelled')"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                  <!-- CANCELLED -->
-                  <button
-                    class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
-                    [disabled]="item.itemStatus === 'cancelled'"
-                    title="Annullato"
-                    (click)="editItemStatus(item._id, 'cancelled')"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
