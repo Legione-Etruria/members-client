@@ -12,7 +12,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { StatusSvgEnum } from 'src/app/models/status-svg';
+import { StatusSvgEnum } from 'src/app/models/status-svg.enum';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';

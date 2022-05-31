@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatusSvgEnum } from 'src/app/models/status-svg';
+import { StatusSvgEnum } from 'src/app/models/status-svg.enum';
 import { OrderItem } from '../../../models/order-item';
 
 @Component({

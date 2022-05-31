@@ -14,6 +14,7 @@ export interface OrderItem {
   itemPrice: number;
   itemQuantity: number;
   itemShop: 'ilsemaforo' | 'taiwangun';
+  paymentMethod: 'paypal' | 'field';
   isUnavailable: boolean;
   itemStatus:
     | 'pending-confirmation'
