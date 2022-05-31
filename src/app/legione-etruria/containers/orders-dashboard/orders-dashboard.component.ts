@@ -36,7 +36,7 @@ export class OrdersDashboardComponent implements OnInit {
   }
 
   reverseOrder(activeOrder: GroupOrder) {
-    return activeOrder?.items?.reverse().slice(0, 4);
+    return activeOrder?.items?.slice().reverse().slice(0, 4);
   }
 
   onActionSelected(action?: 'issued' | 'cancelled') {
