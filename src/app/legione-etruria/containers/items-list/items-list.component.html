@@ -173,7 +173,9 @@
                       <!-- PENDING CONFIRMATION -->
                       <button
                         class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="item.itemStatus === 'pending-confirmation'"
+                        [disabled]="
+                          item.itemStatus === 'pending-confirmation' || loading
+                        "
                         title="Da Confermare"
                         (click)="
                           editItemStatus(item._id, 'pending-confirmation')
@@ -197,7 +199,9 @@
                       <!-- PENDING PAYMENT -->
                       <button
                         class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="item.itemStatus === 'pending-payment'"
+                        [disabled]="
+                          item.itemStatus === 'pending-payment' || loading
+                        "
                         title="Non Pagato"
                         (click)="editItemStatus(item._id, 'pending-payment')"
                       >
@@ -220,7 +224,7 @@
                       <button
                         class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
                         title="Confermato"
-                        [disabled]="item.itemStatus === 'confirmed'"
+                        [disabled]="item.itemStatus === 'confirmed' || loading"
                         (click)="editItemStatus(item._id, 'confirmed')"
                       >
                         <svg
@@ -241,7 +245,7 @@
                       <!-- CANCELLED -->
                       <button
                         class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="item.itemStatus === 'cancelled'"
+                        [disabled]="item.itemStatus === 'cancelled' || loading"
                         title="Annullato"
                         (click)="editItemStatus(item._id, 'cancelled')"
                       >

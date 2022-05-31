@@ -95,13 +95,15 @@ export class ItemsListComponent implements OnInit {
   }
 
   public editItemStatus(item: string, itemStatus: OrderItem['itemStatus']) {
+    this.loading = true;
     this.ordersService
       .editItem(item, { itemStatus })
       .pipe(
         tap(() => {
           this.toastr.success('Articolo aggiornato');
         }),
-        switchMap(() => this.emitGetActiveOrder())
+        switchMap(() => this.emitGetActiveOrder()),
+        tap(() => (this.loading = false))
       )
       .subscribe();
   }
