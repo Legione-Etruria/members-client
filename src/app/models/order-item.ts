@@ -14,6 +14,7 @@ export interface OrderItem {
   itemPrice: number;
   itemQuantity: number;
   itemShop: 'ilsemaforo' | 'taiwangun';
+  isUnavailable: boolean;
   itemStatus:
     | 'pending-confirmation'
     | 'pending-payment'

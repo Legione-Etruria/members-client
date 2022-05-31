@@ -140,6 +140,7 @@ export class ItemsListComponent implements OnInit {
           user: string;
           total: number;
           notPayed: number;
+          notConfirmed: number;
           items: GroupOrder['items'];
         }[],
         curr
@@ -153,13 +154,15 @@ export class ItemsListComponent implements OnInit {
             ...acc,
             {
               user: (curr.user as User).battleName,
-              total:
-                'cancelled' !== curr.itemStatus
-                  ? curr.itemQuantity * curr.itemPrice
-                  : 0,
-              notPayed: ['pending-payment', 'pending-confirmation'].includes(
+              total: !['cancelled', 'pending-confirmation'].includes(
                 curr.itemStatus
               )
+                ? curr.itemQuantity * curr.itemPrice
+                : 0,
+              notPayed: ['pending-payment'].includes(curr.itemStatus)
+                ? curr.itemQuantity * curr.itemPrice
+                : 0,
+              notConfirmed: ['pending-confirmation'].includes(curr.itemStatus)
                 ? curr.itemQuantity * curr.itemPrice
                 : 0,
               items: [curr],
@@ -168,15 +171,18 @@ export class ItemsListComponent implements OnInit {
         }
 
         acc[index].items.push(curr);
-        acc[index].total +=
-          'cancelled' !== curr.itemStatus
-            ? curr.itemQuantity * curr.itemPrice
-            : 0;
+        acc[index].total += !['cancelled', 'pending-confirmation'].includes(
+          curr.itemStatus
+        )
+          ? curr.itemQuantity * curr.itemPrice
+          : 0;
 
-        acc[index].notPayed += [
-          'pending-payment',
-          'pending-confirmation',
-        ].includes(curr.itemStatus)
+        acc[index].notPayed += ['pending-payment'].includes(curr.itemStatus)
+          ? curr.itemQuantity * curr.itemPrice
+          : 0;
+        acc[index].notConfirmed += ['pending-confirmation'].includes(
+          curr.itemStatus
+        )
           ? curr.itemQuantity * curr.itemPrice
           : 0;
         return acc;
