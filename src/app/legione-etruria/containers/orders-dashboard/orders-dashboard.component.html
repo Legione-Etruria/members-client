@@ -78,7 +78,7 @@
         </div>
         <div class="w-full md:w-6/12">
           <app-items-list-widget
-            [orderItems]="(activeOrder?.items?.reverse() | slice: 0:4) || []"
+            [orderItems]="reverseOrder(activeOrder) || []"
             [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
           ></app-items-list-widget>
         </div>
