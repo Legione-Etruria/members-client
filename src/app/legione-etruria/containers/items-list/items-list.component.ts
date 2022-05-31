@@ -5,7 +5,6 @@ import { IAlbum, Lightbox } from 'ngx-lightbox';
 import { ToastrService } from 'ngx-toastr';
 import {
   combineLatest,
-  debounceTime,
   map,
   Observable,
   startWith,
@@ -33,6 +32,8 @@ export class ItemsListComponent implements OnInit {
   public loading = true;
   public statusEnum = StatusSvgEnum;
   public searchField = new FormControl('');
+  public ignoreDropdown = false;
+  public showDropdowns: string[] = [];
 
   constructor(
     private ordersService: OrdersService,
@@ -56,7 +57,7 @@ export class ItemsListComponent implements OnInit {
 
     this.filteredOrder$ = combineLatest([this.activeOrder$, searchTerm$])
       .pipe(
-        debounceTime(200),
+        // debounceTime(200),
         map(([orderInstance, searchTerm]) =>
           orderInstance.items.filter((item) => {
             const itemsArr = [
@@ -79,6 +80,15 @@ export class ItemsListComponent implements OnInit {
         )
       )
       .pipe(tap(() => (this.loading = false)));
+  }
+
+  public handleShowDropdown(user: string) {
+    const index = this.showDropdowns.indexOf(user);
+    if (-1 === index) {
+      this.showDropdowns.push(user);
+    } else {
+      this.showDropdowns.splice(index, 1);
+    }
   }
 
   public emitGetActiveOrder() {
