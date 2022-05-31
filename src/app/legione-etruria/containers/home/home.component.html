@@ -185,7 +185,7 @@
               <a
                 [href]="item.href || null"
                 [target]="item.routerLink ? '_self' : '_blank'"
-                *ngIf="item.roles?.includes(user.role) || 'admin' === user.role"
+                *ngIf="item.roles?.includes(user.role)"
                 [ngClass]="{
                   'pointer-events-none text-gray-300 hover:bg-none cursor-default':
                     item.disabled

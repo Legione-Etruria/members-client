@@ -35,6 +35,10 @@ export class HomeComponent implements OnInit {
           ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
           : 'Nessun ordine disp.',
         routerLink: '/orders/current',
+        roles:
+          !environment.debugAddItems && 'admin' === this.user.role
+            ? ['athlete']
+            : ['admin'],
         disabled:
           this.currentOrder?.no_order ||
           (!environment.debugAddItems && 'admin' === this.user.role),
@@ -62,10 +66,12 @@ export class HomeComponent implements OnInit {
           [
             {
               label: 'Atleti iscritti',
+              roles: ['admin'],
               routerLink: '/users/browse',
             },
             {
               label: 'Aggiungi',
+              roles: ['admin'],
               routerLink: '/users/create',
             },
           ],
@@ -87,11 +93,13 @@ export class HomeComponent implements OnInit {
             {
               label: '',
               disabled: true,
+              roles: ['athlete'],
               routerLink: '/orders/current',
             },
             {
               label: 'Storico Ordini',
               disabled: true,
+              roles: ['admin'],
               routerLink: '/ordini/storico',
             },
             {
