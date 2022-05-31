@@ -33,6 +33,7 @@ import { OrdersService } from './services/orders.service';
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { ItemStatusBadgeComponent } from './components/item-status-badge/item-status-badge.component';
 import { EditOrderComponent } from './containers/edit-order/edit-order.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EditOrderComponent } from './containers/edit-order/edit-order.component
     ItemsListComponent,
     ItemStatusBadgeComponent,
     EditOrderComponent,
+    FilterComponent,
   ],
   providers: [OrdersService],
   imports: [

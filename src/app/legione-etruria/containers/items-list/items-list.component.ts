@@ -13,6 +13,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { StatusSvgEnum } from 'src/app/models/status-svg';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';
@@ -27,9 +28,10 @@ export class ItemsListComponent implements OnInit {
   private activeOrderSubject$ = new Subject<GroupOrder>();
   public activeOrder$: Observable<GroupOrder> = this.activeOrderSubject$;
   public filteredOrder$: Observable<OrderItem[]> = new Observable();
+
   public orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
   public loading = true;
-
+  public statusEnum = StatusSvgEnum;
   public searchField = new FormControl('');
 
   constructor(
