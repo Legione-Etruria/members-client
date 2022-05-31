@@ -4,7 +4,7 @@
   [style.top.px]="yPos > screenSize.height / 1 ? yPos - cmSize.height : yPos"
   [style.left.px]="xPos > screenSize.width / 1.5 ? xPos - cmSize.width : xPos"
   [class.text-right]="xPos > screenSize.width / 1.5"
-  class="lg:2/12 absolute z-10 w-6/12 max-w-fit rounded-lg p-2 shadow-lg backdrop-blur-lg md:w-3/12"
+  class="lg:2/12 absolute z-10 w-6/12 max-w-fit rounded-lg p-2 shadow-xl bg-white md:w-3/12 border"
 >
   <div class="text-start">
     <h1
@@ -12,7 +12,7 @@
       [innerHTML]="contextMenuLabel || 'Azioni Rapide'"
     ></h1>
   </div>
-  <div class="mt-2 w-full px-2" id="contextmenu-loop-wrapper">
+  <div class="mt-2 w-full px-2 divide-y" id="contextmenu-loop-wrapper">
     <ng-container *ngFor="let action of options.actions">
       <a
         class="flex w-full space-x-2 h-full"
@@ -23,7 +23,7 @@
           id="contextmenu-loop"
           [disabled]="action.isDisabled"
           [class.pointer-events-none]="action.isDisabled"
-          class="text-start w-full cursor-pointer space-x-2 rounded-lg align-text-bottom text-xs font-semibold text-gray-700 hover:bg-app-color-300 hover:text-white disabled:text-gray-400 md:text-sm"
+          class="text-start w-full cursor-pointer space-x-2 rounded-lg align-text-bottom text-xs font-semibold text-gray-700 hover:bg-app-color-300 hover:text-white disabled:text-gray-400 md:text-sm my-1"
         >
           <div
             [routerLink]="action.routingData.routerLink"
