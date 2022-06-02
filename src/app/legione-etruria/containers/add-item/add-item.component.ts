@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, switchMap, tap } from 'rxjs';
 import { GroupOrder } from 'src/app/models/group-order';
-import { OrdersService } from '../../services/orders.service';
+import { fetchedItem, OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-add-item',
@@ -15,6 +15,9 @@ export class AddItemComponent {
   public itemQuantity = 1;
   public loading = false;
 
+  public userId = this.route.snapshot.queryParamMap.get('user');
+  public userLabel = this.route.snapshot.queryParamMap.get('userBattleName');
+
   public item!: fetchedItem | null;
   public isInvalid = false;
   public invalidMessage = '';
@@ -24,7 +27,8 @@ export class AddItemComponent {
   constructor(
     private ordersService: OrdersService,
     private toastrService: ToastrService,
-    private routerService: Router
+    private routerService: Router,
+    private route: ActivatedRoute
   ) {}
 
   validateURL(url: string, currentOrder: GroupOrder) {
@@ -101,6 +105,8 @@ export class AddItemComponent {
 
     this.loading = true;
 
+    this.item.userId = this.userId || undefined;
+
     this.ordersService
       .addItem(orderID, this.item)
       .pipe(
@@ -118,11 +124,4 @@ export class AddItemComponent {
       )
       .subscribe();
   }
-}
-interface fetchedItem {
-  price?: number;
-  name?: string;
-  imgSrc?: string;
-  itemUrl?: string;
-  itemQuantity?: number;
 }

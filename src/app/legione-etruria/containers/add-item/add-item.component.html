@@ -10,6 +10,17 @@
 ></golden-page-header>
 
 <div class="mx-2 mt-2 md:m-10">
+  <div
+    class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative my-2"
+    role="alert"
+  >
+    <strong class="font-bold">Attenzione!</strong>
+    <br />
+    <span class="block sm:inline"
+      >Stai aggiungendo un oggetto per conto di {{ userLabel | titlecase }} e
+      sarà notificato della tua aggiunta</span
+    >
+  </div>
   <app-order-instructions
     title="Istruzioni"
     body="Inserisci il link all'oggetto che vorresti aggiungere all'ordine di gruppo e aspetta che il sito ottenga le informazioni al riguardo. <br /> Una volta ottenute le informazioni, clicca su 'Aggiungi' per confermare. <br /> Se al contrario le informazioni sono incorrette puoi modificarle clickando sulla matita che segue l'oggetto."

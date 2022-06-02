@@ -30,6 +30,7 @@ export class OrdersService {
       itemPrice: item.price,
       imgSrc: item.imgSrc,
       itemQuantity: item.itemQuantity,
+      userId: item.userId,
     });
   }
 
@@ -71,10 +72,11 @@ export class OrdersService {
     return this.apiHttp.delete('/api/v1/orders/items/remove?item=' + itemId);
   }
 }
-interface fetchedItem {
+export interface fetchedItem {
   price?: number;
   name?: string;
   imgSrc?: string;
   itemUrl?: string;
   itemQuantity?: number;
+  userId?: string;
 }
