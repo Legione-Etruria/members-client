@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, switchMap, tap } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { GroupOrder } from 'src/app/models/group-order';
 import { fetchedItem, OrdersService } from '../../services/orders.service';
 
@@ -23,12 +24,14 @@ export class AddItemComponent {
   public invalidMessage = '';
 
   public currentOrder$ = this.ordersService.ordersSubject$.asObservable();
+  public currentUser = this.authService.currentUserValue;
 
   constructor(
     private ordersService: OrdersService,
     private toastrService: ToastrService,
     private routerService: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   validateURL(url: string, currentOrder: GroupOrder) {
@@ -120,7 +123,13 @@ export class AddItemComponent {
           this.toastrService.error(this.item?.name, err)
         ),
         switchMap(() => this.ordersService.getCurrentOrder()),
-        tap(() => this.routerService.navigate(['/orders/current']))
+        tap(() =>
+          this.routerService.navigate([
+            this.currentUser.role === 'admin'
+              ? '/orders/dashboard'
+              : '/orders/current',
+          ])
+        )
       )
       .subscribe();
   }
