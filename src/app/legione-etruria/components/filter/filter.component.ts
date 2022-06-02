@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class FilterComponent implements OnInit {
   @Input() filters: { label: string; value: string; svgPath: string }[] = [];
+  @Input() currentFilter?: string;
   @Output() filterChange = new EventEmitter<string>();
 
   public showDropdown = false;

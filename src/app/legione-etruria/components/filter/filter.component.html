@@ -20,7 +20,7 @@
       aria-expanded="true"
       aria-controls="headlessui-menu-items-117"
     >
-      <span class="whitespace-nowrap">Filtri rapidi</span>
+      <span class="whitespace-nowrap">Filtri</span>
       <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
         <path
           fill-rule="evenodd"
@@ -42,6 +42,7 @@
         class="py-1 hover:bg-slate-100 cursor-pointer"
         (click)="emitFilterChange(item.value)"
         *ngFor="let item of filters; let i = index"
+        [ngClass]="{ 'bg-gray-100': item.value === currentFilter }"
       >
         <div
           [tabindex]="i"

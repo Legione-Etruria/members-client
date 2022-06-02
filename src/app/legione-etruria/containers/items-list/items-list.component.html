@@ -8,15 +8,31 @@
   }"
 ></golden-page-header>
 
-<div class="m-2 md:m-10">
+<div class="m-2 md:m-10 h-screen md:h-auto">
   <golden-tailwind-loading *ngIf="loading"></golden-tailwind-loading>
   <ng-container *ngIf="filteredOrder$ | async as activeOrder">
+    <div
+      *ngIf="checkUnavailable(activeOrder).length"
+      class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative my-4"
+      role="alert"
+    >
+      <strong class="font-bold">Oggetti non disponibili</strong>
+      <br />
+      <span class="block sm:inline"
+        >{{ checkUnavailable(activeOrder).length }} Oggetti non sono più
+        disponibili ma non sono annullati</span
+      >
+    </div>
+
     <div class="flex mb-4 justify-center">
       <div class="w-full">
         <div>
-          <label for="search-field" class="text-sm font-medium"
+          <label for="search-field" class="text-sm font-medium hidden md:block"
             >Cerca tra gli oggetti</label
           >
+          <label for="search-field" class="text-sm font-medium block md:hidden"
+            >Cerca
+          </label>
         </div>
         <input
           class="w-full rounded-lg border-none p-2 text-sm font-medium shadow focus:ring-2"
@@ -26,43 +42,18 @@
           type="text"
         />
       </div>
+
       <div class="flex flex-col justify-end">
         <app-filter
           (filterChange)="searchField.setValue($event)"
           class="mx-2"
-          [filters]="[
-            {
-              label: 'Nessun filtro',
-              value: '',
-              svgPath:
-                'M9.504 1.132a1 1 0 01.992 0l1.75 1a1 1 0 11-.992 1.736L10 3.152l-1.254.716a1 1 0 11-.992-1.736l1.75-1zM5.618 4.504a1 1 0 01-.372 1.364L5.016 6l.23.132a1 1 0 11-.992 1.736L4 7.723V8a1 1 0 01-2 0V6a.996.996 0 01.52-.878l1.734-.99a1 1 0 011.364.372zm8.764 0a1 1 0 011.364-.372l1.733.99A1.002 1.002 0 0118 6v2a1 1 0 11-2 0v-.277l-.254.145a1 1 0 11-.992-1.736l.23-.132-.23-.132a1 1 0 01-.372-1.364zm-7 4a1 1 0 011.364-.372L10 8.848l1.254-.716a1 1 0 11.992 1.736L11 10.58V12a1 1 0 11-2 0v-1.42l-1.246-.712a1 1 0 01-.372-1.364zM3 11a1 1 0 011 1v1.42l1.246.712a1 1 0 11-.992 1.736l-1.75-1A1 1 0 012 14v-2a1 1 0 011-1zm14 0a1 1 0 011 1v2a1 1 0 01-.504.868l-1.75 1a1 1 0 11-.992-1.736L16 13.42V12a1 1 0 011-1zm-9.618 5.504a1 1 0 011.364-.372l.254.145V16a1 1 0 112 0v.277l.254-.145a1 1 0 11.992 1.736l-1.735.992a.995.995 0 01-1.022 0l-1.735-.992a1 1 0 01-.372-1.364z'
-            },
-            {
-              label: 'Non Pagato',
-              value: 'pending-payment',
-              svgPath: statusEnum.pendingPaymentIn
-            },
-            {
-              label: 'Da confermare',
-              value: 'pending-confirmation',
-              svgPath: statusEnum.pendingConfirmationIn
-            },
-            {
-              label: 'Pagato',
-              value: 'confirmed',
-              svgPath: statusEnum.confirmedIn
-            },
-            {
-              label: 'Annullato',
-              value: 'cancelled',
-              svgPath: statusEnum.cancelledIn
-            }
-          ]"
+          [currentFilter]="searchField.value"
+          [filters]="quickFilters"
         ></app-filter>
       </div>
       <div class="flex flex-col justify-end">
         <button
-          class="p-2 rounded-lg flex text-sm whitespace-nowrap shadow space-x-1"
+          class="p-2 rounded-lg flex text-sm whitespace-nowrap shadow space-x-1 max-w-fit"
           [ngClass]="
             ignoreDropdown
               ? 'bg-slate-600 text-white'
@@ -86,29 +77,34 @@
         </button>
       </div>
     </div>
-    <div class="space-y-4 divide-y">
-      <div *ngFor="let group of groupItemsByUser(activeOrder)">
+    <div class="text-xs md:text-base">
+      <div
+        *ngFor="let group of groupItemsByUser(activeOrder); let groupI = index"
+        class="md:flex md:space-x-2 border-b p-2"
+      >
         <div
-          class="rounded-lg hover:bg-slate-200 max-w-fit p-2 cursor-pointer m-2"
+          class="rounded-lg hover:bg-slate-200 p-2 cursor-pointer bg-white shadow border md:h-48 md:w-48"
           (click)="handleShowDropdown(group.user)"
         >
           <h1
-            class="text-xl font-medium tracking-wider"
+            class="text-lg md:text-xl font-semibold text-slate-800 mb-4"
             [innerHTML]="group.user | titlecase | highlight: searchField.value"
           ></h1>
-          <div class="flex flex-col text-gray-400">
-            <small class="mb-1">{{ group.items.length }} Oggetti</small>
-            <small>
+          <div
+            class="flex flex-col text-gray-400 my-1 divide-y divide-gray-100"
+          >
+            <small class="p-1">{{ group.items.length }} Oggetti</small>
+            <small class="p-1">
               {{ group.notConfirmed | currency: "€" }} Non confermati</small
             >
-            <small>{{ group.total | currency: "€" }} Totale confermato</small>
-            <small [class.text-yellow-600]="group.notPayed > 0">
+            <small class="p-1">{{ group.total | currency: "€" }} Totale</small>
+            <small class="p-1" [class.text-yellow-600]="group.notPayed > 0">
               {{ group.notPayed | currency: "€" }} Non pagato</small
             >
           </div>
         </div>
         <div
-          class="bg-white rounded-lg shadow p-4 text-sm w-auto md:space-x-2 my-1"
+          class="bg-white rounded-lg shadow text-sm md:w-10/12 md:space-x-2 my-4 border"
           *ngIf="
             showDropdowns.includes(group.user) ||
             searchField.value.length ||
@@ -118,35 +114,6 @@
           <div class="md:p-3">
             <div class="overflow-scroll">
               <table class="table-auto w-full">
-                <thead
-                  class="text-xs font-semibold uppercase text-gray-400 bg-gray-50"
-                >
-                  <tr>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">Oggetto</div>
-                    </th>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">Aggiunto il</div>
-                    </th>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">Stato</div>
-                    </th>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">Disponibile</div>
-                    </th>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-left">Importo</div>
-                    </th>
-                    <th>
-                      <div class="font-semibold text-left hidden md:block">
-                        Negozio
-                      </div>
-                    </th>
-                    <th class="p-2 whitespace-nowrap">
-                      <div class="font-semibold text-center"></div>
-                    </th>
-                  </tr>
-                </thead>
                 <tbody class="text-sm divide-y divide-gray-100">
                   <tr *ngFor="let item of group.items; let i = index">
                     <td class="p-2">
@@ -161,7 +128,7 @@
                           />
                         </div>
                         <div
-                          class="font-medium text-slate-600 text-xs flex-wrap w-96"
+                          class="font-medium text-slate-600 text-xs flex-wrap w-48"
                           [innerHTML]="
                             item.itemName | highlight: searchField.value
                           "
@@ -234,140 +201,156 @@
                         {{ item.itemShop | titlecase }}
                       </div>
                     </td>
-                    <td class="p-2 whitespace-nowrap space-x-4">
-                      <a [href]="item.itemUrl" target="_blank">
-                        <button
-                          class="text-lg text-center text-blue-400 hover:text-blue-200"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                            />
-                          </svg>
-                        </button>
-                      </a>
+                    <td class="p-2">
+                      <div
+                        class="whitespace-nowrap space-x-4 flex divide-x items-end"
+                      >
+                        <div class="flex space-x-4">
+                          <a [href]="item.itemUrl" target="_blank">
+                            <button
+                              class="text-lg text-center text-blue-400 hover:text-blue-200"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                />
+                              </svg>
+                            </button>
+                          </a>
 
-                      <button
-                        class="text-lg text-center text-gray-500 hover:text-gray-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          />
-                        </svg>
-                      </button>
-                      <!-- PENDING CONFIRMATION -->
-                      <button
-                        class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="
-                          item.itemStatus === 'pending-confirmation' || loading
-                        "
-                        title="Da Confermare"
-                        (click)="
-                          editItemStatus(item._id, 'pending-confirmation')
-                        "
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </button>
-                      <!-- PENDING PAYMENT -->
-                      <button
-                        class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="
-                          item.itemStatus === 'pending-payment' || loading
-                        "
-                        title="Non Pagato"
-                        (click)="editItemStatus(item._id, 'pending-payment')"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                          />
-                        </svg>
-                      </button>
-                      <!-- CONFIRMED -->
-                      <button
-                        class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
-                        title="Confermato"
-                        [disabled]="item.itemStatus === 'confirmed' || loading"
-                        (click)="editItemStatus(item._id, 'confirmed')"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </button>
-                      <!-- CANCELLED -->
-                      <button
-                        class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
-                        [disabled]="item.itemStatus === 'cancelled' || loading"
-                        title="Annullato"
-                        (click)="editItemStatus(item._id, 'cancelled')"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </button>
+                          <button
+                            class="text-lg text-center text-gray-500 hover:text-gray-600"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="flex space-x-4 pl-2">
+                          <!-- PENDING CONFIRMATION -->
+
+                          <button
+                            class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
+                            [disabled]="
+                              item.itemStatus === 'pending-confirmation' ||
+                              loading
+                            "
+                            title="Da Confermare"
+                            (click)="
+                              editItemStatus(item._id, 'pending-confirmation')
+                            "
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                          <!-- PENDING PAYMENT -->
+                          <button
+                            class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
+                            [disabled]="
+                              item.itemStatus === 'pending-payment' || loading
+                            "
+                            title="Non Pagato"
+                            (click)="
+                              editItemStatus(item._id, 'pending-payment')
+                            "
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                              />
+                            </svg>
+                          </button>
+                          <!-- CONFIRMED -->
+                          <button
+                            class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
+                            title="Confermato"
+                            [disabled]="
+                              item.itemStatus === 'confirmed' || loading
+                            "
+                            (click)="editItemStatus(item._id, 'confirmed')"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                          <!-- CANCELLED -->
+                          <button
+                            class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
+                            [disabled]="
+                              item.itemStatus === 'cancelled' || loading
+                            "
+                            title="Annullato"
+                            (click)="editItemStatus(item._id, 'cancelled')"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
