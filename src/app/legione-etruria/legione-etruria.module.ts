@@ -35,6 +35,7 @@ import { ItemStatusBadgeComponent } from './components/item-status-badge/item-st
 import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
+import { AddItemWidgetComponent } from './components/add-item-widget/add-item-widget.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.
     EditOrderComponent,
     FilterComponent,
     ConfirmOrderComponent,
+    AddItemWidgetComponent,
   ],
   providers: [OrdersService],
   imports: [

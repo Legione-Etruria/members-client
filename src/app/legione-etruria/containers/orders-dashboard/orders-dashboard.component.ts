@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
+import { UsersService } from 'src/app/users/services/users.service';
+import { environment } from '../../../../environments/environment';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -11,6 +13,9 @@ import { OrdersService } from '../../services/orders.service';
 })
 export class OrdersDashboardComponent implements OnInit {
   private pastOrdersSubject$ = new ReplaySubject<GroupOrder[]>();
+  public users$ = this.usersService.getUsers(
+    environment.production ? 'athlete' : undefined
+  );
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
 
@@ -21,7 +26,8 @@ export class OrdersDashboardComponent implements OnInit {
 
   constructor(
     private ordersService: OrdersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {

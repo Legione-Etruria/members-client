@@ -56,7 +56,7 @@
 
           <button
             [disabled]="'pending' !== activeOrder.orderStatus"
-            class="p-2 bg-legio-green-400 hover:bg-legio-green-300 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
+            class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
             routerLink="/orders/edit"
           >
             <svg
@@ -75,6 +75,9 @@
             </svg>
             <span class="my-1"> Modifica ordine</span>
           </button>
+          <ng-container *ngIf="users$ | async as users">
+            <app-add-item-widget [users]="users"></app-add-item-widget>
+          </ng-container>
         </div>
         <div class="w-full md:w-6/12">
           <app-items-list-widget

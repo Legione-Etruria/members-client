@@ -83,7 +83,7 @@
         class="md:flex md:space-x-2 border-b p-2"
       >
         <div
-          class="rounded-lg hover:bg-slate-200 p-2 cursor-pointer bg-white shadow border md:h-48 md:w-48"
+          class="rounded-lg hover:bg-slate-200 p-2 cursor-pointer bg-white shadow border md:h-56 md:w-48"
           (click)="handleShowDropdown(group.user)"
         >
           <h1
@@ -94,12 +94,23 @@
             class="flex flex-col text-gray-400 my-1 divide-y divide-gray-100"
           >
             <small class="p-1">{{ group.items.length }} Oggetti</small>
-            <small class="p-1">
-              {{ group.notConfirmed | currency: "€" }} Non confermati</small
+            <small
+              class="p-1"
+              title="Gli oggetti annullati non vengono considerati nel calcolo del totale"
+              >{{ group.total | currency: "€" }} Totale</small
             >
-            <small class="p-1">{{ group.total | currency: "€" }} Totale</small>
+            <small class="p-1">
+              {{ group.notConfirmed | currency: "€" }} Da confermare</small
+            >
             <small class="p-1" [class.text-yellow-600]="group.notPayed > 0">
               {{ group.notPayed | currency: "€" }} Non pagato</small
+            >
+            <small class="p-1">
+              {{
+                group.total - group.notPayed - group.notConfirmed
+                  | currency: "€"
+              }}
+              Pagato</small
             >
           </div>
         </div>
