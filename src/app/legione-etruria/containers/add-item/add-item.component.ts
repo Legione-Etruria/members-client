@@ -46,7 +46,10 @@ export class AddItemComponent {
       return;
     }
 
-    if (currentOrder.items.find((item) => item.itemUrl === url)) {
+    if (
+      currentOrder.items.find((item) => item.itemUrl === url) &&
+      !this.userId
+    ) {
       this.isInvalid = true;
       this.invalidMessage = "Oggetto già presente nell'ordine";
       return;
@@ -119,9 +122,6 @@ export class AddItemComponent {
             "Oggetto aggiunto all'ordine"
           );
         }),
-        catchError(async (err) =>
-          this.toastrService.error(this.item?.name, err)
-        ),
         switchMap(() => this.ordersService.getCurrentOrder()),
         tap(() =>
           this.routerService.navigate([
@@ -129,7 +129,14 @@ export class AddItemComponent {
               ? '/orders/dashboard'
               : '/orders/current',
           ])
-        )
+        ),
+        catchError(async (err) => {
+          this.toastrService.error(
+            err.error.errors[0].message,
+            this.item?.name
+          );
+          this.loading = false;
+        })
       )
       .subscribe();
   }

@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { tap } from 'rxjs';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-confirm-order',
   templateUrl: './confirm-order.component.html',
-  styleUrls: ['./confirm-order.component.scss']
+  styleUrls: ['./confirm-order.component.scss'],
 })
 export class ConfirmOrderComponent implements OnInit {
+  public order$ = this.ordersService.ordersSubject$.pipe(
+    tap(() => (this.loading = false))
+  );
 
-  constructor() { }
+  public loading = true;
 
-  ngOnInit(): void {
-  }
+  constructor(private ordersService: OrdersService) {}
 
+  ngOnInit(): void {}
 }

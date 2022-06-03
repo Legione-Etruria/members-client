@@ -86,32 +86,45 @@
           class="rounded-lg hover:bg-slate-200 p-2 cursor-pointer bg-white shadow border md:h-56 md:w-48"
           (click)="handleShowDropdown(group.user)"
         >
-          <h1
-            class="text-lg md:text-xl font-semibold text-slate-800 mb-4"
-            [innerHTML]="group.user | titlecase | highlight: searchField.value"
-          ></h1>
+          <div class="flex items-center">
+            <app-user-avatar
+              [user]="group.user || ''"
+              [showName]="false"
+              [size]="8"
+            ></app-user-avatar>
+            <span
+              class="ml-3 block truncate text-slate-700 font-medium"
+              [innerHTML]="
+                group.user | titlecase | highlight: searchField.value
+              "
+            >
+            </span>
+          </div>
           <div
             class="flex flex-col text-gray-400 my-1 divide-y divide-gray-100"
           >
-            <small class="p-1">{{ group.items.length }} Oggetti</small>
-            <small
-              class="p-1"
-              title="Gli oggetti annullati non vengono considerati nel calcolo del totale"
-              >{{ group.total | currency: "€" }} Totale</small
+            <div class="flex flex-col">
+              <small class="p-1">{{ group.items.length }} Oggetti</small>
+              <small class="p-1">
+                {{ group.notConfirmed | currency: "€" }} Da confermare</small
+              >
+            </div>
+            <div
+              class="flex flex-col bg-legio-green-200 p-1 text-white rounded-lg divide-y shadow-md"
             >
-            <small class="p-1">
-              {{ group.notConfirmed | currency: "€" }} Da confermare</small
-            >
-            <small class="p-1" [class.text-yellow-600]="group.notPayed > 0">
-              {{ group.notPayed | currency: "€" }} Non pagato</small
-            >
-            <small class="p-1">
-              {{
-                group.total - group.notPayed - group.notConfirmed
-                  | currency: "€"
-              }}
-              Pagato</small
-            >
+              <small class="p-1" [class.text-yellow-300]="group.notPayed > 0">
+                {{ group.notPayed | currency: "€" }} Non Pagato</small
+              >
+              <small class="p-1">
+                {{ group.total - group.notPayed | currency: "€" }}
+                Pagato</small
+              >
+              <small
+                class="p-1"
+                title="Gli oggetti annullati non vengono considerati nel calcolo del totale"
+                >{{ group.total | currency: "€" }} Totale</small
+              >
+            </div>
           </div>
         </div>
         <div

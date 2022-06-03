@@ -189,7 +189,9 @@ export class ItemsListComponent implements OnInit {
             ...acc,
             {
               user: (curr.user as User).battleName,
-              total: !['cancelled'].includes(curr.itemStatus)
+              total: !['cancelled', 'pending-confirmation'].includes(
+                curr.itemStatus
+              )
                 ? curr.itemQuantity * curr.itemPrice
                 : 0,
               notPayed: ['pending-payment'].includes(curr.itemStatus)
