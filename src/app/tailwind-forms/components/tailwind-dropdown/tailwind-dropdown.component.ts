@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { TailwindFormsService } from '../../services/tailwind-forms.service';
   templateUrl: './tailwind-dropdown.component.html',
 })
 export class TailwindDropdownComponent implements OnChanges {
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
   @Input() options!: { name: string | number; value: any }[];

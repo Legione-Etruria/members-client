@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -13,12 +13,12 @@ import { AuthService } from '../../services/auth.service';
 export class SigninComponent implements OnDestroy, OnInit {
   private destroy$: Subject<void> = new Subject<void>();
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public loading = false;
   public submitted = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,

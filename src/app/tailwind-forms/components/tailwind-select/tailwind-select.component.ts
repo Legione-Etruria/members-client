@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 interface ITailwindSelectOption {
@@ -18,7 +18,7 @@ interface ITailwindSelectOption {
   templateUrl: './tailwind-select.component.html',
 })
 export class TailwindSelectComponent implements OnInit, OnChanges {
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
   @Input() placeholder = '';

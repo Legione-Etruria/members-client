@@ -1,6 +1,6 @@
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { addDays, getDate } from 'date-fns';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 import { TailwindDatepickerComponent } from './tailwind-datepicker.component';
@@ -12,7 +12,7 @@ describe('TailwindDatepickerComponent', () => {
 
   let tailwindFormsServiceSpy: jasmine.SpyObj<TailwindFormsService>;
 
-  let form = new FormBuilder().group({
+  let form = new UntypedFormBuilder().group({
     formItem: [new Date(), Validators.requiredTrue],
   });
 

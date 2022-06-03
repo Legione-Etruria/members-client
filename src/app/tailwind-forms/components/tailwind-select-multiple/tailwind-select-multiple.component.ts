@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'golden-tailwind-select-multiple',
   templateUrl: './tailwind-select-multiple.component.html',
 })
 export class TailwindSelectMultipleComponent implements OnInit {
-  @Input() public parent!: FormGroup;
+  @Input() public parent!: UntypedFormGroup;
   @Input() public name!: string;
   @Input() public label!: string;
   @Input() public valuePath!: string;

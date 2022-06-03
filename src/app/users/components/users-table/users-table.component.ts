@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   combineLatest,
   debounceTime,
@@ -20,10 +20,10 @@ export class UsersTableComponent implements OnInit {
   @Input() currentParams?: string;
   @Input() loading = true;
 
-  public searchField: FormControl;
+  public searchField: UntypedFormControl;
   public filteredUsers$!: Observable<User[]>;
   constructor() {
-    this.searchField = new FormControl('');
+    this.searchField = new UntypedFormControl('');
   }
 
   ngOnInit() {

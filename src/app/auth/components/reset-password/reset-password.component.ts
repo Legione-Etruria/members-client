@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -22,12 +22,12 @@ export class ResetPasswordComponent implements OnDestroy {
 
   private token: string = this.route.snapshot.paramMap.get('token')!;
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   public loading: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService

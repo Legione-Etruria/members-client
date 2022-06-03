@@ -2,13 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LightboxModule } from 'ngx-lightbox';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AuthModule } from '../auth/auth.module';
 import { SharedModule } from '../shared/shared.module';
 import { TailwindFormsModule } from '../tailwind-forms/tailwind-forms.module';
 import { UsersModule } from '../users/users.module';
+import { AddItemWidgetComponent } from './components/add-item-widget/add-item-widget.component';
 import { CurrentOrderWidgetComponent } from './components/current-order-widget/current-order-widget.component';
 import { DocumentCardComponent } from './components/document-card/document-card.component';
+import { FilterComponent } from './components/filter/filter.component';
 import { InactiveAccountComponent } from './components/inactive-account/inactive-account.component';
+import { ItemStatusBadgeComponent } from './components/item-status-badge/item-status-badge.component';
 import { ItemsListWidgetComponent } from './components/items-list-widget/items-list-widget.component';
 import { OrderActionComponent } from './components/order-action/order-action.component';
 import { OrderFormComponent } from './components/order-form/order-form.component';
@@ -22,20 +26,17 @@ import { AccountStatusBadgeComponent } from './components/user-bar/account-statu
 import { UserBarComponent } from './components/user-bar/user-bar.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
+import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { DocumentsComponent } from './containers/documents/documents.component';
+import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 import { HomeComponent } from './containers/home/home.component';
+import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
-import { ItemsListComponent } from './containers/items-list/items-list.component';
-import { ItemStatusBadgeComponent } from './components/item-status-badge/item-status-badge.component';
-import { EditOrderComponent } from './containers/edit-order/edit-order.component';
-import { FilterComponent } from './components/filter/filter.component';
-import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
-import { AddItemWidgetComponent } from './components/add-item-widget/add-item-widget.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { AddItemWidgetComponent } from './components/add-item-widget/add-item-wi
   ],
   providers: [OrdersService],
   imports: [
+    NgScrollbarModule,
     CommonModule,
     LegioneEtruriaRoutingModule,
     TailwindFormsModule,

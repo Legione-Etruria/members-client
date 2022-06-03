@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 interface RadioList {
   name: string;
@@ -12,7 +12,7 @@ interface RadioList {
   templateUrl: './tailwind-radio-list-description-panel.component.html',
 })
 export class TailwindRadioListDescriptionPanelComponent {
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
   @Input() radioList: RadioList[] = [];

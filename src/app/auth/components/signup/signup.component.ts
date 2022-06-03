@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -23,12 +23,12 @@ export class SignupComponent {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public loading = false;
   public submitted = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { addMonths } from 'date-fns';
 import { GroupOrder } from '../../../models/group-order';
 
@@ -20,7 +20,7 @@ export class OrderFormComponent implements OnInit {
   @Input() orderData?: GroupOrder;
   @Output() submitted = new EventEmitter<Partial<GroupOrder>>();
 
-  public form!: FormGroup;
+  public form!: UntypedFormGroup;
 
   public shopsDropdown = [
     {
@@ -36,19 +36,19 @@ export class OrderFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      shops: new FormControl(this.orderData?.shops || [], [
+    this.form = new UntypedFormGroup({
+      shops: new UntypedFormControl(this.orderData?.shops || [], [
         Validators.required,
       ]),
-      startDate: new FormControl(
+      startDate: new UntypedFormControl(
         this.orderData?.startDate || new Date().toISOString(),
         [Validators.required]
       ),
-      dueDate: new FormControl(
+      dueDate: new UntypedFormControl(
         this.orderData?.dueDate || addMonths(new Date(), 1).toISOString(),
         [Validators.required]
       ),
-      orderNotes: new FormControl(this.orderData?.orderNotes || '', []),
+      orderNotes: new UntypedFormControl(this.orderData?.orderNotes || '', []),
     });
   }
 

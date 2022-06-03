@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { TailwindFormsService } from '../../services/tailwind-forms.service';
 export class TailwindInputComponent
   implements OnInit, OnChanges, AfterViewInit
 {
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
   @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';

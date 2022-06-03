@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum, Lightbox } from 'ngx-lightbox';
 import { ToastrService } from 'ngx-toastr';
@@ -31,7 +31,7 @@ export class ItemsListComponent implements OnInit {
   public orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
   public loading = true;
   public statusEnum = StatusSvgEnum;
-  public searchField = new FormControl('');
+  public searchField = new UntypedFormControl('');
   public ignoreDropdown = false;
   public showDropdowns: string[] = [];
 

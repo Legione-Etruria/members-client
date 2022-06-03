@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { format, getMonth, getYear, parseISO } from 'date-fns';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
@@ -16,7 +16,7 @@ import { TailwindFormsService } from '../../services/tailwind-forms.service';
   templateUrl: './tailwind-datepicker.component.html',
 })
 export class TailwindDatepickerComponent implements OnInit {
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
   @Input() placeholder = '';

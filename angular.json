@@ -114,5 +114,7 @@
       }
     }
   },
-  "defaultProject": "le-members-client"
+  "cli": {
+    "analytics": "2c77aab3-e640-4b57-8484-cf954d3e39c4"
+  }
 }
