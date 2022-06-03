@@ -192,10 +192,8 @@
     </div>
   </div>
   <div class="py-14 md:py-0 md:hidden w-screen"></div>
-  <div class="overflow-x-hidden overflow-y-scroll w-full hideScrollbars">
-    <ng-scrollbar [autoHeightDisabled]="false" [autoWidthDisabled]="false">
-      <router-outlet></router-outlet>
-    </ng-scrollbar>
+  <div class="overflow-x-hidden overflow-y-scroll w-full">
+    <router-outlet></router-outlet>
   </div>
 
   <ng-template #dropdownOptions let-dropdownData="rows">
