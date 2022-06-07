@@ -4,6 +4,7 @@ import { ReplaySubject, tap } from 'rxjs';
 import { ApiHttpService } from '../../api-http/services/api-http.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { GroupOrder } from '../../models/group-order';
+import { OrderItem } from '../../models/order-item';
 
 @Injectable()
 export class OrdersService {
@@ -70,6 +71,13 @@ export class OrdersService {
 
   removeItem(itemId: string) {
     return this.apiHttp.delete('/api/v1/orders/items/remove?item=' + itemId);
+  }
+
+  confirmItems(itemIds: string[], paymentMethod: OrderItem['paymentMethod']) {
+    return this.apiHttp.post('/api/v1/orders/items/confirm', {
+      itemIds,
+      paymentMethod,
+    });
   }
 }
 export interface fetchedItem {

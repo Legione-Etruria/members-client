@@ -10,6 +10,7 @@ import { OrderItem } from 'src/app/models/order-item';
 export class ItemsListWidgetComponent {
   @Input() orderItems: OrderItem[] = [];
   @Input() currentOrderPublicId: string = '';
+  @Input() hideItems: ('showMore' | 'label' | 'athlete')[] = [];
 
   constructor(private _lightbox: Lightbox) {}
 

@@ -2,29 +2,32 @@
   class="bg-white text-xs font-medium text-gray-400 space-y-2 px-2 rounded-lg py-4 border divide-y shadow-lg"
   *ngIf="currentOrder"
 >
-  <div class="flex justify-between pt-2">
+  <div class="flex justify-between pt-2" *ngIf="!hideItems.includes('id')">
     <span>ID ORDINE</span>
     <span>#{{ currentOrder.orderPublicId }}</span>
   </div>
-  <div class="flex justify-between pt-2">
+  <div class="flex justify-between pt-2" *ngIf="!hideItems.includes('status')">
     <span class="mt-1">STATO</span>
     <app-order-status-badge
       [status]="currentOrder.orderStatus"
     ></app-order-status-badge>
   </div>
-  <div class="flex justify-between pt-2">
+  <div
+    class="flex justify-between pt-2"
+    *ngIf="!hideItems.includes('startDate')"
+  >
     <span class="mt-1">DATA INIZIO</span>
     <span class="mt-1">
       {{ currentOrder.startDate | date: "dd/MM/yyyy" }}
     </span>
   </div>
-  <div class="flex justify-between pt-2">
+  <div class="flex justify-between pt-2" *ngIf="!hideItems.includes('endDate')">
     <span class="mt-1">DATA SCADENZA</span>
     <span class="mt-1">
       {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
     </span>
   </div>
-  <div class="flex justify-between pt-2">
+  <div class="flex justify-between pt-2" *ngIf="!hideItems.includes('shops')">
     <span class="mt-1">NEGOZI</span>
     <span class="mt-1 uppercase space-y-1 text-xs"
       ><p
@@ -41,8 +44,13 @@
       {{ getTotalQuantity(currentOrder.items) }}
     </span>
   </div>
-  <div class="flex justify-between pt-2">
-    <span class="mt-1">DA PAGARE</span>
+  <div
+    class="flex justify-between pt-2"
+    [class.text-red-500]="
+      getPriceToPay(currentOrder.items, 'pending-payment') > 0
+    "
+  >
+    <span class="mt-1">NON PAGATO</span>
     <span class="mt-1">
       {{
         getPriceToPay(currentOrder.items, "pending-payment") | currency: "€"
@@ -64,7 +72,10 @@
       }}</span
     >
   </div>
-  <div class="flex justify-between pt-2">
+  <div
+    class="flex justify-between pt-2"
+    *ngIf="!hideItems.includes('orderNotes')"
+  >
     <span class="mt-1">NOTE ORDINE</span>
     <span class="mt-1 whitespace-nowrap px-2">
       {{ currentOrder.orderNotes || "/" }}</span

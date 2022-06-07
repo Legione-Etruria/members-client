@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { differenceInDays } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
@@ -26,6 +27,10 @@ export class CurrentOrderComponent {
     private ordersService: OrdersService,
     private toastrService: ToastrService
   ) {}
+  isLastOrderWeek(dueDate: Date) {
+    const today = new Date();
+    return differenceInDays(new Date(dueDate), today) < 7;
+  }
 
   public removeItem(itemId: string) {
     this.loading = true;

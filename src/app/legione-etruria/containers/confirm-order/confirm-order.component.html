@@ -14,44 +14,105 @@
 ></golden-tailwind-loading>
 
 <ng-container *ngIf="order$ | async as order">
-  <div class="h-screen md:h-4/5 m-2 md:m-10">
-    <div class="flex flex-col justify-center h-full">
-      <div class="flex justify-center">
+  <div class="md:h-4/5 m-2 md:m-10">
+    <app-order-instructions
+      title="Conferma oggetti"
+      [body]="instructionsBody"
+    ></app-order-instructions>
+    <div
+      class="flex justify-center space-y-2 md:space-y-0 md:space-x-2 flex-wrap"
+    >
+      <div class="w-full md:w-2/12 border-b p-2 md:p-0 md:border-none">
         <div
-          class="flex md:space-x-5 flex-col md:flex-row justify-center w-full space-y-4 md:space-y-0 mx-10"
+          class="bg-white rounded-lg text-slate-600 p-2 font-medium shadow mb-1 text-center"
         >
-          <button
-            class="p-4 rounded-lg shadow-md bg-legio-gold-500 text-white font-medium ease-in hover:scale-110 hover:bg-legio-gold-400 delay-75 duration-200 flex space-x-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+          Riepilogo Ordine di gruppo
+        </div>
+        <app-order-info
+          [currentOrder]="order"
+          [hideItems]="[
+            'orderNotes',
+            'shops',
+            'status',
+            'startDate',
+            'id',
+            'endDate'
+          ]"
+        ></app-order-info>
+      </div>
+      <div class="md:w-6/12 mx-2">
+        <div
+          class="bg-white rounded-lg text-slate-600 p-2 font-medium shadow-md mb-4 md:mb-1 text-center"
+        >
+          Oggetti da confermare
+        </div>
+
+        <div class="w-full flex justify-center">
+          <div class="space-y-2">
+            <div
+              class="shadow-md rounded-lg w-full max-w-sm md:max-w-none"
+              *ngFor="let item of getPendingConfirmationItems(order.items)"
             >
-              <path
-                d="M22 9.761c0 .536-.065 1.084-.169 1.627-.847 4.419-3.746 5.946-7.449 5.946h-.572c-.453 0-.838.334-.908.789l-.803 5.09c-.071.453-.456.787-.908.787h-2.736c-.39 0-.688-.348-.628-.732l1.386-8.88.062-.056h2.155c5.235 0 8.509-2.618 9.473-7.568.812.814 1.097 1.876 1.097 2.997zm-14.216 4.252c.116-.826.459-1.177 1.385-1.179l2.26-.002c4.574 0 7.198-2.09 8.023-6.39.8-4.134-2.102-6.442-6.031-6.442h-7.344c-.517 0-.958.382-1.038.901-2.304 14.835-2.97 18.607-3.038 19.758-.021.362.269.672.635.672h3.989l1.159-7.318z"
-              />
-            </svg>
-            <span>Conferma e salda via PayPal</span>
-          </button>
-          <button
-            class="p-4 rounded-lg shadow-md bg-legio-green-400 text-white font-medium ease-in hover:scale-110 hover:bg-legio-green-300 delay-75 duration-200 flex space-x-2"
+              <app-order-item-card
+                [item]="item"
+                [hideElements]="['removeItem']"
+              ></app-order-item-card>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-white rounded-lg text-slate-600 p-2 font-medium shadow mb-1 text-right mt-4"
+        >
+          <span class="border-r px-2">Totale Oggetti</span>
+          <span class="px-2 text-legio-gold">
+            {{
+              getPriceToPay(order.items, "pending-confirmation") | currency: "€"
+            }}</span
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 640 512"
-              width="24"
-              height="24"
-              fill="currentColor"
+        </div>
+      </div>
+      <div class="flex flex-col justify-center mt-10">
+        <div class="flex justify-center">
+          <div class="flex flex-col justify-center space-y-4 mx-10">
+            <button
+              class="p-4 rounded-lg shadow-md bg-legio-gold-500 text-white font-medium ease-in hover:scale-110 hover:bg-legio-gold-400 delay-75 duration-200 flex space-x-2"
+              (click)="
+                confirmItems(getPendingConfirmationItems(order.items), 'paypal')
+              "
             >
-              <path
-                d="M396.6 6.546C408.1-2.182 423.9-2.182 435.4 6.546L603.4 134.5C610 139.6 614.4 147 615.6 155.3L639.6 315.3C641 324.5 638.3 333.8 632.2 340.9C626.2 347.9 617.3 352 608 352H461.5L455.3 310.5C452.8 294 444 279.2 430.8 269.1L262.8 141.1C254.6 134.9 245.4 130.9 235.8 129.1L396.6 6.546zM411.4 294.5C418 299.6 422.4 307 423.6 315.3L447.6 475.3C449 484.5 446.3 493.8 440.2 500.9C434.2 507.9 425.3 512 416 512H319.1L223.1 352V512H32C22.68 512 13.83 507.9 7.753 500.9C1.674 493.8-1.028 484.5 .3542 475.3L24.35 315.3C25.59 307 29.98 299.6 36.61 294.5L204.6 166.5C216.1 157.8 231.9 157.8 243.4 166.5L411.4 294.5z"
-              />
-            </svg>
-            <span>Conferma e salda sul campo</span>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M22 9.761c0 .536-.065 1.084-.169 1.627-.847 4.419-3.746 5.946-7.449 5.946h-.572c-.453 0-.838.334-.908.789l-.803 5.09c-.071.453-.456.787-.908.787h-2.736c-.39 0-.688-.348-.628-.732l1.386-8.88.062-.056h2.155c5.235 0 8.509-2.618 9.473-7.568.812.814 1.097 1.876 1.097 2.997zm-14.216 4.252c.116-.826.459-1.177 1.385-1.179l2.26-.002c4.574 0 7.198-2.09 8.023-6.39.8-4.134-2.102-6.442-6.031-6.442h-7.344c-.517 0-.958.382-1.038.901-2.304 14.835-2.97 18.607-3.038 19.758-.021.362.269.672.635.672h3.989l1.159-7.318z"
+                />
+              </svg>
+              <span>Conferma e salda via PayPal</span>
+            </button>
+            <button
+              class="p-4 rounded-lg shadow-md bg-legio-green-400 text-white font-medium ease-in hover:scale-110 hover:bg-legio-green-300 delay-75 duration-200 flex space-x-2"
+              (click)="
+                confirmItems(getPendingConfirmationItems(order.items), 'field')
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512"
+                width="24"
+                height="24"
+                fill="currentColor"
+              >
+                <path
+                  d="M396.6 6.546C408.1-2.182 423.9-2.182 435.4 6.546L603.4 134.5C610 139.6 614.4 147 615.6 155.3L639.6 315.3C641 324.5 638.3 333.8 632.2 340.9C626.2 347.9 617.3 352 608 352H461.5L455.3 310.5C452.8 294 444 279.2 430.8 269.1L262.8 141.1C254.6 134.9 245.4 130.9 235.8 129.1L396.6 6.546zM411.4 294.5C418 299.6 422.4 307 423.6 315.3L447.6 475.3C449 484.5 446.3 493.8 440.2 500.9C434.2 507.9 425.3 512 416 512H319.1L223.1 352V512H32C22.68 512 13.83 507.9 7.753 500.9C1.674 493.8-1.028 484.5 .3542 475.3L24.35 315.3C25.59 307 29.98 299.6 36.61 294.5L204.6 166.5C216.1 157.8 231.9 157.8 243.4 166.5L411.4 294.5z"
+                />
+              </svg>
+              <span>Conferma e salda sul campo</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
