@@ -5,6 +5,7 @@ import { VerifyGuard } from '../auth/guards/verify.guard';
 import { InactiveAccountComponent } from './components/inactive-account/inactive-account.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
+import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
@@ -57,7 +58,6 @@ const routes: Routes = [
           },
           {
             path: 'dashboard',
-
             children: [
               {
                 path: '',
@@ -66,6 +66,10 @@ const routes: Routes = [
               {
                 path: 'items',
                 component: ItemsListComponent,
+              },
+              {
+                path: 'compare',
+                component: CompareCartComponent,
               },
             ],
           },

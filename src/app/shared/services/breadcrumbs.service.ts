@@ -40,5 +40,6 @@ export class BreadcrumbsService {
 export interface IBreadcrumb {
   label: string;
   routerLink: string;
+  routerLinkParams?: any;
   svgPath?: string[];
 }

@@ -37,6 +37,7 @@ import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-d
 import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
+import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { OrdersService } from './services/orders.service';
     FilterComponent,
     ConfirmOrderComponent,
     AddItemWidgetComponent,
+    CompareCartComponent,
   ],
   providers: [OrdersService],
   imports: [
