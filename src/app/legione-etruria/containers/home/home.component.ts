@@ -10,7 +10,7 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.62';
+  public CURRENT_VERSION = '0.63';
 
   public user = this.authService.currentUserValue;
   public openMobileDropdown = false;
@@ -117,6 +117,14 @@ export class HomeComponent implements OnInit {
       routerLink: '/competitions',
       svgPath: [
         'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+      ],
+    },
+    {
+      label: 'Movimenti',
+      disabled: true,
+      routerLink: '/movements',
+      svgPath: [
+        'M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z',
       ],
     },
     {
