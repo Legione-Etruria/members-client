@@ -44,50 +44,152 @@
           [ngTemplateOutletContext]="{ currentOrder: pastOrder }"
         ></ng-container>
       </div>
-      <div
-        class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
-        *ngIf="activeOrder"
-      >
-        <div class="w-11/12 md:w-72">
-          <app-order-action
-            [currentOrder]="activeOrder"
-            (handleAction)="onActionSelected($event)"
-          ></app-order-action>
+    </div>
 
-          <button
-            [disabled]="'pending' !== activeOrder.orderStatus"
-            class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
-            routerLink="/orders/edit"
+    <div
+      class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
+      *ngIf="activeOrder"
+    >
+      <div class="w-11/12 md:w-72">
+        <app-order-action
+          [currentOrder]="activeOrder"
+          (handleAction)="onActionSelected($event)"
+        ></app-order-action>
+
+        <button
+          [disabled]="'pending' !== activeOrder.orderStatus"
+          class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
+          routerLink="/orders/edit"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-              />
-            </svg>
-            <span class="my-1"> Modifica ordine</span>
-          </button>
-          <ng-container *ngIf="users$ | async as users">
-            <app-add-item-widget [users]="users"></app-add-item-widget>
-          </ng-container>
-        </div>
-        <div class="w-full md:w-6/12">
-          <app-items-list-widget
-            [orderItems]="reverseOrder(activeOrder) || []"
-            [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
-          ></app-items-list-widget>
-        </div>
-        <div class="h-full md:w-72 w-full">
-          <app-order-info [currentOrder]="activeOrder"></app-order-info>
-        </div>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
+          </svg>
+          <span class="my-1"> Modifica ordine</span>
+        </button>
+        <ng-container *ngIf="users$ | async as users">
+          <app-add-item-widget [users]="users"></app-add-item-widget>
+        </ng-container>
+      </div>
+
+      <div class="w-full md:w-6/12">
+        <app-items-list-widget
+          [orderItems]="reverseOrder(activeOrder) || []"
+          [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
+        ></app-items-list-widget>
+      </div>
+      <div class="h-full md:w-72 w-full">
+        <app-order-info [currentOrder]="activeOrder"></app-order-info>
+      </div>
+    </div>
+    <div
+      class="p-2 py-4 space-y-10 md:space-y-0 flex justify-center flex-wrap md:justify-around border-t lg:mb-10"
+    >
+      <div
+        class="border-t h-64 w-96"
+        *ngIf="currentOrder.shops.includes('ilsemaforo')"
+      >
+        <p
+          class="p-2 border-b font-medium text-slate-700 bg-white rounded-lg shadow text-center flex justify-around"
+        >
+          Spedizione gratuita IlSemaforo
+          <svg
+            [ngClass]="
+              ilsemaforoFreeShipping[0].value < 150
+                ? 'text-red-500'
+                : 'text-green-500'
+            "
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              [attr.d]="
+                ilsemaforoFreeShipping[0].value < 150
+                  ? 'm12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z'
+                  : 'M12 18.292v1.834c.644.129 1.177.303 1.496.528.273.192.274.498 0 .69-1.494 1.053-7.498 1.054-8.993 0-.272-.191-.271-.499 0-.69.319-.225.852-.399 1.497-.528v-1.833c-2.363.481-4 1.511-4 2.707 0 1.657 3.134 3 7 3s7-1.343 7-3c0-1.196-1.637-2.226-4-2.708zm7.45-14.94c-2.73 0-2.791-2.352-5.961-2.352-1.382 0-2.679.518-3.489 1.022v-2.022h-2v21h2v-9.122c.934-.553 2.172-1.048 3.5-1.048 2.993 0 3.413 2.237 6.081 2.237 1.058 0 1.914-.415 2.419-.736v-9.779c-.537.342-1.46.8-2.55.8zm.55 4.67c-1.801.486-4.082-1.087-5-1.693v2.671s-1.758-.803-5 .739v-2.901c1.188-1.046 3.292-1.734 5-.508v-2.808c.785.615 2.575 1.737 4.45 1.737.189 0 .372-.012.55-.033v2.796z'
+              "
+            />
+          </svg>
+        </p>
+        <ngx-charts-gauge
+          [results]="ilsemaforoFreeShipping"
+          [scheme]="this.chartColors"
+          label="Oggetti aggiunti"
+          [max]="150"
+          [showText]="false"
+          [bigSegments]="4"
+          [legendPosition]="LegendPos"
+          [angleSpan]="360"
+          [bigSegments]="3"
+          [smallSegments]="20"
+          [startAngle]="0"
+          [valueFormatting]="formatCurrency"
+          [axisTickFormatting]="formatCurrency"
+          legendTitle=""
+        ></ngx-charts-gauge>
+      </div>
+      <div
+        class="border-t h-64 w-96"
+        *ngIf="currentOrder.shops.includes('taiwangun')"
+      >
+        <p
+          class="p-2 border-b font-medium text-slate-700 bg-white rounded-lg shadow text-center flex justify-around"
+        >
+          <svg
+            class="-scale-x-100"
+            [ngClass]="
+              taiwangunFreeShipping[0].value < 300
+                ? 'text-red-500 '
+                : 'text-green-500'
+            "
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              [attr.d]="
+                taiwangunFreeShipping[0].value < 300
+                  ? 'm12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z'
+                  : 'M12 18.292v1.834c.644.129 1.177.303 1.496.528.273.192.274.498 0 .69-1.494 1.053-7.498 1.054-8.993 0-.272-.191-.271-.499 0-.69.319-.225.852-.399 1.497-.528v-1.833c-2.363.481-4 1.511-4 2.707 0 1.657 3.134 3 7 3s7-1.343 7-3c0-1.196-1.637-2.226-4-2.708zm7.45-14.94c-2.73 0-2.791-2.352-5.961-2.352-1.382 0-2.679.518-3.489 1.022v-2.022h-2v21h2v-9.122c.934-.553 2.172-1.048 3.5-1.048 2.993 0 3.413 2.237 6.081 2.237 1.058 0 1.914-.415 2.419-.736v-9.779c-.537.342-1.46.8-2.55.8zm.55 4.67c-1.801.486-4.082-1.087-5-1.693v2.671s-1.758-.803-5 .739v-2.901c1.188-1.046 3.292-1.734 5-.508v-2.808c.785.615 2.575 1.737 4.45 1.737.189 0 .372-.012.55-.033v2.796z'
+              "
+            />
+          </svg>
+          Spedizione gratuita Taiwangun
+        </p>
+        <ngx-charts-gauge
+          [results]="taiwangunFreeShipping"
+          [scheme]="this.chartColors"
+          label="Oggetti aggiunti"
+          [max]="300"
+          [showText]="false"
+          [bigSegments]="4"
+          [legendPosition]="LegendPos"
+          [angleSpan]="360"
+          [bigSegments]="3"
+          [smallSegments]="20"
+          [startAngle]="0"
+          [valueFormatting]="formatCurrency"
+          [axisTickFormatting]="formatCurrency"
+        ></ngx-charts-gauge>
       </div>
     </div>
   </ng-container>
@@ -101,11 +203,7 @@
         : 'text-gray-500 bg-white'
     "
     class="p-2 rounded-lg shadow hover:bg-gray-200 cursor-pointer px-6"
-    (click)="
-      activeOrder === currentOrder
-        ? (activeOrder = undefined)
-        : (activeOrder = currentOrder)
-    "
+    (click)="changeActiveOrder(currentOrder)"
   >
     <div class="flex flex-col justify-center">
       <h1 class="text font-bold tracking-wider uppercase text-center space-x-2">

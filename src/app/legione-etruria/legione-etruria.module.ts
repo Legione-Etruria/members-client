@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AuthModule } from '../auth/auth.module';
@@ -26,6 +27,7 @@ import { AccountStatusBadgeComponent } from './components/user-bar/account-statu
 import { UserBarComponent } from './components/user-bar/user-bar.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
+import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
@@ -37,7 +39,6 @@ import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-d
 import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
-import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { CompareCartComponent } from './containers/compare-cart/compare-cart.com
     FormsModule,
     ReactiveFormsModule,
     LightboxModule,
+    NgxChartsModule,
   ],
   exports: [HomeComponent],
 })

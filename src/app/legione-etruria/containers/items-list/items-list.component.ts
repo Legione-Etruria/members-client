@@ -144,6 +144,7 @@ export class ItemsListComponent implements OnInit {
           this.toastr.success('Articolo aggiornato');
         }),
         switchMap(() => this.emitGetActiveOrder()),
+        switchMap(() => this.ordersService.getCurrentOrder()),
         tap(() => (this.loading = false))
       )
       .subscribe();

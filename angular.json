@@ -28,6 +28,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "allowedCommonJsDependencies": [
+              "clone-deep",
               "ngx-lightbox"
            ]
 ,      

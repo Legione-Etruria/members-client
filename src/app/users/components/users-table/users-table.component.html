@@ -89,7 +89,7 @@
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       [appContextMenu]="{
-                        contextMenuLabel: user.email.split('@')[0],
+                        contextMenuLabel: user.battleName | titlecase,
                         actions: [
                           {
                             label: 'Modifica utente (N/A)',
@@ -180,6 +180,9 @@
                           <th scope="col" class="sub-header-col text-white">
                             N. Tessera FIGT
                           </th>
+                          <th scope="col" class="sub-header-col text-white">
+                            Scadenza Cert. Medico
+                          </th>
                         </thead>
                         <tbody>
                           <tr>
@@ -227,6 +230,11 @@
                                 label="<label class='text-white'>{{
                                   user.figtMembership
                                 }}</label>"
+                              ></golden-table-cell>
+                            </td>
+                            <td class="table-td">
+                              <golden-table-cell
+                                label="<label class='text-white'>[[placeholder]]</label>"
                               ></golden-table-cell>
                             </td>
                           </tr>
