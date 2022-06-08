@@ -25,7 +25,13 @@ export class OrderInfoComponent implements OnInit {
 
   //a function that asks for an OrderItems array and sums all the items quantities
   getTotalQuantity(items: OrderItem[]): number {
-    return items?.reduce((acc, item) => acc + item.itemQuantity, 0) || 0;
+    return (
+      items
+        ?.filter(
+          (i) => !['cancelled', 'pending-confirmation'].includes(i.itemStatus)
+        )
+        .reduce((acc, item) => acc + item.itemQuantity, 0) || 0
+    );
   }
 
   //a function that sums all the items' prices that have an itemstatus of 'pending-payment'
