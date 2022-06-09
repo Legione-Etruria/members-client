@@ -84,7 +84,10 @@
           class="animate__fadeInLeft animate__animated"
           *ngIf="users$ | async as users"
         >
-          <app-add-item-widget [users]="users"></app-add-item-widget>
+          <app-add-item-widget
+            [users]="users"
+            [class.pointer-events-none]="'pending' !== activeOrder.orderStatus"
+          ></app-add-item-widget>
         </div>
       </div>
       <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">

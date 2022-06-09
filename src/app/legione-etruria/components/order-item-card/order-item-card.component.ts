@@ -17,7 +17,7 @@ export class OrderItemCardComponent {
   };
   @Output() removeItem = new EventEmitter<void>();
   @Output() addItem = new EventEmitter<void>();
-  @Input() hideElements: 'removeItem'[] = [];
+  @Input() hideElements: ('removeItem' | 'itemStatus')[] = [];
 
   emitRemove() {
     this.removeItem.emit();

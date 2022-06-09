@@ -11,7 +11,9 @@
 
 <golden-tailwind-loading *ngIf="loading"></golden-tailwind-loading>
 
-<div class="mx-2 mt-2 md:m-10">
+<div
+  class="mx-2 mt-2 md:m-10 animate__fadeInDown animate__animated animate__slow"
+>
   <app-order-instructions
     title="Regole sugli ordini di grupppo"
     [body]="orderInstructionsBody"
@@ -24,29 +26,31 @@
       <div class="flex flex-col-reverse md:flex-row md:justify-between">
         <div class="flex justify-center md:w-8/12 md:border-r-2 md:pr-4">
           <div class="space-y-4 w-full">
-            <button
-              routerLink="/orders/items/add"
-              [disabled]="isLastOrderWeek(currentOrder.dueDate)"
-              class="rounded-lg shadow my-2 py-2 px-4 bg-legio-green-400 text-white hover:bg-legio-green-300 text-sm flex w-full justify-center disabled:pointer-events-none disabled:bg-gray-200 disabled:shadow-none disabled:text-slate-400"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+            <div class="animate__fadeInDown animate__animated animate__fast">
+              <button
+                routerLink="/orders/items/add"
+                [disabled]="isLastOrderWeek(currentOrder.dueDate)"
+                class="rounded-lg shadow my-2 py-2 px-4 bg-legio-green-400 text-white hover:bg-legio-green-300 text-sm flex w-full justify-center disabled:pointer-events-none disabled:bg-gray-200 disabled:shadow-none disabled:text-slate-400"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              Aggiungi un oggetto all'ordine
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Aggiungi un oggetto all'ordine
+              </button>
+            </div>
             <div class="md:overflow-y-scroll space-y-4 max-h-screen w-full">
               <div
                 class="shadow w-full sm:border-b"
-                *ngFor="let item of currentOrder.items"
+                *ngFor="let item of currentOrder.items; let i = index"
               >
                 <app-order-item-card
                   [item]="item"
@@ -61,7 +65,9 @@
             </div>
           </div>
         </div>
-        <div class="md:w-4/12 md:mx-4 my-4 md:my-0">
+        <div
+          class="md:w-4/12 md:mx-4 my-4 md:my-0 animate__fadeInRight animate__animated"
+        >
           <app-order-summary
             [items]="currentOrder.items"
             [currentOrder]="currentOrder"

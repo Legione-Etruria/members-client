@@ -28,7 +28,7 @@
         </p>
         <div>
           <app-item-status-badge
-            *ngIf="!itemAlt"
+            *ngIf="!hideElements?.includes('itemStatus') && !itemAlt"
             [itemStatus]="item.itemStatus"
           ></app-item-status-badge>
         </div>
@@ -39,7 +39,11 @@
             {{ itemAlt?.name || item?.itemName || "" | uppercase }}
           </div>
           <p class="text-gray-700 text-base">
-            {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}
+            {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}/Pz. ({{
+              (itemAlt?.price || item.itemPrice || 0) *
+                (itemAlt?.itemQuantity || item?.itemQuantity || 1)
+                | currency: "€"
+            }})
           </p>
           <p class="text-gray-400 text-base">
             {{ itemAlt?.itemQuantity || item?.itemQuantity || "1" }} Pz.
