@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { ApiHttpModule } from './api-http/api-http.module';
@@ -28,7 +28,7 @@ export const tokenGetter = () =>
     }),
     TailwindToastsModule,
     TailwindDialogModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     UsersModule,
   ],
   providers: [],

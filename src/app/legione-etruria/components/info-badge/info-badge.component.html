@@ -1,0 +1,21 @@
+<span
+  class="rounded-lg px-2 py-1 flex space-x-1  text-sm flex-nowrap whitespace-nowrap {{
+    options?.extraClass
+  }}"
+  ><svg
+    class="flex-shrink-0 h-5 w-5"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      [attr.d]="options?.svgPath"
+      clip-rule="evenodd"
+      fill-rule="evenodd"
+    ></path>
+  </svg>
+  <p class="flex flex-nowrap" *ngIf="options?.value">
+    <span>{{ options?.value }}</span>
+  </p>
+</span>

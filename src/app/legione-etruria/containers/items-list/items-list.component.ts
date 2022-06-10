@@ -137,6 +137,21 @@ export class ItemsListComponent implements OnInit {
     );
   }
 
+  public editItemCollectedState(item: string, state: boolean) {
+    this.loading = true;
+    this.ordersService
+      .editItem(item, { isCollected: state })
+      .pipe(
+        tap(() => {
+          this.toastr.success('Articolo aggiornato');
+        }),
+        switchMap(() => this.emitGetActiveOrder()),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        tap(() => (this.loading = false))
+      )
+      .subscribe();
+  }
+
   public editItemStatus(item: string, itemStatus: OrderItem['itemStatus']) {
     this.loading = true;
     this.ordersService
@@ -176,6 +191,7 @@ export class ItemsListComponent implements OnInit {
       (
         acc: {
           user: string;
+          allCollected: boolean;
           total: number;
           notPayed: number;
           notConfirmed: number;
@@ -192,6 +208,8 @@ export class ItemsListComponent implements OnInit {
             ...acc,
             {
               user: (curr.user as User).battleName,
+              allCollected:
+                'confirmed' === curr.itemStatus ? curr.isCollected : false,
               total: !['cancelled', 'pending-confirmation'].includes(
                 curr.itemStatus
               )
@@ -206,6 +224,13 @@ export class ItemsListComponent implements OnInit {
               items: [curr],
             },
           ];
+        }
+
+        if (
+          'confirmed' === curr.itemStatus &&
+          acc[index].allCollected === true
+        ) {
+          acc[index].allCollected = curr.isCollected ? true : false;
         }
 
         acc[index].items.push(curr);
