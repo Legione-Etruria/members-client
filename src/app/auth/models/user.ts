@@ -15,4 +15,5 @@ export interface User {
   documentURL: string;
   active: boolean;
   signedUpAt: Date;
+  birthDate: Date;
 }

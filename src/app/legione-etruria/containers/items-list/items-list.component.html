@@ -43,7 +43,7 @@
         />
       </div>
 
-      <div class="flex flex-col justify-end">
+      <div class="flex flex-col justify-end z-50">
         <app-filter
           (filterChange)="searchField.setValue($event)"
           class="mx-2"
@@ -165,7 +165,7 @@
                         {{ item.createdAt | date: "dd/MM/yyyy HH:mm" }}
                       </div>
                     </td>
-                    <td class="p-2 whitespace-nowrap">
+                    <td class="p-2 whitespace-nowrap w-2/12">
                       <app-item-status-badge
                         [itemStatus]="item.itemStatus"
                       ></app-item-status-badge>
@@ -254,6 +254,12 @@
 
                           <button
                             class="text-lg text-center text-gray-500 hover:text-gray-600"
+                            [ngClass]="{
+                              'text-gray-300 pointer-events-none': [
+                                'issued',
+                                'cancelled'
+                              ].includes(orderStatus)
+                            }"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +284,8 @@
                             class="text-lg text-center text-legio-green-300 hover:text-legio-green-200 disabled:pointer-events-none disabled:text-gray-300"
                             [disabled]="
                               item.itemStatus === 'pending-confirmation' ||
-                              loading
+                              loading ||
+                              ['issued', 'cancelled'].includes(orderStatus)
                             "
                             title="Da Confermare"
                             (click)="
@@ -304,7 +311,9 @@
                           <button
                             class="text-lg text-center text-yellow-500 hover:text-yellow-600 disabled:pointer-events-none disabled:text-gray-300"
                             [disabled]="
-                              item.itemStatus === 'pending-payment' || loading
+                              item.itemStatus === 'pending-payment' ||
+                              loading ||
+                              ['issued', 'cancelled'].includes(orderStatus)
                             "
                             title="Non Pagato"
                             (click)="
@@ -331,7 +340,9 @@
                             class="text-lg text-center text-green-500 hover:text-green-600 disabled:pointer-events-none disabled:text-gray-300"
                             title="Confermato"
                             [disabled]="
-                              item.itemStatus === 'confirmed' || loading
+                              item.itemStatus === 'confirmed' ||
+                              loading ||
+                              ['issued', 'cancelled'].includes(orderStatus)
                             "
                             (click)="editItemStatus(item._id, 'confirmed')"
                           >
@@ -354,7 +365,9 @@
                           <button
                             class="text-lg text-center text-red-500 hover:text-red-700 disabled:pointer-events-none disabled:text-gray-300"
                             [disabled]="
-                              item.itemStatus === 'cancelled' || loading
+                              item.itemStatus === 'cancelled' ||
+                              loading ||
+                              ['issued', 'cancelled'].includes(orderStatus)
                             "
                             title="Annullato"
                             (click)="editItemStatus(item._id, 'cancelled')"
@@ -374,10 +387,10 @@
                               />
                             </svg>
                           </button>
-
                           <label
                             [class.pointer-events-none]="
-                              item.itemStatus !== 'confirmed'
+                              item.itemStatus !== 'confirmed' ||
+                              orderStatus !== 'issued'
                             "
                             data-tooltip-target="tooltip-dark"
                             class="inline-flex items-center space-x-4 cursor-pointer"
@@ -386,6 +399,7 @@
                             <span class="relative">
                               <input
                                 id="Toggle1"
+                                #toggle
                                 type="checkbox"
                                 class="hidden peer"
                                 [checked]="false"
@@ -393,14 +407,39 @@
                               <div
                                 class="w-10 h-6 rounded-full shadow-inner peer-checked:bg-legio-gold-400 transition-all duration-300 delay-150"
                                 [ngClass]="
-                                  item.itemStatus !== 'confirmed'
+                                  item.itemStatus !== 'confirmed' ||
+                                  orderStatus !== 'issued' ||
+                                  item.isUnavailable
                                     ? 'bg-gray-200'
                                     : 'bg-legio-green-400'
                                 "
                               ></div>
+
                               <div
-                                class="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-gray-100 transition-all duration-150"
-                              ></div>
+                                class="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-gray-100 transition-all duration-150 flex justify-center"
+                              >
+                                <div class="flex flex-col justify-center">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="12"
+                                    width="12"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="1"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      [attr.d]="
+                                        toggle.checked
+                                          ? 'M5 13l4 4L19 7'
+                                          : 'M6 18L18 6M6 6l12 12'
+                                      "
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
                             </span>
                           </label>
                         </div>
@@ -412,6 +451,12 @@
             </div>
           </div>
         </div>
+      </div>
+      <div
+        class="bg-white p-2 text-center shadow-md rounded-lg"
+        *ngIf="!groupItemsByUser(activeOrder).length"
+      >
+        Nessun oggetto aggiunto all'ordine
       </div>
     </div>
   </ng-container>

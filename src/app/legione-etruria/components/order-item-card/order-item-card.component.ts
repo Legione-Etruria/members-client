@@ -14,6 +14,7 @@ export class OrderItemCardComponent {
     name?: string;
     itemUrl?: string;
     itemQuantity?: number;
+    isUnavailable?: boolean;
   };
   @Output() removeItem = new EventEmitter<void>();
   @Output() addItem = new EventEmitter<void>();

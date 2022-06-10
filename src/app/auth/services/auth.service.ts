@@ -65,7 +65,8 @@ export class AuthService {
     battleName: string,
     figtMembership: string,
     legioMembershipDate: Date,
-    legioMembershipSubscriptionCost: number
+    legioMembershipSubscriptionCost: number,
+    birthDate: Date
   ) {
     return this.apiHttpService.post<User>('/api/v1/users/signup', {
       email,
@@ -76,7 +77,7 @@ export class AuthService {
       battleName,
       figtMembership,
       legioMembershipDate,
-
+      birthDate,
       legioMembershipSubscriptionCost,
     });
   }

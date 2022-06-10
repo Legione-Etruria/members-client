@@ -52,6 +52,7 @@ export class SignupComponent {
         legioMembershipSubscriptionCost: [0, Validators.required],
         passwordConfirm: ['', Validators.required],
         role: [''],
+        birthDate: [new Date(), Validators.required],
       },
       {
         validators: [PasswordValidator.match('password', 'passwordConfirm')],
@@ -105,7 +106,8 @@ export class SignupComponent {
         this.f.battleName.value,
         this.f.figtMembership.value,
         this.f.legioMembershipDate.value,
-        this.f.legioMembershipSubscriptionCost.value
+        this.f.legioMembershipSubscriptionCost.value,
+        this.f.birthDate.value
       )
       ?.pipe(
         first(),

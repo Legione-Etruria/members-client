@@ -35,6 +35,8 @@ export class ItemsListComponent implements OnInit {
   public ignoreDropdown = false;
   public showDropdowns: string[] = [];
 
+  public orderStatus: GroupOrder['orderStatus'] = 'pending';
+
   public quickFilters = [
     {
       label: 'Nessun filtro',
@@ -86,7 +88,7 @@ export class ItemsListComponent implements OnInit {
 
     this.filteredOrder$ = combineLatest([this.activeOrder$, searchTerm$])
       .pipe(
-        // debounceTime(200),
+        tap((i) => (this.orderStatus = i[0].orderStatus)),
         map(([orderInstance, searchTerm]) =>
           orderInstance.items.filter((item) => {
             const itemsArr = [

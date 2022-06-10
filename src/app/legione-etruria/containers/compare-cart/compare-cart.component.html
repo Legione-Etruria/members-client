@@ -52,6 +52,13 @@
           [item]="item"
         ></app-order-item-card>
       </div>
+
+      <div
+        class="bg-white p-2 rounded-lg shadow-md text-center"
+        *ngIf="!mergedItems.length"
+      >
+        Nessun oggetto disponibile per la comparazione
+      </div>
     </div>
   </div>
 </ng-container>

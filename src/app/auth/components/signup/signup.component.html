@@ -94,6 +94,16 @@
             ></golden-tailwind-input>
             <golden-tailwind-datepicker
               [parent]="form"
+              label="Data di nascita"
+              name="birthDate"
+              [placeholder]="todayFormatted()"
+              [toggleTimelineAxis]="false"
+              [validationErrors]="{
+                required: ' '
+              }"
+            ></golden-tailwind-datepicker>
+            <golden-tailwind-datepicker
+              [parent]="form"
               label="Data iscrizione a legione etruria"
               name="legioMembershipDate"
               [placeholder]="todayFormatted()"

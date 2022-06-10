@@ -26,7 +26,31 @@
             >{{ getHostname(itemAlt?.itemUrl || item.itemUrl || "") }}...</a
           >
         </p>
-        <div>
+        <div class="flex flex-row space-x-2">
+          <div>
+            <span
+              *ngIf="itemAlt?.isUnavailable || item?.isUnavailable"
+              class="rounded-full px-2 py-1 inline-flex space-x-1 md:mx-2 text-sm flex-nowrap whitespace-nowrap bg-yellow-400 text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                title="Non disponibile"
+                class="flex-shrink-0 h-5 w-5 text-yellow-400 bg-white rounded-full"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <p class="flex flex-nowrap">
+                <span>Non disponibile</span>
+              </p>
+            </span>
+          </div>
           <app-item-status-badge
             *ngIf="!hideElements?.includes('itemStatus') && !itemAlt"
             [itemStatus]="item.itemStatus"
@@ -35,12 +59,12 @@
       </div>
       <div class="flex flex-col md:flex-row justify-between w-full">
         <div>
-          <div class="text-gray-800 font-medium my-1">
+          <div class="text-gray-800 font-medium my-1 flex space-x-2">
             {{ itemAlt?.name || item?.itemName || "" | uppercase }}
           </div>
           <p class="text-gray-700 text-base">
             {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}/Pz. ({{
-              (itemAlt?.price || item.itemPrice || 0) *
+              (itemAlt?.price || item?.itemPrice || 0) *
                 (itemAlt?.itemQuantity || item?.itemQuantity || 1)
                 | currency: "€"
             }})
@@ -51,7 +75,7 @@
         </div>
         <div class="flex space-x-2 md:mx-2 my-2 md:my-0">
           <button
-            *ngIf="itemAlt"
+            *ngIf="!itemAlt?.isUnavailable"
             (click)="emitAdd()"
             class="flex flex-col justify-end md:mx-2 text-gray-600 hover:text-blue-500 transition ease-in hover:-translate-y-1 hover:scale-110 duration-300"
           >

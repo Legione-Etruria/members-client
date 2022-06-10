@@ -26,12 +26,9 @@ export class OrdersService {
 
   addItem(orderID: string, item: fetchedItem) {
     return this.apiHttp.post('/api/v1/orders/items/add?order=' + orderID, {
-      itemUrl: item.itemUrl,
-      itemName: item.name,
+      ...item,
       itemPrice: item.price,
-      imgSrc: item.imgSrc,
-      itemQuantity: item.itemQuantity,
-      userId: item.userId,
+      itemName: item.name,
     });
   }
 
@@ -87,4 +84,5 @@ export interface fetchedItem {
   itemUrl?: string;
   itemQuantity?: number;
   userId?: string;
+  isUnavailable?: boolean;
 }
