@@ -63,16 +63,26 @@
             {{ itemAlt?.name || item?.itemName || "" | uppercase }}
           </div>
           <p class="text-gray-700 text-base">
-            {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}/Pz. ({{
-              (itemAlt?.price || item?.itemPrice || 0) *
-                (itemAlt?.itemQuantity || item?.itemQuantity || 1)
-                | currency: "€"
-            }})
+            {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}/Pz.
+
+            <ng-container *ngIf="itemQuantity > 1">
+              ({{
+                (itemAlt?.price || item?.itemPrice || 0) * itemQuantity
+                  | currency: "€"
+              }})</ng-container
+            >
           </p>
           <p class="text-gray-400 text-base">
-            {{ itemAlt?.itemQuantity || item?.itemQuantity || "1" }} Pz.
+            <input
+              type="number"
+              [(ngModel)]="itemQuantity"
+              (blur)="emitEdit(itemQuantity)"
+              class="rounded h-6 border-none focus:ring-0 focus:border-none hover:transition-all ease-in-out delay-150 hover:-translate-t-1 hover:scale-110 duration-300 p-2 w-10"
+            />
+            <span> Pz.</span>
           </p>
         </div>
+
         <div class="flex space-x-2 md:mx-2 my-2 md:my-0">
           <!-- ADD ITEM -->
           <button
@@ -94,9 +104,11 @@
             </svg>
           </button>
 
-          <div class="flex flex-col justify-end">
+          <div
+            class="flex flex-col justify-end"
+            *ngIf="'confirmed' === item?.itemStatus && item?.isCollected"
+          >
             <svg
-              *ngIf="'confirmed' === item.itemStatus && item.isCollected"
               class="text-legio-gold-400"
               width="24"
               height="24"
@@ -114,7 +126,7 @@
           <button
             (click)="emitRemove()"
             *ngIf="!hideElements.includes('removeItem')"
-            class="flex flex-col justify-end md:mx-2 text-gray-600 hover:text-red-500 transition eas-in hover:-translate-y-1 hover:scale-110 duration-300"
+            class="flex flex-col justify-end md:mx-2 text-gray-600 hover:text-red-500 transition ease-in hover:-translate-y-1 hover:scale-110 duration-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

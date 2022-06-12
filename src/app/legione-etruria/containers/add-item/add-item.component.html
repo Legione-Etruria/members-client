@@ -40,7 +40,7 @@
     class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-auto md:space-x-2"
     *ngIf="currentOrder.orderPublicId"
   >
-    <div class="md:h-10 md:w-32 mt-4 md:mt-2 w-full">
+    <!-- <div class="md:h-10 md:w-32 mt-4 md:mt-2 w-full">
       <label
         for="custom-input-number"
         class="w-full text-gray-700 text-sm font-semibold"
@@ -71,7 +71,7 @@
           <span class="m-auto text-2xl font-thin">+</span>
         </button>
       </div>
-    </div>
+    </div> -->
 
     <div class="w-full">
       <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>
@@ -126,7 +126,9 @@
     <app-order-item-card
       [itemAlt]="item"
       (removeItem)="item = null"
+      (editQuantity)="itemQuantity = $event; updateItemQuantity()"
       (addItem)="addItem(currentOrder._id)"
+      [hideElements]="[]"
     ></app-order-item-card>
   </div>
 </ng-container>

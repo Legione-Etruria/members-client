@@ -55,6 +55,7 @@
                 <app-order-item-card
                   [item]="item"
                   (removeItem)="removeItem(item._id)"
+                  (editQuantity)="editQuantity(item._id, $event)"
                   [hideElements]="
                     'pending-confirmation' === item.itemStatus
                       ? []

@@ -32,6 +32,24 @@ export class CurrentOrderComponent {
     return differenceInDays(new Date(dueDate), today) < 7;
   }
 
+  //a function to edit the quantity of an item
+  public editQuantity(itemId: string, itemQuantity: number) {
+    this.loading = true;
+    this.ordersService
+      .editItem(itemId, { itemQuantity })
+      .pipe(
+        tap(() => this.toastrService.success('Quantità aggiornata')),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        tap(() => (this.loading = false)),
+        catchError((err) => {
+          this.toastrService.error(err.error.errors[0].message);
+          this.loading = false;
+          return this.ordersService.getCurrentOrder();
+        })
+      )
+      .subscribe();
+  }
+
   public removeItem(itemId: string) {
     this.loading = true;
     this.ordersService
@@ -39,6 +57,7 @@ export class CurrentOrderComponent {
       .pipe(
         tap(() => this.toastrService.success('Oggetto rimosso')),
         switchMap(() => this.ordersService.getCurrentOrder()),
+        tap(() => (this.loading = false)),
         catchError((err) => {
           this.toastrService.error(err.error.errors[0].message);
           this.loading = false;
