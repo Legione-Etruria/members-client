@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LightboxModule } from 'ngx-lightbox';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AuthModule } from '../auth/auth.module';
 import { OrdersModule } from '../orders/orders.module';
 import { SharedModule } from '../shared/shared.module';
@@ -35,7 +34,6 @@ import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
   ],
 
   imports: [
-    NgScrollbarModule,
     CommonModule,
     LegioneEtruriaRoutingModule,
     TailwindFormsModule,

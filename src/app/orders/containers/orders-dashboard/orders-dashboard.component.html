@@ -152,7 +152,7 @@
         ></ngx-charts-gauge>
       </div>
       <div
-        class="h-64 w-96 animate__fadeInRight animate__animated animate__slow"
+        class="md:h-64 md:w-96 animate__fadeInRight animate__animated animate__slow pointer-events-none"
         *ngIf="currentOrder.shops.includes('taiwangun')"
       >
         <p
@@ -184,6 +184,7 @@
           Spedizione gratuita Taiwangun
         </p>
         <ngx-charts-gauge
+          class="pointer-events-none"
           [results]="taiwangunFreeShipping"
           [scheme]="this.chartColors"
           label="Oggetti aggiunti"

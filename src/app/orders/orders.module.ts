@@ -15,7 +15,6 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LightboxModule } from 'ngx-lightbox';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ApiHttpModule } from '../api-http/api-http.module';
 import { AuthModule } from '../auth/auth.module';
 import { SharedModule } from '../shared/shared.module';
@@ -65,7 +64,6 @@ import { OrdersService } from './services/orders.service';
     ReactiveFormsModule,
     LightboxModule,
     NgxChartsModule,
-    NgScrollbarModule,
     SharedModule,
     TailwindFormsModule,
     AuthModule,
