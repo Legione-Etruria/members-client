@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OrdersService } from 'src/app/orders/services/orders.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { GroupOrder } from '../../../models/group-order';
-import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-dashboard',

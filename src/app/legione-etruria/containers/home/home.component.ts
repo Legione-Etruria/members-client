@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupOrder } from 'src/app/models/group-order';
+import { OrdersService } from 'src/app/orders/services/orders.service';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../auth/services/auth.service';
-import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-home',
