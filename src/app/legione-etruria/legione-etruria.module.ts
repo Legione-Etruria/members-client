@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps';
+
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -78,8 +77,6 @@ import { OrdersService } from './services/orders.service';
   ],
   providers: [OrdersService],
   imports: [
-    HttpClientJsonpModule,
-    GoogleMapsModule,
     NgScrollbarModule,
     CommonModule,
     LegioneEtruriaRoutingModule,

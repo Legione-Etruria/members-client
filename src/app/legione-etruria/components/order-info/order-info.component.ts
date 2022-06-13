@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { OrderItem } from 'src/app/models/order-item';
+import { ParcelTracker } from 'src/app/models/parcel-tracker';
 import { GroupOrder } from '../../../models/group-order';
 
 @Component({
@@ -18,8 +21,11 @@ export class OrderInfoComponent implements OnInit {
     | 'startDate'
     | 'endDate'
   )[] = [];
+  public apiLoaded = new Observable<boolean>();
 
-  constructor() {}
+  public activeTracking?: ParcelTracker;
+
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {}
 

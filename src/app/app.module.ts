@@ -26,6 +26,7 @@ export const tokenGetter = () =>
         allowedDomains: ['localhost:3000', 'legione-etruria-api.herokuapp.com'],
       },
     }),
+
     TailwindToastsModule,
     TailwindDialogModule,
     BrowserAnimationsModule,

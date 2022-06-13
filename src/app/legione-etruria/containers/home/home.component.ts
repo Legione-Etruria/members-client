@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
             : ['admin'],
         disabled:
           this.currentOrder?.no_order ||
+          this.currentOrder?.orderStatus !== 'pending' ||
           (!environment.debugAddItems && 'admin' === this.user.role),
       };
     });
