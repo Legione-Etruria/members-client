@@ -81,4 +81,21 @@
       {{ currentOrder.orderNotes || "/" }}</span
     >
   </div>
+  <div class="flex justify-between pt-2">
+    <span class="mt-1">TRACKING</span>
+    <span class="mt-1 uppercase space-y-1 text-xs"
+      ><p
+        *ngFor="let tracking of currentOrder.orderTrackingNumbers"
+        class="bg-legio-green-200 px-1 rounded text-white cursor-pointer transition-all duration-150 hover:scale-105"
+      >
+        {{ $any(tracking).trackingNumber }}
+      </p>
+      <p
+        class="whitespace-nowrap px-2"
+        *ngIf="!currentOrder?.orderTrackingNumbers?.length"
+      >
+        /
+      </p></span
+    >
+  </div>
 </div>

@@ -1,5 +1,6 @@
 import { User } from '../auth/models/user';
 import { OrderItem } from './order-item';
+import { ParcelTracker } from './parcel-tracker';
 export interface GroupOrder {
   _id: string;
   id?: string;
@@ -12,5 +13,6 @@ export interface GroupOrder {
   orderNotes: string;
   orderPublicId: string;
   no_order: boolean;
+  orderTrackingNumbers: (ParcelTracker | string)[];
   // Se ci sono riferimenti ad ID di altri documenti, usa `Types.ObjectId`
 }

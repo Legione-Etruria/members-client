@@ -384,7 +384,9 @@
                                 orderStatus === 'issued') ||
                               orderStatus !== 'issued'
                             "
-                            [disabled]="loading"
+                            [disabled]="
+                              loading || item.itemStatus === 'confirmed'
+                            "
                             (click)="editItemStatus(item._id, 'confirmed')"
                           >
                             <svg

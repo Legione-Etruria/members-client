@@ -74,6 +74,9 @@
           </p>
           <p class="text-gray-400 text-base">
             <input
+              [class.pointer-events-none]="
+                item.itemStatus !== 'pending-confirmation'
+              "
               type="number"
               [(ngModel)]="itemQuantity"
               (blur)="emitEdit(itemQuantity)"

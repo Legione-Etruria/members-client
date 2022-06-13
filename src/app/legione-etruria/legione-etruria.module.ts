@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -13,6 +15,7 @@ import { CurrentOrderWidgetComponent } from './components/current-order-widget/c
 import { DocumentCardComponent } from './components/document-card/document-card.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { InactiveAccountComponent } from './components/inactive-account/inactive-account.component';
+import { InfoBadgeComponent } from './components/info-badge/info-badge.component';
 import { ItemStatusBadgeComponent } from './components/item-status-badge/item-status-badge.component';
 import { ItemsListWidgetComponent } from './components/items-list-widget/items-list-widget.component';
 import { OrderActionComponent } from './components/order-action/order-action.component';
@@ -39,7 +42,6 @@ import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-d
 import { SettingsComponent } from './containers/settings/settings.component';
 import { LegioneEtruriaRoutingModule } from './legione-etruria-routing.module';
 import { OrdersService } from './services/orders.service';
-import { InfoBadgeComponent } from './components/info-badge/info-badge.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { InfoBadgeComponent } from './components/info-badge/info-badge.component
   ],
   providers: [OrdersService],
   imports: [
+    HttpClientJsonpModule,
+    GoogleMapsModule,
     NgScrollbarModule,
     CommonModule,
     LegioneEtruriaRoutingModule,
