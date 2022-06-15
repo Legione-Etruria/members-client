@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { GoogleMapComponent } from './google-map/google-map.component';
 import { InfoBadgeComponent } from './info-badge/info-badge.component';
 import { PageHeaderComponent } from './page-header/page-header.component';
 import { HighlightSearchPipe } from './pipes/pipes/highlight-search.pipe';
@@ -14,6 +15,7 @@ import { TailwindLoadingComponent } from './tailwind-loading/tailwind-loading.co
     TableCellComponent,
     HighlightSearchPipe,
     InfoBadgeComponent,
+    GoogleMapComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -22,6 +24,7 @@ import { TailwindLoadingComponent } from './tailwind-loading/tailwind-loading.co
     TableCellComponent,
     HighlightSearchPipe,
     InfoBadgeComponent,
+    GoogleMapComponent,
   ],
 })
 export class SharedModule {}

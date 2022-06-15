@@ -8,6 +8,7 @@ import { CurrentOrderComponent } from './containers/current-order/current-order.
 import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
+import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
         component: AddItemComponent,
       },
     ],
+  },
+  {
+    path: 'track',
+    component: ParcelTrackingComponent,
   },
 ];
 

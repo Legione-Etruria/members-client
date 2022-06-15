@@ -19,7 +19,9 @@
     <div class="m-2 md:m-4">
       <div class="flex space-x-4 w-full overflow-x-scroll p-5 border-b">
         <button
-          *ngIf="currentOrder.no_order"
+          *ngIf="
+            currentOrder.no_order || currentOrder.orderStatus !== 'pending'
+          "
           class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-6"
           routerLink="/orders/add"
         >

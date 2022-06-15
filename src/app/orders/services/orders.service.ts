@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, tap } from 'rxjs';
+import { ParcelTracker } from 'src/app/models/parcel-tracker';
 import { ApiHttpService } from '../../api-http/services/api-http.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { GroupOrder } from '../../models/group-order';
@@ -47,6 +48,12 @@ export class OrdersService {
   getOrder(publicOrderId: string) {
     return this.apiHttp.get<GroupOrder | null>(
       '/api/v1/orders/get?orderId=' + publicOrderId
+    );
+  }
+
+  getTracker(trackerId: string) {
+    return this.apiHttp.get<ParcelTracker>(
+      '/api/v1/orders/tracking/get?trackerId=' + trackerId
     );
   }
 

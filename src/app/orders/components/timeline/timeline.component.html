@@ -1,0 +1,36 @@
+<div class="flex flex-col">
+  <!-- <div class="pt-1 px-2 bg-legio-green-100 rounded-sm max-w-fit"></div> -->
+  <ol class="relative border-l border-slate-400 mx-3 max-h-fit">
+    <li class="ml-4" *ngFor="let step of steps; let i = index">
+      <div class="flex">
+        <div
+          class="py-2 px-4 rounded-lg hover:bg-legio-gold-400 group transition-all cursor-pointer peer shadow hover:shadow-lg"
+          [class.bg-gray-200]="i % 2 === 0"
+        >
+          <time
+            class="mb-1 text-sm font-normal leading-none text-gray-400 group-hover:text-gray-100 transition-all"
+            (click)="stepClicked.emit(i)"
+            >{{ step.date }}</time
+          >
+          <h3
+            class="text-lg font-semibold text-slate-800 group-hover:text-gray-200 transition-all"
+          >
+            {{ step.title }}
+          </h3>
+          <p
+            class="mb-4 text-base font-normal text-gray-500 group-hover:text-gray-100 transition-all"
+          >
+            {{ step.description }}
+          </p>
+        </div>
+        <div
+          class="absolute w-3 h-3 bg-legio-green-200 rounded-full mt-1.5 -left-1.5 right-1 transition-all peer-hover:scale-125 peer-hover:bg-legio-gold-400"
+        ></div>
+        <div
+          class="absolute w-3 h-3 bg-legio-green-200 rounded-full mt-1.5 -left-1.5 right-1 animate-ping hidden transition-all peer-hover:scale-125 peer-hover:bg-legio-gold-400 peer-hover:block"
+        ></div>
+      </div>
+    </li>
+  </ol>
+  <!-- <div class="pt-1 px-2 bg-legio-green-100 rounded-sm max-w-fit"></div> -->
+</div>

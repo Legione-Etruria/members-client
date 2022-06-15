@@ -96,7 +96,8 @@
         ><p
           *ngFor="let tracking of currentOrder.orderTrackingNumbers"
           class="bg-legio-green-200 px-1 rounded text-white cursor-pointer transition-all duration-150 hover:scale-105"
-          (click)="activeTracking = $any(tracking)"
+          routerLink="/orders/track"
+          [queryParams]="{ t: $any(tracking)._id }"
         >
           {{ $any(tracking).trackingNumber }}
         </p>

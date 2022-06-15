@@ -2,7 +2,7 @@ export interface parcelTrackerCheckpoint {
   lat?: number;
   long?: number;
   location?: string;
-  time?: Date;
+  time: Date;
   city?: string;
   country?: string;
   state?: string;
@@ -26,7 +26,7 @@ export interface ParcelTracker {
   slug?: string;
   createdAt: Date;
   updatedAt: Date;
-  checkpoints?: parcelTrackerCheckpoint[];
+  checkpoints: parcelTrackerCheckpoint[];
   shipmentPickupDate?: string;
   shipmentDeliveryDate?: string;
   aftershipEstimatedDeliveryDate?: estDeliveryDate;

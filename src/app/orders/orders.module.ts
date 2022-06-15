@@ -31,6 +31,8 @@ import { ItemsListComponent } from './containers/items-list/items-list.component
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersService } from './services/orders.service';
+import { TimelineComponent } from './components/timeline/timeline.component';
+import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { OrdersService } from './services/orders.service';
     ItemsListWidgetComponent,
     ItemStatusBadgeComponent,
     FilterComponent,
+    TimelineComponent,
+    ParcelTrackingComponent,
   ],
   providers: [OrdersService],
   imports: [
