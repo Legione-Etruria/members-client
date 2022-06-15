@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, ReplaySubject, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  Observable,
+  of,
+  ReplaySubject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { UsersService } from 'src/app/users/services/users.service';
 import { environment } from '../../../../environments/environment';
 import { GroupOrder } from '../../../models/group-order';
@@ -78,7 +85,25 @@ export class OrdersDashboardComponent implements OnInit {
         switchMap(() => this.emitGetPastOrders()),
         tap((val) => {
           this.activeOrder = val[0];
-        })
+        }),
+        catchError(async (err) => this.handleError(err))
+      )
+      .subscribe();
+  }
+
+  public addTracker(trackingNumber: string, orderId: string) {
+    this.loading = true;
+
+    this.ordersService
+      .addTracker(trackingNumber, orderId)
+      .pipe(
+        tap(() => this.toastr.success('Tracking aggiunto')),
+        switchMap(() => this.ordersService.getCurrentOrder()),
+        switchMap(() => this.emitGetPastOrders()),
+        tap((val) => {
+          this.activeOrder = val[0];
+        }),
+        catchError(async (err) => this.handleError(err))
       )
       .subscribe();
   }
@@ -142,5 +167,14 @@ export class OrdersDashboardComponent implements OnInit {
           ),
       },
     ];
+  }
+
+  private async handleError(
+    err: { error: { errors: { message: string }[] } },
+    caught?: Observable<GroupOrder[]>
+  ) {
+    this.toastr.error(err.error.errors[0].message);
+    this.loading = false;
+    return of();
   }
 }

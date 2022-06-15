@@ -2,10 +2,9 @@
   <!-- <div class="pt-1 px-2 bg-legio-green-100 rounded-sm max-w-fit"></div> -->
   <ol class="relative border-l border-slate-400 mx-3 max-h-fit">
     <li class="ml-4" *ngFor="let step of steps; let i = index">
-      <div class="flex">
+      <div class="flex my-4">
         <div
-          class="py-2 px-4 rounded-lg hover:bg-legio-gold-400 group transition-all cursor-pointer peer shadow hover:shadow-lg"
-          [class.bg-gray-200]="i % 2 === 0"
+          class="py-2 px-4 rounded-lg hover:bg-legio-gold-400 group transition-all cursor-pointer peer shadow hover:shadow-lg w-10/12 bg-white"
         >
           <time
             class="mb-1 text-sm font-normal leading-none text-gray-400 group-hover:text-gray-100 transition-all"
@@ -13,12 +12,12 @@
             >{{ step.date }}</time
           >
           <h3
-            class="text-lg font-semibold text-slate-800 group-hover:text-gray-200 transition-all"
+            class="font-semibold text-slate-700 group-hover:text-gray-200 transition-all flex flex-wrap"
           >
             {{ step.title }}
           </h3>
           <p
-            class="mb-4 text-base font-normal text-gray-500 group-hover:text-gray-100 transition-all"
+            class="mb-4 font-normal text-gray-500 group-hover:text-gray-100 transition-all flex flex-wrap text-sm"
           >
             {{ step.description }}
           </p>
@@ -32,5 +31,11 @@
       </div>
     </li>
   </ol>
-  <!-- <div class="pt-1 px-2 bg-legio-green-100 rounded-sm max-w-fit"></div> -->
+
+  <div
+    *ngIf="!steps.length"
+    class="py-2 px-4 rounded-lg bg-white group transition-all shadow w-full"
+  >
+    Nessun dato.
+  </div>
 </div>

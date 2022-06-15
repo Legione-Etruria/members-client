@@ -21,6 +21,8 @@ import { SharedModule } from '../shared/shared.module';
 import { TailwindFormsModule } from '../tailwind-forms/tailwind-forms.module';
 import { UsersModule } from '../users/users.module';
 import { AddItemWidgetComponent } from './components/add-item-widget/add-item-widget.component';
+import { AddTrackingWidgetComponent } from './components/add-tracking-widget/add-tracking-widget.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
 import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
@@ -29,10 +31,9 @@ import { CurrentOrderComponent } from './containers/current-order/current-order.
 import { EditOrderComponent } from './containers/edit-order/edit-order.component';
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
+import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersService } from './services/orders.service';
-import { TimelineComponent } from './components/timeline/timeline.component';
-import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tra
     FilterComponent,
     TimelineComponent,
     ParcelTrackingComponent,
+    AddTrackingWidgetComponent,
   ],
   providers: [OrdersService],
   imports: [

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ParcelTracker } from '../../../models/parcel-tracker';
@@ -17,8 +16,7 @@ export class ParcelTrackingComponent implements OnInit {
   constructor(
     private ordersService: OrdersService,
     private route: ActivatedRoute,
-    private router: Router,
-    private domStanitizer: DomSanitizer
+    private router: Router
   ) {}
 
   ngOnInit(): void {

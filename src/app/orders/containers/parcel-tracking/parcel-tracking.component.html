@@ -36,20 +36,23 @@
       ></a>
     </h1>
     <div class="flex justify-between flex-wrap flex-col-reverse md:flex-row">
-      <div class="overflow-y-scroll">
+      <div class="overflow-y-scroll md:w-3/12 h-screen">
         <app-timeline
           class="my-4 md:my-0"
           [steps]="mapTrackerCheckpoints(tracker.checkpoints)"
         ></app-timeline>
       </div>
 
-      <app-google-map
-        *ngIf="parseLocation(tracker.checkpoints) as mapData"
-        class="h-96 w-full md:w-8/12"
-        [destination]="mapData.destination"
-        [waypoints]="mapData.waypoints"
-        [origin]="mapData.origin"
-      ></app-google-map>
+      <ng-container *ngIf="tracker.checkpoints.length">
+        <app-google-map
+          *ngIf="parseLocation(tracker.checkpoints) as mapData"
+          class="h-96 w-full md:w-8/12"
+          mapClass="rounded-lg w-full h-full shadow-lg border-2"
+          [destination]="mapData.destination"
+          [waypoints]="mapData.waypoints"
+          [origin]="mapData.origin"
+        ></app-google-map>
+      </ng-container>
     </div>
   </div>
 </ng-container>

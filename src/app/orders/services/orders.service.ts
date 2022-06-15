@@ -33,6 +33,13 @@ export class OrdersService {
     });
   }
 
+  addTracker(trackingNumber: string, orderId: string) {
+    return this.apiHttp.post('/api/v1/orders/tracking/add', {
+      trackingNumber,
+      orderId,
+    });
+  }
+
   getOrders() {
     return this.apiHttp.get<GroupOrder[]>(
       '/api/v1/orders/get?current=' + false

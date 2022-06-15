@@ -52,7 +52,7 @@
       class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
       *ngIf="activeOrder"
     >
-      <div class="w-11/12 md:w-72">
+      <div class="w-11/12 md:w-80 md:pr-4 md:border-r">
         <div class="animate__fadeInLeft animate__animated">
           <app-order-action
             [currentOrder]="activeOrder"
@@ -83,13 +83,18 @@
         </button>
 
         <div
-          class="animate__fadeInLeft animate__animated"
+          class="animate__fadeInLeft animate__animated my-2"
           *ngIf="users$ | async as users"
         >
           <app-add-item-widget
             [users]="users"
             [class.pointer-events-none]="'pending' !== activeOrder.orderStatus"
           ></app-add-item-widget>
+        </div>
+        <div class="h-full w-full animate__fadeInLeft animate__animated">
+          <app-add-tracking-widget
+            (TNConfirm)="addTracker($event, activeOrder._id)"
+          ></app-add-tracking-widget>
         </div>
       </div>
       <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">
