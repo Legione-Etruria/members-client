@@ -13,6 +13,8 @@ import { CreateComponent } from './containers/create/create.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UsersService } from './services/users.service';
 import { UsersRoutingModule } from './users-routing.module';
+import { QuickSwitchComponent } from './containers/quick-switch/quick-switch.component';
+import { UserCardComponent } from './components/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { UsersRoutingModule } from './users-routing.module';
     RoleBadgeComponent,
     UserFormComponent,
     UserAvatarComponent,
+    QuickSwitchComponent,
+    UserCardComponent,
   ],
   imports: [
     CommonModule,
