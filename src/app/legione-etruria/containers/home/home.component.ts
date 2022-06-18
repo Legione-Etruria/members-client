@@ -10,7 +10,7 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.73';
+  public CURRENT_VERSION = '0.74';
 
   public user = this.authService.currentUserValue;
   public openMobileDropdown = false;
