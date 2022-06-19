@@ -1,3 +1,4 @@
+import { AccountGroup } from '../../models/account-group';
 export interface User {
   _id: string;
   __v: number;
@@ -16,4 +17,5 @@ export interface User {
   active: boolean;
   signedUpAt: Date;
   birthDate: Date;
+  accountGroup: AccountGroup;
 }

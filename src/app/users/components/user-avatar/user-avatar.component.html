@@ -8,7 +8,8 @@
       }} items-center justify-center rounded-full pointer-events-none "
       [ngClass]="{
         ' cursor-pointer pointer-events-auto group transition-all duration-150 hover:scale-90 hover:bg-legio-gold-300':
-          allowSwitch
+          allowSwitch,
+        'ring  ring-legio-gold-500': showUsersCards
       }"
       (click)="showUsersCards = !showUsersCards"
     >
@@ -18,7 +19,7 @@
       >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5 hidden group-hover:block transition-all duration-150"
+        class="h-5 w-5 hidden group-hover:block transition-all duration-150 text-white"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -35,6 +36,9 @@
   </div>
 </div>
 
-<div class="mx-2 my-1">
-  <app-quick-switch *ngIf="showUsersCards"></app-quick-switch>
+<div class="mx-2 my-2">
+  <app-quick-switch
+    *ngIf="showUsersCards"
+    (cardsVisibility)="showUsersCards = $event"
+  ></app-quick-switch>
 </div>

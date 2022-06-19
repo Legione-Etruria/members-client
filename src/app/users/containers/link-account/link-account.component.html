@@ -1,0 +1,44 @@
+<div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img
+      class="mx-auto h-12 w-auto"
+      src="assets/logo.png"
+      alt="Golden Italia"
+    />
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Effettua l'accesso
+    </h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <golden-tailwind-input
+          [parent]="form"
+          name="email"
+          type="email"
+          placeholder="tuaemail@email.it"
+          [validationErrors]="emailValidationErrors"
+        ></golden-tailwind-input>
+
+        <golden-tailwind-input
+          [parent]="form"
+          name="password"
+          type="password"
+          [showToggleEye]="true"
+          [validationErrors]="passwordValidationErrors"
+        ></golden-tailwind-input>
+
+        <!-- <golden-forgot-password-button></golden-forgot-password-button> -->
+
+        <div class="mt-5">
+          <golden-tailwind-submit-button
+            label="Accedi"
+            [invalid]="form.invalid"
+            [loading]="loading"
+          ></golden-tailwind-submit-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -51,6 +51,7 @@ export class AuthService {
         tap((user) => {
           localStorage.setItem(environment.localStorageJWT, user.token || '');
           this.refreshUserSubject();
+
           return user;
         })
       );
@@ -101,5 +102,36 @@ export class AuthService {
 
   public deleteUser(userId: string) {
     return this.apiHttpService.delete(`/api/v1/users/delete/${userId}`);
+  }
+
+  public addAccountGroup(data: { password: string; email: string }) {
+    return this.apiHttpService
+      .post<User>('/api/v1/account-group/add', {
+        targetEmail: data.email,
+        targetPassword: data.password,
+      })
+      .pipe(
+        tap((user) => {
+          localStorage.setItem(environment.localStorageJWT, user.token || '');
+          this.refreshUserSubject();
+
+          return user;
+        })
+      );
+  }
+
+  public switchAccount(accountId: string) {
+    return this.apiHttpService
+      .post<User>('/api/v1/account-group/switch', {
+        targetAccount: accountId,
+      })
+      .pipe(
+        tap((user) => {
+          localStorage.setItem(environment.localStorageJWT, user.token || '');
+          this.refreshUserSubject();
+
+          return user;
+        })
+      );
   }
 }
