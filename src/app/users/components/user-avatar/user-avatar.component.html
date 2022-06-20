@@ -37,8 +37,5 @@
 </div>
 
 <div class="mx-2 my-2">
-  <app-quick-switch
-    *ngIf="showUsersCards"
-    (cardsVisibility)="showUsersCards = $event"
-  ></app-quick-switch>
+  <app-quick-switch *ngIf="showUsersCards"></app-quick-switch>
 </div>

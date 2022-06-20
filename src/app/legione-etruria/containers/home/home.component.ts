@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { tap } from 'rxjs';
+import { User } from 'src/app/auth/models/user';
 import { GroupOrder } from 'src/app/models/group-order';
 import { OrdersService } from 'src/app/orders/services/orders.service';
 import { environment } from '../../../../environments/environment';
@@ -10,9 +12,16 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.75';
+  public CURRENT_VERSION = '0.76/b';
 
-  public user = this.authService.currentUserValue;
+  public user$ = this.authService.currentUserSubject.pipe(
+    tap((i) => {
+      this.currentUser = i;
+      console.log(i);
+    })
+  );
+
+  public currentUser?: User;
   public openMobileDropdown = false;
   public showDropdown = 'none';
   public currentOrder$ = this.ordersService.ordersSubject$;
@@ -36,13 +45,13 @@ export class HomeComponent implements OnInit {
           : 'Nessun ordine disp.',
         routerLink: '/orders/current',
         roles:
-          !environment.debugAddItems && 'admin' === this.user.role
+          !environment.debugAddItems && 'admin' === this.currentUser?.role
             ? ['athlete']
             : ['admin'],
         disabled:
           this.currentOrder?.no_order ||
           this.currentOrder?.orderStatus !== 'pending' ||
-          (!environment.debugAddItems && 'admin' === this.user.role),
+          (!environment.debugAddItems && 'admin' === this.currentUser?.role),
       };
     });
   }

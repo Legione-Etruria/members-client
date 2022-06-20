@@ -9,17 +9,17 @@ import { User } from '../models/user';
 export class AuthService {
   public userSubject!: BehaviorSubject<User | null>;
 
-  private currentUserSubject!: BehaviorSubject<User>;
+  public currentUserSubject!: BehaviorSubject<User>;
   public currentUser!: Observable<User>;
 
   constructor(
     private apiHttpService: ApiHttpService,
     private jwtHelperService: JwtHelperService
   ) {
-    this.refreshUserSubject();
+    this.refreshUserSubject(true);
   }
 
-  public refreshUserSubject() {
+  public refreshUserSubject(isSetup: boolean = false) {
     if (
       localStorage.getItem(environment.localStorageJWT) &&
       this.jwtHelperService.isTokenExpired(
@@ -29,16 +29,26 @@ export class AuthService {
       return this.signOut();
     }
 
-    this.currentUserSubject = new BehaviorSubject<User>(
-      this.jwtHelperService.decodeToken(
-        localStorage.getItem(environment.localStorageJWT) || ''
-      )
+    const decodedJWT = this.jwtHelperService.decodeToken(
+      localStorage.getItem(environment.localStorageJWT) || ''
     );
+
+    // this.currentUserSubject = new BehaviorSubject<User>(decodedJWT as User);
+
+    if (isSetup) {
+      this.currentUserSubject = new BehaviorSubject<User>(decodedJWT as User);
+    } else {
+      this.currentUserValue = decodedJWT as User;
+    }
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+  }
+
+  public set currentUserValue(user: User) {
+    this.currentUserSubject.next(user);
   }
 
   signIn(email: string, password: string) {

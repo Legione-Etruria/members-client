@@ -2,250 +2,255 @@
   src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
   defer
 ></script>
-<div class="md:flex flex-col md:flex-row md:h-screen w-full">
-  <div
-    class="my-2 md:my-0 rounded-xl md:rounded-none mx-auto md:mx-0 flex flex-col w-11/12 md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0 border-b-8 md:border-b-0 md:border-r-8 border-legio-green-500 shadow-lg fixed md:relative left-0 right-0 md:h-screen z-50 animate__fadeInDown animate__animated md:animate-none"
-  >
-    <div class="py-4 md:py-8 px-4 flex justify-between">
-      <app-user-avatar
-        [user]="user.battleName"
-        [allowSwitch]="true"
-      ></app-user-avatar>
-
-      <button
-        class="rounded-lg focus:outline-none focus:shadow-outline text-white md:hidden"
-        (click)="openMobileDropdown = !openMobileDropdown"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-            *ngIf="!openMobileDropdown"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-            *ngIf="openMobileDropdown"
-          />
-        </svg>
-      </button>
-    </div>
-    <nav
-      [class.hidden]="!openMobileDropdown"
-      class="flex-grow md:block px-2 pb-4 md:pb-0 md:overflow-y-auto space-y-2"
+<ng-container *ngIf="user$ | async as user">
+  <div class="md:flex flex-col md:flex-row md:h-screen w-full">
+    <div
+      class="my-2 md:my-0 rounded-xl md:rounded-none mx-auto md:mx-0 flex flex-col w-11/12 md:w-64 text-gray-700 bg-app-color-400 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0 border-b-8 md:border-b-0 md:border-r-8 border-legio-green-500 shadow-lg fixed md:relative left-0 right-0 md:h-screen z-50 animate__fadeInDown animate__animated md:animate-none"
     >
-      <ng-container *ngFor="let navItem of navItems">
-        <a
-          class="flex hover:bg-legio-gold-500 cursor-pointer rounded-md"
-          [ngClass]="{
-            'pointer-events-none cursor-default ': navItem.disabled
-          }"
-          [target]="
-            navItem.routerLink || navItem.dropdownData?.label
-              ? '_self'
-              : '_blank'
-          "
-          [attr.href]="navItem.href"
+      <div class="py-4 md:py-8 px-4 flex justify-between">
+        <app-user-avatar
+          [user]="user.battleName"
+          [allowSwitch]="true"
+        ></app-user-avatar>
+
+        <button
+          class="rounded-lg focus:outline-none focus:shadow-outline text-white md:hidden"
+          (click)="openMobileDropdown = !openMobileDropdown"
         >
-          <a
-            *ngIf="navItem.roles?.includes(user.role) || 'admin' === user.role"
-            [routerLink]="
-              !navItem.dropdownData?.rows?.length
-                ? navItem.routerLink
-                  ? navItem.routerLink
-                  : null
-                : null
-            "
-            (click)="
-              handleShowDropdown(
-                navItem.dropdownData?.label || '',
-                navItem.dropdownData?.rows || []
-              );
-              navItem.routerLink ? (openMobileDropdown = false) : null
-            "
-            [queryParams]="navItem.routerParams"
-            [ngClass]="{
-              'pointer-events-none text-slate-400 ': navItem.disabled
-            }"
-            class="px-3 py-2 font-medium text-sm text-white w-full rounded"
-            [class.selected]="showDropdown === navItem.dropdownData?.label"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{
-              queryParams: 'ignored',
-              matrixParams: 'subset',
-              paths: 'subset',
-              fragment: 'exact'
-            }"
-            aria-current="page"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <span class="flex">
-              <svg
-                *ngIf="navItem.svgPath"
-                xmlns="http://www.w3.org/2000/svg"
-                class="mr-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  *ngFor="let path of navItem.svgPath"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  [attr.d]="path"
-                /></svg
-              >{{ navItem.label
-              }}<svg
-                *ngIf="navItem.dropdownData?.rows?.length"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 ml-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                /></svg
-            ></span>
-            <ng-container
-              *ngIf="navItem.dropdownData?.label === showDropdown"
-              [ngTemplateOutlet]="dropdownOptions"
-              [ngTemplateOutletContext]="navItem.dropdownData || { rows: [] }"
-            ></ng-container>
-          </a>
-        </a>
-      </ng-container>
-    </nav>
-    <div
-      class="flex flex-col md:flex-row items-center py-8 px-4 md:block"
-      [class.hidden]="!openMobileDropdown"
-    >
-      <div
-        class="flex-shrink-0 flex items-center align-middle text-white p-2 w-full hover:bg-legio-gold rounded cursor-pointer text-end space-x-2"
-        routerLink="/settings"
-        routerLinkActive="active"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 rotate-180"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z
-            "
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z
-            "
-          />
-        </svg>
-        <div class="ml-3 align-middle">
-          <div class="text-sm font-medium text-gray-200">Impostazioni</div>
-        </div>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+              *ngIf="!openMobileDropdown"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+              *ngIf="openMobileDropdown"
+            />
+          </svg>
+        </button>
       </div>
-      <div
-        class="flex-shrink-0 flex items-center align-middle text-white p-2 w-full hover:bg-legio-gold rounded cursor-pointer text-end space-x-2"
-        (click)="logout()"
+      <nav
+        [class.hidden]="!openMobileDropdown"
+        class="flex-grow md:block px-2 pb-4 md:pb-0 md:overflow-y-auto space-y-2"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 rotate-180"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-          />
-        </svg>
-        <div class="ml-3 align-middle">
-          <div class="text-sm font-medium text-gray-200">Log out</div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="bottom-0 left-0 p-2 md:block"
-      [class.hidden]="!openMobileDropdown"
-    >
-      <small class="text-xs font-medium text-gray-400 flex justify-end md:block"
-        >ver. &alpha;{{ CURRENT_VERSION }}
-      </small>
-    </div>
-  </div>
-  <div class="py-14 md:py-0 md:hidden w-screen"></div>
-  <div class="overflow-x-hidden overflow-y-scroll w-full">
-    <router-outlet></router-outlet>
-  </div>
-
-  <ng-template #dropdownOptions let-dropdownData="rows">
-    <div
-      id="dropdownDivider"
-      #dropdownInstance
-      class="z-10 w-64 md:w-44 bg-white rounded shadow fixed"
-    >
-      <ul
-        class="py-1 text-md md:text-xs text-gray-700 divide-y divide-gray-200"
-        aria-labelledby="dropdownDividerButton"
-      >
-        <ng-container *ngFor="let sections of dropdownData">
-          <li class="py-1" role="none">
-            <ng-container *ngFor="let item of sections">
-              <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-              <a
-                [href]="item.href || null"
-                [target]="item.routerLink ? '_self' : '_blank'"
-                *ngIf="item.roles?.includes(user.role)"
-                [ngClass]="{
-                  'pointer-events-none text-gray-300 hover:bg-none cursor-default':
-                    item.disabled
-                }"
-              >
-                <a
-                  class="block py-2 px-4 {{
-                    item.disabled ? null : 'hover:bg-gray-200'
-                  }} mx-2 rounded"
-                  role="menuitem"
-                  (click)="handleShowDropdown(''); openMobileDropdown = false"
-                  [routerLink]="item.routerLink ? item.routerLink : null"
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  tabindex="-1"
-                  id="menu-item-0"
+        <ng-container *ngFor="let navItem of navItems">
+          <a
+            class="flex hover:bg-legio-gold-500 cursor-pointer rounded-md"
+            [ngClass]="{
+              'pointer-events-none cursor-default ': navItem.disabled
+            }"
+            [target]="
+              navItem.routerLink || navItem.dropdownData?.label
+                ? '_self'
+                : '_blank'
+            "
+            [attr.href]="navItem.href"
+          >
+            <a
+              *ngIf="
+                navItem.roles?.includes(user.role) || 'admin' === user.role
+              "
+              [routerLink]="
+                !navItem.dropdownData?.rows?.length
+                  ? navItem.routerLink
+                    ? navItem.routerLink
+                    : null
+                  : null
+              "
+              (click)="
+                handleShowDropdown(
+                  navItem.dropdownData?.label || '',
+                  navItem.dropdownData?.rows || []
+                );
+                navItem.routerLink ? (openMobileDropdown = false) : null
+              "
+              [queryParams]="navItem.routerParams"
+              [ngClass]="{
+                'pointer-events-none text-slate-400 ': navItem.disabled
+              }"
+              class="px-3 py-2 font-medium text-sm text-white w-full rounded"
+              [class.selected]="showDropdown === navItem.dropdownData?.label"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{
+                queryParams: 'ignored',
+                matrixParams: 'subset',
+                paths: 'subset',
+                fragment: 'exact'
+              }"
+              aria-current="page"
+            >
+              <span class="flex">
+                <svg
+                  *ngIf="navItem.svgPath"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="mr-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  {{ item.label }}
-                  <div *ngIf="!item.label" class="animate-pulse w-full -mx-2">
-                    <div
-                      class="bg-gray-200 col-span-12 rounded py-2 px-16"
-                    ></div>
-                  </div>
-                </a>
-              </a>
-            </ng-container>
-          </li>
+                  <path
+                    *ngFor="let path of navItem.svgPath"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    [attr.d]="path"
+                  /></svg
+                >{{ navItem.label
+                }}<svg
+                  *ngIf="navItem.dropdownData?.rows?.length"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 ml-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  /></svg
+              ></span>
+              <ng-container
+                *ngIf="navItem.dropdownData?.label === showDropdown"
+                [ngTemplateOutlet]="dropdownOptions"
+                [ngTemplateOutletContext]="navItem.dropdownData || { rows: [] }"
+              ></ng-container>
+            </a>
+          </a>
         </ng-container>
-      </ul>
+      </nav>
+      <div
+        class="flex flex-col md:flex-row items-center py-8 px-4 md:block"
+        [class.hidden]="!openMobileDropdown"
+      >
+        <div
+          class="flex-shrink-0 flex items-center align-middle text-white p-2 w-full hover:bg-legio-gold rounded cursor-pointer text-end space-x-2"
+          routerLink="/settings"
+          routerLinkActive="active"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 rotate-180"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z
+            "
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z
+            "
+            />
+          </svg>
+          <div class="ml-3 align-middle">
+            <div class="text-sm font-medium text-gray-200">Impostazioni</div>
+          </div>
+        </div>
+        <div
+          class="flex-shrink-0 flex items-center align-middle text-white p-2 w-full hover:bg-legio-gold rounded cursor-pointer text-end space-x-2"
+          (click)="logout()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 rotate-180"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+          <div class="ml-3 align-middle">
+            <div class="text-sm font-medium text-gray-200">Log out</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bottom-0 left-0 p-2 md:block"
+        [class.hidden]="!openMobileDropdown"
+      >
+        <small
+          class="text-xs font-medium text-gray-400 flex justify-end md:block"
+          >ver. &alpha;{{ CURRENT_VERSION }}
+        </small>
+      </div>
     </div>
-  </ng-template>
-</div>
+    <div class="py-14 md:py-0 md:hidden w-screen"></div>
+    <div class="overflow-x-hidden overflow-y-scroll w-full">
+      <router-outlet></router-outlet>
+    </div>
+
+    <ng-template #dropdownOptions let-dropdownData="rows">
+      <div
+        id="dropdownDivider"
+        #dropdownInstance
+        class="z-10 w-64 md:w-44 bg-white rounded shadow fixed"
+      >
+        <ul
+          class="py-1 text-md md:text-xs text-gray-700 divide-y divide-gray-200"
+          aria-labelledby="dropdownDividerButton"
+        >
+          <ng-container *ngFor="let sections of dropdownData">
+            <li class="py-1" role="none">
+              <ng-container *ngFor="let item of sections">
+                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                <a
+                  [href]="item.href || null"
+                  [target]="item.routerLink ? '_self' : '_blank'"
+                  *ngIf="item.roles?.includes(user.role)"
+                  [ngClass]="{
+                    'pointer-events-none text-gray-300 hover:bg-none cursor-default':
+                      item.disabled
+                  }"
+                >
+                  <a
+                    class="block py-2 px-4 {{
+                      item.disabled ? null : 'hover:bg-gray-200'
+                    }} mx-2 rounded"
+                    role="menuitem"
+                    (click)="handleShowDropdown(''); openMobileDropdown = false"
+                    [routerLink]="item.routerLink ? item.routerLink : null"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    tabindex="-1"
+                    id="menu-item-0"
+                  >
+                    {{ item.label }}
+                    <div *ngIf="!item.label" class="animate-pulse w-full -mx-2">
+                      <div
+                        class="bg-gray-200 col-span-12 rounded py-2 px-16"
+                      ></div>
+                    </div>
+                  </a>
+                </a>
+              </ng-container>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

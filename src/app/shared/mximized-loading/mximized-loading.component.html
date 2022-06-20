@@ -1,5 +1,7 @@
 <div
-  class="h-screen w-screen fixed top-0 left-0 bg-legio-green-400 animate__fadeInDown animate__animated z-40"
+  class="h-screen w-screen fixed top-0 left-0 bg-legio-green-400 animate__fadeInDown animate__animated animate__fast z-40"
+  *ngIf="showComponent"
+  @animateDestroy
 >
   <div class="flex flex-col justify-center h-full w-full">
     <div class="flex justify-center">

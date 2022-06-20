@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, tap } from 'rxjs/operators';
@@ -11,12 +11,12 @@ import { AccountGroup } from '../../../models/account-group';
   styleUrls: ['./quick-switch.component.scss'],
 })
 export class QuickSwitchComponent {
-  @Output() cardsVisibility = new EventEmitter<boolean>();
+  @Input() isVisible = true;
 
   public loading = false;
 
   public currentGroup: AccountGroup['accounts'] =
-    this.authService.currentUserValue.accountGroup?.accounts.filter(
+    this.authService.currentUserValue.accountGroup?.accounts?.filter(
       (i) => i._id !== this.authService.currentUserValue._id
     );
 
@@ -36,9 +36,10 @@ export class QuickSwitchComponent {
             'Ricarico informazioni utente',
             'LOGIN EFFETTUATO'
           );
-          this.router.navigate(['/']);
           setTimeout(() => {
-            window.location.reload();
+            this.router.navigate(['/']);
+            this.loading = false;
+            this.isVisible = false;
           }, 1000);
         }),
         catchError(async (err: ErrorEvent) => {

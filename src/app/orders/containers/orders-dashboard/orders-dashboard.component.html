@@ -9,9 +9,7 @@
   }"
 ></golden-page-header>
 
-<div class="flex justify-center w-full" *ngIf="loading">
-  <golden-tailwind-loading label="Carico ordini"></golden-tailwind-loading>
-</div>
+<app-mximized-loading [showComponent]="loading"></app-mximized-loading>
 
 <ng-container *ngIf="currentOrder$ | async as currentOrder">
   {{ assignInitialActiveOrder(currentOrder) }}

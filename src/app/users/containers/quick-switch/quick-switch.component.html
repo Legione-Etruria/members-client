@@ -1,6 +1,6 @@
-<app-mximized-loading *ngIf="loading"></app-mximized-loading>
+<app-mximized-loading [showComponent]="loading"></app-mximized-loading>
 
-<div class="absolute bg-white rounded-lg shadow border" *ngIf="!loading">
+<div class="absolute bg-white rounded-lg shadow border" *ngIf="isVisible">
   <div class="p-2 divide-y space-y-1">
     <div *ngFor="let user of currentGroup">
       <div
@@ -16,7 +16,7 @@
         class="flex space-x-2 text-slate-600 flex-nowrap whitespace-nowrap hover:bg-gray-200 p-2 rounded-lg cursor-pointer font-medium my-1 justify-center"
         routerLink="/users/link"
         routerLinkActive="pointer-events-none"
-        (click)="cardsVisibility.emit(false)"
+        (click)="isVisible = false"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
