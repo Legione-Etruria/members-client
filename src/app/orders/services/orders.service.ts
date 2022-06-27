@@ -33,10 +33,11 @@ export class OrdersService {
     });
   }
 
-  addTracker(trackingNumber: string, orderId: string) {
+  addTracker(trackingNumber: string, carrier: string, orderId: string) {
     return this.apiHttp.post('/api/v1/orders/tracking/add', {
       trackingNumber,
       orderId,
+      carrier,
     });
   }
 
@@ -61,6 +62,12 @@ export class OrdersService {
   getTracker(trackerId: string) {
     return this.apiHttp.get<ParcelTracker>(
       '/api/v1/orders/tracking/get?trackerId=' + trackerId
+    );
+  }
+
+  getCarriers() {
+    return this.apiHttp.get<{ code: string; name: string; country: string }[]>(
+      '/api/v1/orders/tracking/carriers'
     );
   }
 

@@ -15,7 +15,7 @@
   {{ assignInitialActiveOrder(currentOrder) }}
   <ng-container *ngIf="pastOrders$ | async as pastOrders">
     <div class="m-2 md:m-4">
-      <div class="flex space-x-4 w-full overflow-x-scroll p-5 border-b">
+      <div class="flex space-x-4 w-full overflow-x-scroll p-5">
         <button
           *ngIf="
             currentOrder.no_order || currentOrder.orderStatus !== 'pending'
@@ -47,7 +47,7 @@
     </div>
 
     <div
-      class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0"
+      class="flex justify-center md:justify-around flex-wrap p-2 py-4 md:space-x-4 space-y-4 md:space-y-0 border-t"
       *ngIf="activeOrder"
     >
       <div class="w-11/12 md:w-80 md:pr-4 md:border-r">
@@ -58,9 +58,39 @@
           ></app-order-action>
         </div>
 
+        <div
+          class="animate__fadeInLeft animate__animated animate__fast my-2"
+          *ngIf="users$ | async as users"
+        >
+          <app-add-item-widget
+            [users]="users"
+            [class.pointer-events-none]="'pending' !== activeOrder.orderStatus"
+          ></app-add-item-widget>
+        </div>
+        <div
+          class="h-full w-full animate__fadeInLeft animate__animated"
+          *ngIf="carriers$ | async as carriers"
+        >
+          <app-add-tracking-widget
+            (TNConfirm)="addTracker($event, activeOrder._id)"
+            [carriers]="carriers"
+          ></app-add-tracking-widget>
+        </div>
+      </div>
+      <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">
+        <app-items-list-widget
+          [orderItems]="reverseOrder(activeOrder) || []"
+          [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
+        ></app-items-list-widget>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <div class="md:w-72 w-full animate__fadeInRight animate__animated">
+          <app-order-info [currentOrder]="activeOrder"></app-order-info>
+        </div>
+
         <button
           [disabled]="'pending' !== activeOrder.orderStatus"
-          class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal animate__fadeInLeft animate__animated animate__fast my-4"
+          class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider uppercase rounded-lg text-sm flex space-x-2 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal animate__fadeInRight animate__animated animate__fast"
           routerLink="/orders/edit"
         >
           <svg
@@ -79,30 +109,6 @@
           </svg>
           <span class="my-1"> Modifica ordine</span>
         </button>
-
-        <div
-          class="animate__fadeInLeft animate__animated my-2"
-          *ngIf="users$ | async as users"
-        >
-          <app-add-item-widget
-            [users]="users"
-            [class.pointer-events-none]="'pending' !== activeOrder.orderStatus"
-          ></app-add-item-widget>
-        </div>
-        <div class="h-full w-full animate__fadeInLeft animate__animated">
-          <app-add-tracking-widget
-            (TNConfirm)="addTracker($event, activeOrder._id)"
-          ></app-add-tracking-widget>
-        </div>
-      </div>
-      <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">
-        <app-items-list-widget
-          [orderItems]="reverseOrder(activeOrder) || []"
-          [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
-        ></app-items-list-widget>
-      </div>
-      <div class="h-full md:w-72 w-full animate__fadeInRight animate__animated">
-        <app-order-info [currentOrder]="activeOrder"></app-order-info>
       </div>
     </div>
     <div
@@ -110,7 +116,7 @@
     >
       <div
         class="h-64 w-96 animate__fadeInLeft animate__animated animate__slow"
-        *ngIf="currentOrder.shops.includes('ilsemaforo')"
+        *ngIf="currentOrder.shops?.includes('ilsemaforo')"
       >
         <p
           class="p-2 font-medium text-slate-700 bg-white rounded-lg shadow text-center flex justify-around"
@@ -158,7 +164,7 @@
       </div>
       <div
         class="md:h-64 md:w-96 animate__fadeInRight animate__animated animate__slow pointer-events-none"
-        *ngIf="currentOrder.shops.includes('taiwangun')"
+        *ngIf="currentOrder.shops?.includes('taiwangun')"
       >
         <p
           class="p-2 font-medium text-slate-700 bg-white rounded-lg shadow text-center flex justify-around"

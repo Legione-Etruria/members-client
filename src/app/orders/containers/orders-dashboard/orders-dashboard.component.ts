@@ -40,7 +40,7 @@ export class OrdersDashboardComponent implements OnInit {
   public users$ = this.usersService.getUsers(
     environment.production ? 'athlete' : undefined
   );
-
+  public carriers$ = this.ordersService.getCarriers();
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
   public pastOrders$: Observable<GroupOrder[]> = this.pastOrdersSubject$;
@@ -91,11 +91,14 @@ export class OrdersDashboardComponent implements OnInit {
       .subscribe();
   }
 
-  public addTracker(trackingNumber: string, orderId: string) {
+  public addTracker(
+    trackingData: { trackingNumber: string; carrier: string },
+    orderId: string
+  ) {
     this.loading = true;
 
     this.ordersService
-      .addTracker(trackingNumber, orderId)
+      .addTracker(trackingData.trackingNumber, trackingData.carrier, orderId)
       .pipe(
         tap(() => this.toastr.success('Tracking aggiunto')),
         switchMap(() => this.ordersService.getCurrentOrder()),

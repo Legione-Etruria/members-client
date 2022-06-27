@@ -18,13 +18,17 @@ export class GoogleMapComponent implements OnInit {
   public parseLocation() {
     const waypointsParsed = this.waypoints.join('|').split(' ').join('+');
 
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(
+    const url = this.domSanitizer.bypassSecurityTrustResourceUrl(
       `https://www.google.com/maps/embed/v1/directions?key=AIzaSyCC9c9IyxgUS1yZvDg38PXvP2c7FFgLk6s&origin=${
         this.origin
       }${
         this.waypoints.length ? '&waypoints=' + waypointsParsed : ''
-      }&destination=${this.destination}&units=metric
+      }&destination=${this.destination}&units=metric&zoom=10
         `
     );
+
+    console.log(url);
+
+    return url;
   }
 }

@@ -4,22 +4,30 @@
       Atleta
     </label> -->
     <div class="mt-1 relative">
-      <button
+      <input
         (click)="showDropdown = !showDropdown"
-        type="button"
+        [(ngModel)]="inputDropdown"
+        type="text"
+        [class.text-transparent]="!showDropdown"
         class="h-12 relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        aria-haspopup="listbox"
-        aria-expanded="true"
-        aria-labelledby="listbox-label"
-      >
-        <span class="flex items-center">
-          <app-user-avatar
-            [showName]="false"
-            *ngIf="selectedUser"
-            [user]="selectedUser?.battleName || ''"
-            [size]="8"
-          ></app-user-avatar>
-          <span class="ml-3 block truncate">
+      />
+      <div>
+        <span
+          class="flex items-center placeholder max-h-fit"
+          *ngIf="!showDropdown"
+        >
+          <div class="flex flex-col mt-2">
+            <app-user-avatar
+              [showName]="false"
+              *ngIf="selectedUser"
+              [user]="selectedUser?.battleName || ''"
+              [size]="8"
+            ></app-user-avatar>
+          </div>
+          <span
+            class="ml-3 block truncate"
+            [ngClass]="{ 'text-gray-500': !selectedUser }"
+          >
             {{
               selectedUser?.battleName || "Nessun atleta selezionato"
                 | titlecase
@@ -44,88 +52,74 @@
             />
           </svg>
         </span>
-      </button>
 
-      <!--
-        Select popover, show/hide based on select state.
-  
-        Entering: ""
-          From: ""
-          To: ""
-        Leaving: "transition ease-in duration-100"
-          From: "opacity-100"
-          To: "opacity-0"
-      -->
-
-      <ul
-        *ngIf="showDropdown"
-        class="absolute mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm overflow-scroll"
-        tabindex="-1"
-        role="listbox"
-        aria-labelledby="listbox-label"
-        aria-activedescendant="listbox-option-3"
-      >
-        <li
-          *ngFor="let user of users"
-          (click)="
-            selectedUser = { battleName: user.battleName, _id: user._id };
-            showDropdown = !showDropdown
-          "
-          class="text-gray-900 select-none relative py-2 pl-3 pr-9 transition-all duration-150 hover:bg-gray-100 cursor-pointer"
-          id="listbox-option-0"
-          role="option"
+        <div
+          *ngIf="showDropdown"
+          class="animate__fadeIn animate__animated animate__fast"
         >
-          <div class="flex items-center">
-            <app-user-avatar
-              [user]="user.battleName || ''"
-              [showName]="false"
-              [size]="8"
-            ></app-user-avatar>
-            <span class="ml-3 block truncate">
-              {{ user.battleName | titlecase }}</span
-            >
-          </div>
-
-          <!--
-            Checkmark, only display for selected option.
-  
-            Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-          -->
-          <span
-            *ngIf="selectedUser?._id === user._id"
-            class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4"
+          <ul
+            class="mt-1 w-full max-h-56 rounded-md py-1 text-base ring-black ring-opacity-5 focus:outline-none sm:text-sm overflow-y-scroll bg-white ring-1"
+            role="listbox"
           >
-            <!-- Heroicon name: solid/check -->
-            <svg
-              class="h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+            <li
+              *ngFor="let user of filterUsers()"
+              (click)="
+                selectedUser = { battleName: user.battleName, _id: user._id };
+                showDropdown = !showDropdown
+              "
+              class="text-gray-900 select-none relative py-2 pl-3 pr-9 transition-all duration-150 hover:bg-gray-100 cursor-pointer"
+              id="listbox-option-0"
+              role="option"
             >
-              <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-        </li>
-      </ul>
+              <div class="flex items-center">
+                <div class="flex flex-col justify-center mt-2">
+                  <app-user-avatar
+                    [user]="user.battleName || ''"
+                    [showName]="false"
+                    [size]="8"
+                  ></app-user-avatar>
+                </div>
+                <span class="ml-3 block truncate">
+                  {{ user.battleName | titlecase }}</span
+                >
+              </div>
+
+              <span
+                *ngIf="selectedUser?._id === user._id"
+                class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4"
+              >
+                <svg
+                  class="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-  <button
-    [disabled]="!selectedUser"
-    class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider rounded-lg text-xs flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
-    routerLink="/orders/items/add"
-    [queryParams]="{
-      user: selectedUser?._id,
-      userBattleName: selectedUser?.battleName
-    }"
-  >
-    <span class="my-1 text-xs" *ngIf="selectedUser">
-      Aggiungi Oggetto a {{ selectedUser?.battleName | titlecase }}</span
+    <button
+      [disabled]="!selectedUser"
+      class="p-2 bg-legio-green-300 hover:bg-legio-green-200 font-medium text-white tracking-wider rounded-lg text-xs flex space-x-2 my-4 w-full justify-center shadow-md disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 disabled:font-normal"
+      routerLink="/orders/items/add"
+      [queryParams]="{
+        user: selectedUser?._id,
+        userBattleName: selectedUser?.battleName
+      }"
     >
-    <span class="my-1" *ngIf="!selectedUser"> Seleziona un atleta </span>
-  </button>
+      <span class="my-1 text-xs" *ngIf="selectedUser">
+        Aggiungi Oggetto a {{ selectedUser?.battleName | titlecase }}</span
+      >
+      <span class="my-1" *ngIf="!selectedUser"> Seleziona un atleta </span>
+    </button>
+  </div>
 </div>

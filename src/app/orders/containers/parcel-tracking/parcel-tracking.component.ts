@@ -50,18 +50,20 @@ export class ParcelTrackingComponent implements OnInit {
   }
 
   public parseLocation(checkpoints: ParcelTracker['checkpoints']) {
-    const checkPointsMapped = checkpoints.map((cp) =>
-      cp.location?.split(' ').join('+')
-    );
+    const checkPointsMapped: string[] = [
+      ...new Set(checkpoints.map((cp) => cp.location?.split(' ').join('+'))),
+    ] as string[];
+
+    console.log(checkPointsMapped);
 
     const origin = String(checkPointsMapped[0]);
 
     const waypoints =
-      checkpoints.length > 1
+      checkPointsMapped.length > 2
         ? checkPointsMapped.slice(1, checkpoints.length - 2)
         : [];
 
-    const destination = String(checkPointsMapped[checkpoints.length - 1]);
+    const destination = String(checkPointsMapped[checkPointsMapped.length - 1]);
 
     return {
       origin,

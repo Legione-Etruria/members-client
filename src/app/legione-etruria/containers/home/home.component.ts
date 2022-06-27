@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
   public user$ = this.authService.currentUserSubject.pipe(
     tap((i) => {
       this.currentUser = i;
-      console.log(i);
     })
   );
 
