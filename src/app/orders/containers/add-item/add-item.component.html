@@ -40,39 +40,6 @@
     class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-auto md:space-x-2"
     *ngIf="currentOrder.orderPublicId"
   >
-    <!-- <div class="md:h-10 md:w-32 mt-4 md:mt-2 w-full">
-      <label
-        for="custom-input-number"
-        class="w-full text-gray-700 text-sm font-semibold"
-        >Quantità
-      </label>
-
-      <div class="flex flex-row h-10 w-full rounded-lg bg-transparent mt-1">
-        <button
-          data-action="decrement"
-          (click)="itemQuantity = itemQuantity - 1; updateItemQuantity()"
-          class="bg-legio-green-300 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-l cursor-pointer outline-none text-white"
-        >
-          <span class="m-auto text-2xl font-thin">−</span>
-        </button>
-        <input
-          type="number"
-          id="searchInput"
-          class="focus:outline-none text-center w-full bg-legio-green-300 font-semibold text-md md:text-basecursor-default flex items-center text-white"
-          name="custom-input-number"
-          [(ngModel)]="itemQuantity"
-          (ngModelChange)="updateItemQuantity()"
-        />
-        <button
-          data-action="increment"
-          (click)="itemQuantity = itemQuantity + 1; updateItemQuantity()"
-          class="bg-legio-green-300 hover:text-legio-green-700 hover:bg-legio-green-400 h-full w-20 rounded-r cursor-pointer text-white"
-        >
-          <span class="m-auto text-2xl font-thin">+</span>
-        </button>
-      </div>
-    </div> -->
-
     <div class="w-full">
       <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>
       <div
@@ -82,6 +49,9 @@
       >
         <input
           type="search"
+          (keyup.enter)="
+            itemURL.length == 0 || isInvalid || loading ? null : getItemData()
+          "
           class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none peer"
           placeholder="Es. https://www.ilsemaforo-softair.com/it/kit-risparmio-pistole/cyma-g18c-tan-elettrica-gear-box-metal-con-batteria-e-caricatore-p17008"
           x-model="search"

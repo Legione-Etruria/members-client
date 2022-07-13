@@ -53,7 +53,7 @@
           </div>
           <app-item-status-badge
             *ngIf="!hideElements?.includes('itemStatus') && !itemAlt"
-            [itemStatus]="item.itemStatus"
+            [itemStatus]="item?.itemStatus"
           ></app-item-status-badge>
         </div>
       </div>
@@ -75,7 +75,7 @@
           <p class="text-gray-400 text-base">
             <input
               [class.pointer-events-none]="
-                item.itemStatus !== 'pending-confirmation'
+                item?.itemStatus !== 'pending-confirmation'
               "
               type="number"
               [(ngModel)]="itemQuantity"
@@ -88,8 +88,9 @@
 
         <div class="flex space-x-2 md:mx-2 my-2 md:my-0">
           <!-- ADD ITEM -->
+
           <button
-            *ngIf="itemAlt && !itemAlt?.isUnavailable"
+            *ngIf="itemAlt && !itemAlt.isUnavailable"
             (click)="emitAdd()"
             class="flex flex-col justify-end md:mx-2 text-gray-600 hover:text-blue-500 transition ease-in hover:-translate-y-1 hover:scale-110 duration-300"
           >
