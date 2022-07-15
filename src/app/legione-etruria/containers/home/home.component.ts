@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { User } from 'src/app/auth/models/user';
 import { GroupOrder } from 'src/app/models/group-order';
 import { OrdersService } from 'src/app/orders/services/orders.service';
@@ -12,12 +12,12 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.77';
+  public CURRENT_VERSION = '0.77/c';
 
   public user$ = this.authService.currentUserSubject.pipe(
-    tap((i) => {
-      this.currentUser = i;
-    })
+    tap((i) => (this.currentUser = i)),
+    switchMap(() => this._genCurrentOrderSection()),
+    map(() => this.authService.currentUserValue)
   );
 
   public currentUser?: User;
@@ -31,29 +31,33 @@ export class HomeComponent implements OnInit {
     private ordersService: OrdersService
   ) {}
 
-  ngOnInit(): void {
-    this.currentOrder$.subscribe((order) => {
-      this.currentOrder = order;
+  ngOnInit(): void {}
 
-      if (!this.navItems[2].dropdownData?.rows) {
-        throw new Error('Impossibile error, navBar is missing items');
-      }
-      this.navItems[2].dropdownData.rows[0][0] = {
-        label: !this.currentOrder?.no_order
-          ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
-          : 'Nessun ordine disp.',
-        routerLink: '/orders/current',
-        roles:
-          !environment.debugAddItems && 'admin' === this.currentUser?.role
-            ? ['athlete']
-            : ['admin', 'athlete'],
-        disabled:
-          this.currentOrder?.no_order ||
-          this.currentOrder?.orderStatus !== 'pending' ||
-          (!environment.debugAddItems && 'admin' === this.currentUser?.role),
-      };
-    });
-  }
+  private _genCurrentOrderSection = () => {
+    return this.currentOrder$.pipe(
+      tap((order) => {
+        this.currentOrder = order;
+
+        if (!this.navItems[2].dropdownData?.rows) {
+          throw new Error('Impossibile error, navBar is missing items');
+        }
+        this.navItems[2].dropdownData.rows[0][0] = {
+          label: !this.currentOrder?.no_order
+            ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
+            : 'Nessun ordine disp.',
+          routerLink: '/orders/current',
+          roles:
+            !environment.debugAddItems && 'admin' === this.currentUser?.role
+              ? ['athlete']
+              : ['admin', 'athlete'],
+          disabled:
+            this.currentOrder?.no_order ||
+            this.currentOrder?.orderStatus !== 'pending' ||
+            (!environment.debugAddItems && 'admin' === this.currentUser?.role),
+        };
+      })
+    );
+  };
 
   public navItems: INavOption[] = [
     {
