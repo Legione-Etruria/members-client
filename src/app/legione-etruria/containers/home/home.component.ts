@@ -12,7 +12,7 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.76/b';
+  public CURRENT_VERSION = '0.77';
 
   public user$ = this.authService.currentUserSubject.pipe(
     tap((i) => {
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
         roles:
           !environment.debugAddItems && 'admin' === this.currentUser?.role
             ? ['athlete']
-            : ['admin'],
+            : ['admin', 'athlete'],
         disabled:
           this.currentOrder?.no_order ||
           this.currentOrder?.orderStatus !== 'pending' ||
