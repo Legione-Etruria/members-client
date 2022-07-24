@@ -35,6 +35,7 @@ import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tra
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersService } from './services/orders.service';
 import { BbsGridComponent } from './components/bbs-grid/bbs-grid.component';
+import { ChartsComponent } from './components/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { BbsGridComponent } from './components/bbs-grid/bbs-grid.component';
     ParcelTrackingComponent,
     AddTrackingWidgetComponent,
     BbsGridComponent,
+    ChartsComponent,
   ],
   providers: [OrdersService],
   imports: [

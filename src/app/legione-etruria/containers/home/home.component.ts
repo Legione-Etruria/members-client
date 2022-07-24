@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { map, switchMap, tap } from 'rxjs';
 import { User } from 'src/app/auth/models/user';
 import { GroupOrder } from 'src/app/models/group-order';
@@ -11,8 +11,8 @@ import { AuthService } from '../../../auth/services/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  public CURRENT_VERSION = '0.77/c';
+export class HomeComponent {
+  public CURRENT_VERSION = '0.77/d';
 
   public user$ = this.authService.currentUserSubject.pipe(
     tap((i) => (this.currentUser = i)),
@@ -30,8 +30,6 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private ordersService: OrdersService
   ) {}
-
-  ngOnInit(): void {}
 
   private _genCurrentOrderSection = () => {
     return this.currentOrder$.pipe(
@@ -128,6 +126,7 @@ export class HomeComponent implements OnInit {
       label: 'Eventi',
       disabled: true,
       routerLink: '/competitions',
+      roles: ['admin', 'athlete'],
       svgPath: [
         'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
       ],
@@ -136,6 +135,7 @@ export class HomeComponent implements OnInit {
       label: 'Movimenti',
       disabled: true,
       routerLink: '/movements',
+      roles: ['admin', 'athlete'],
       svgPath: [
         'M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z',
       ],
