@@ -1,0 +1,34 @@
+<golden-page-header
+  [currentCrub]="{
+    label: 'Oggetti Statici',
+    routerLink: '/orders/items/static',
+    svgPath: [currentCrumbSvg]
+  }"
+></golden-page-header>
+
+<div class="mx-2 mt-2 md:m-10">
+  <div class="border-b p-4">
+    <button
+      class="py-2 px-4 bg-legio-green-300 rounded-lg text-white font-medium uppercase flex space-x-2 hover:bg-legio-green-200"
+      routerLink="/orders/items/static/add"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <span> Aggiungi Oggetto Statico</span>
+    </button>
+  </div>
+
+  <ng-container *ngIf="staticItems$ | async as staticItems">
+    <pre>{{ staticItems | json }}</pre>
+  </ng-container>
+</div>

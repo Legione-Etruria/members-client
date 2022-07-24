@@ -1,0 +1,76 @@
+<golden-page-header
+  [currentCrub]="{
+    label: 'Aggiungi ogg. statico',
+    routerLink: '/orders/items/static',
+    svgPath: [currentCrumbSvg]
+  }"
+></golden-page-header>
+
+<div class="mx-auto">
+  <golden-tailwind-loading
+    label="Ottengo informazioni"
+    *ngIf="loading"
+  ></golden-tailwind-loading>
+</div>
+
+<div
+  class="bg-white rounded-lg shadow m-2 md:m-10 p-4 text-sm flex flex-col-reverse md:flex-row w-auto md:space-x-2"
+>
+  <div class="w-full">
+    <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>
+    <div
+      class="flex rounded-lg bg-white border mt-1 peer-focus:ring-2"
+      [class.border-red-500]="isInvalid && itemURL.length"
+      x-data="{ search: '' }"
+    >
+      <input
+        type="search"
+        (keyup.enter)="
+          itemURL.length == 0 || isInvalid || loading ? null : getItemData()
+        "
+        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none peer"
+        placeholder="Es. https://www.ilsemaforo-softair.com/it/kit-risparmio-pistole/cyma-g18c-tan-elettrica-gear-box-metal-con-batteria-e-caricatore-p17008"
+        x-model="search"
+        [(ngModel)]="itemURL"
+        (ngModelChange)="validateURL(itemURL)"
+      />
+
+      <button
+        type="submit"
+        (keyup.enter)="getItemData()"
+        class="m-2 rounded px-4 py-2 font-semibold text-gray-100 bg-legio-green-300 hover:bg-legio-gold-400 disabled:bg-gray-500 disabled:pointer-events-none"
+        [disabled]="itemURL.length == 0 || isInvalid || loading"
+        (click)="getItemData()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+    </div>
+    <label
+      for="searchInput"
+      class="text-red-500"
+      *ngIf="isInvalid && itemURL.length"
+    >
+      {{ invalidMessage }}
+    </label>
+  </div>
+</div>
+
+<div class="mx-2 mt-2 md:m-10" *ngIf="item">
+  <app-add-static-item-form
+    [itemData]="item"
+    (formSubmitted)="handleSubmit($event)"
+  ></app-add-static-item-form>
+</div>

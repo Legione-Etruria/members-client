@@ -12,7 +12,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { StatusSvgEnum } from 'src/app/models/status-svg.enum';
+import { SvgEnum } from 'src/app/models/svg.enum';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';
@@ -30,7 +30,7 @@ export class ItemsListComponent implements OnInit {
 
   public orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
   public loading = true;
-  public statusEnum = StatusSvgEnum;
+  public statusEnum = SvgEnum;
   public searchField = new UntypedFormControl('');
   public ignoreDropdown = false;
   public showDropdowns: string[] = [];

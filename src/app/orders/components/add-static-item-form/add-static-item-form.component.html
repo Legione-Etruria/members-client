@@ -1,0 +1,70 @@
+<div class="mt-5 lg:col-span-2 lg:mt-0 rounded-lg shadow">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="shadow rounded-lg">
+      <div class="bg-white px-4 py-5 sm:p-6 rounded-t-lg">
+        <div class="mx-5 grid grid-cols-6 gap-6">
+          <div class="col-span-12 lg:col-span-3">
+            <div class="col-span-2">
+              <golden-tailwind-select
+                [parent]="form"
+                name="itemType"
+                label="Tipo oggetto"
+                [options]="itemTypes"
+                placeholder="Seleziona un tipo"
+              ></golden-tailwind-select>
+            </div>
+          </div>
+          <div class="col-span-12 lg:col-span-3 flex flex-col">
+            <golden-tailwind-input
+              [parent]="form"
+              name="itemUrl"
+              label="URL oggetto"
+            ></golden-tailwind-input>
+          </div>
+          <div class="col-span-12 lg:col-span-3 flex flex-col">
+            <golden-tailwind-input
+              [parent]="form"
+              name="imgSrc"
+              label="URL Immagine"
+            ></golden-tailwind-input>
+          </div>
+          <div class="col-span-12 lg:col-span-3 flex flex-col">
+            <golden-tailwind-input
+              [parent]="form"
+              name="itemPrice"
+              type="number"
+              label="Prezzo"
+            ></golden-tailwind-input>
+          </div>
+          <div class="col-span-12 lg:col-span-3 flex flex-col">
+            <golden-tailwind-input
+              [parent]="form"
+              name="itemName"
+              type="text"
+              label="Nome"
+            ></golden-tailwind-input>
+          </div>
+          <div class="col-span-12 lg:col-span-3 flex flex-col">
+            <golden-tailwind-input
+              [parent]="form"
+              name="itemMeasueUnit"
+              type="text"
+              label="Unità di misura"
+            ></golden-tailwind-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 px-4 py-3 text-right sm:px-6 rounded-b-lg">
+      <golden-tailwind-submit-button
+        type="submit"
+        [ngClass]="{ 'cursor-not-allowed opacity-50': !form.valid }"
+        [loading]="loading"
+        label="Conferma"
+        [invalid]="form.invalid"
+      >
+      </golden-tailwind-submit-button>
+    </div>
+  </form>
+</div>

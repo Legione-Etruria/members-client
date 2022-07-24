@@ -36,6 +36,9 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersService } from './services/orders.service';
 import { BbsGridComponent } from './components/bbs-grid/bbs-grid.component';
 import { ChartsComponent } from './components/charts/charts.component';
+import { StaticItemsComponent } from './containers/static-items/static-items.component';
+import { AddStaticItemComponent } from './containers/add-static-item/add-static-item.component';
+import { AddStaticItemFormComponent } from './components/add-static-item-form/add-static-item-form.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { ChartsComponent } from './components/charts/charts.component';
     AddTrackingWidgetComponent,
     BbsGridComponent,
     ChartsComponent,
+    StaticItemsComponent,
+    AddStaticItemComponent,
+    AddStaticItemFormComponent,
   ],
   providers: [OrdersService],
   imports: [

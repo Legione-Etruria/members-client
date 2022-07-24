@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, tap } from 'rxjs';
 import { ParcelTracker } from 'src/app/models/parcel-tracker';
+import { StaticItem } from 'src/app/models/static-item';
 import { ApiHttpService } from '../../api-http/services/api-http.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { GroupOrder } from '../../models/group-order';
@@ -31,6 +32,10 @@ export class OrdersService {
       itemPrice: item.price,
       itemName: item.name,
     });
+  }
+
+  addStaticItem(item: Partial<StaticItem>) {
+    return this.apiHttp.post('/api/v1/orders/static/add', item);
   }
 
   addTracker(trackingNumber: string, carrier: string, orderId: string) {
@@ -69,6 +74,10 @@ export class OrdersService {
     return this.apiHttp.get<{ code: string; name: string; country: string }[]>(
       '/api/v1/orders/tracking/carriers'
     );
+  }
+
+  getStaticItems() {
+    return this.apiHttp.get<StaticItem[]>('/api/v1/orders/static/get');
   }
 
   editOrder(orderID: string, toEdit: Partial<GroupOrder>) {

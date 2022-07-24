@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StatusSvgEnum } from 'src/app/models/status-svg.enum';
+import { SvgEnum } from 'src/app/models/svg.enum';
 import { OrderItem } from '../../../models/order-item';
 
 @Component({
@@ -10,7 +10,7 @@ import { OrderItem } from '../../../models/order-item';
 export class ItemStatusBadgeComponent implements OnInit {
   @Input() itemStatus?: OrderItem['itemStatus'];
 
-  public statusEnum = StatusSvgEnum;
+  public statusEnum = SvgEnum;
 
   constructor() {}
 

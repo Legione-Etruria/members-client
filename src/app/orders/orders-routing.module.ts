@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
+import { AddStaticItemComponent } from './containers/add-static-item/add-static-item.component';
 import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
@@ -9,6 +10,7 @@ import { EditOrderComponent } from './containers/edit-order/edit-order.component
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
+import { StaticItemsComponent } from './containers/static-items/static-items.component';
 
 const routes: Routes = [
   {
@@ -60,6 +62,19 @@ const routes: Routes = [
       {
         path: 'add',
         component: AddItemComponent,
+      },
+      {
+        path: 'static',
+        children: [
+          {
+            path: '',
+            component: StaticItemsComponent,
+          },
+          {
+            path: 'add',
+            component: AddStaticItemComponent,
+          },
+        ],
       },
     ],
   },

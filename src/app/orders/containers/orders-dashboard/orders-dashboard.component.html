@@ -18,6 +18,7 @@
       <div class="flex space-x-4 w-full p-5 border-b">
         <button
           class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-6"
+          routerLink="/orders/items/static"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +43,7 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-10 w-10"
+            class="h-6 w-6"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -52,7 +53,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span class="text-xs">Aggiungi Ordine</span>
+          <span>Aggiungi Ordine</span>
         </button>
 
         <ng-container
@@ -96,7 +97,7 @@
       <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">
         <app-items-list-widget
           [orderItems]="reverseOrder(activeOrder) || []"
-          [currentOrderPublicId]="activeOrder?.orderPublicId || ''"
+          [currentOrderPublicId]="activeOrder.orderPublicId || ''"
         ></app-items-list-widget>
       </div>
       <div class="flex flex-col space-y-4 w-full md:w-3/12">
