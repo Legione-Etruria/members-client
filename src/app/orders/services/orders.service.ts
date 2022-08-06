@@ -22,8 +22,8 @@ export class OrdersService {
     }
   }
 
-  addOrder(order: Partial<GroupOrder>) {
-    return this.apiHttp.post('/api/v1/orders/add', order);
+  addOrder(order: Partial<GroupOrder>, staticItems: string[]) {
+    return this.apiHttp.post('/api/v1/orders/add', { ...order, staticItems });
   }
 
   addItem(orderID: string, item: fetchedItem) {
@@ -76,8 +76,12 @@ export class OrdersService {
     );
   }
 
-  getStaticItems() {
-    return this.apiHttp.get<StaticItem[]>('/api/v1/orders/static/get');
+  getStaticItems(isActive?: boolean) {
+    return this.apiHttp.get<StaticItem[]>(
+      `/api/v1/orders/static/get${
+        isActive !== undefined ? `?active=${isActive}` : ''
+      }`
+    );
   }
 
   editOrder(orderID: string, toEdit: Partial<GroupOrder>) {
@@ -94,6 +98,10 @@ export class OrdersService {
 
   editItem(item: string, toEdit: Partial<GroupOrder['items'][0]>) {
     return this.apiHttp.post('/api/v1/orders/items/edit?item=' + item, toEdit);
+  }
+
+  editStaticItem(item: string, toEdit: Partial<StaticItem>) {
+    return this.apiHttp.post('/api/v1/orders/static/edit?item=' + item, toEdit);
   }
 
   removeItem(itemId: string) {

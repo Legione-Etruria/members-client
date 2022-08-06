@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BbsGridComponent } from './bbs-grid.component';
+import { StaticItemCardComponent } from './static-item-card.component';
 
-describe('BbsGridComponent', () => {
-  let component: BbsGridComponent;
-  let fixture: ComponentFixture<BbsGridComponent>;
+describe('StaticItemCardComponent', () => {
+  let component: StaticItemCardComponent;
+  let fixture: ComponentFixture<StaticItemCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BbsGridComponent ]
+      declarations: [ StaticItemCardComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BbsGridComponent);
+    fixture = TestBed.createComponent(StaticItemCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

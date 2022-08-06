@@ -7,4 +7,5 @@ export interface StaticItem {
   itemPrice: number;
   itemMeasueUnit: string;
   itemType: 'bb' | 'equip';
+  isActive: boolean;
 }

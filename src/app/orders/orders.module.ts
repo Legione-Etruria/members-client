@@ -21,10 +21,13 @@ import { SharedModule } from '../shared/shared.module';
 import { TailwindFormsModule } from '../tailwind-forms/tailwind-forms.module';
 import { UsersModule } from '../users/users.module';
 import { AddItemWidgetComponent } from './components/add-item-widget/add-item-widget.component';
+import { AddStaticItemFormComponent } from './components/add-static-item-form/add-static-item-form.component';
 import { AddTrackingWidgetComponent } from './components/add-tracking-widget/add-tracking-widget.component';
+import { ChartsComponent } from './components/charts/charts.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
+import { AddStaticItemComponent } from './containers/add-static-item/add-static-item.component';
 import { CompareCartComponent } from './containers/compare-cart/compare-cart.component';
 import { ConfirmOrderComponent } from './containers/confirm-order/confirm-order.component';
 import { CurrentOrderComponent } from './containers/current-order/current-order.component';
@@ -32,13 +35,10 @@ import { EditOrderComponent } from './containers/edit-order/edit-order.component
 import { ItemsListComponent } from './containers/items-list/items-list.component';
 import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-dashboard.component';
 import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
+import { StaticItemsComponent } from './containers/static-items/static-items.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersService } from './services/orders.service';
-import { BbsGridComponent } from './components/bbs-grid/bbs-grid.component';
-import { ChartsComponent } from './components/charts/charts.component';
-import { StaticItemsComponent } from './containers/static-items/static-items.component';
-import { AddStaticItemComponent } from './containers/add-static-item/add-static-item.component';
-import { AddStaticItemFormComponent } from './components/add-static-item-form/add-static-item-form.component';
+import { StaticItemCardComponent } from './components/static-item-card/static-item-card.component';
 
 @NgModule({
   declarations: [
@@ -65,11 +65,11 @@ import { AddStaticItemFormComponent } from './components/add-static-item-form/ad
     TimelineComponent,
     ParcelTrackingComponent,
     AddTrackingWidgetComponent,
-    BbsGridComponent,
     ChartsComponent,
     StaticItemsComponent,
     AddStaticItemComponent,
     AddStaticItemFormComponent,
+    StaticItemCardComponent,
   ],
   providers: [OrdersService],
   imports: [

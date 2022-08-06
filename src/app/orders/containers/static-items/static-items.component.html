@@ -1,6 +1,11 @@
+<golden-tailwind-loading
+  *ngIf="loading"
+  label="Aggiorno Oggetto"
+></golden-tailwind-loading>
+
 <golden-page-header
   [currentCrub]="{
-    label: 'Oggetti Statici',
+    label: 'Oggetti Rapidi',
     routerLink: '/orders/items/static',
     svgPath: [currentCrumbSvg]
   }"
@@ -24,11 +29,18 @@
           clip-rule="evenodd"
         />
       </svg>
-      <span> Aggiungi Oggetto Statico</span>
+      <span> Aggiungi Oggetto Rapido</span>
     </button>
   </div>
 
   <ng-container *ngIf="staticItems$ | async as staticItems">
-    <pre>{{ staticItems | json }}</pre>
+    <div class="flex justify-evenly flex-wrap p-4">
+      <app-static-item-card
+        class="m-2"
+        *ngFor="let item of staticItems"
+        (hideItem)="toggleStaticItem(item._id, item.isActive)"
+        [item]="item"
+      ></app-static-item-card>
+    </div>
   </ng-container>
 </div>

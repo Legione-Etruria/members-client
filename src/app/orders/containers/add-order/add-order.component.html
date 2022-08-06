@@ -9,6 +9,20 @@
   }"
 ></golden-page-header>
 
-<div class="m-10 rounded-lg shadow">
+<ng-container *ngIf="latestOrder$ | async as latestOrder">
+  <ng-container *ngIf="staticItems$ | async as staticItems">
+    <div class="flex w-full justify-evenly">
+      <app-static-item-card
+        class="m-2"
+        *ngFor="let item of staticItems"
+        cardState="selectable"
+        [item]="item"
+        (toggleSelected)="handleSelectStaticItem(item._id)"
+        [isSelected]="selectedStaticItems.includes(item._id)"
+      ></app-static-item-card>
+    </div>
+  </ng-container>
+</ng-container>
+<div class="m-10 rounded-lg shadow space-y-2">
   <app-order-form (submitted)="onSubmit($event)"></app-order-form>
 </div>
