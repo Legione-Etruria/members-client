@@ -1,8 +1,12 @@
 <div class="lg:flex bg-white rounded-lg">
   <div
-    class="h-40 lg:h-full lg:w-24 flex-none bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
+    class="h-40 lg:h-full lg:w-24 bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
   >
-    <img [src]="itemAlt?.imgSrc || item.imgSrc" alt="" class="rounded-lg" />
+    <img
+      [src]="itemAlt?.imgSrc || item.imgSrc"
+      alt=""
+      class="rounded-lg object-cover md:h-24 md:my-4"
+    />
   </div>
   <div
     class="py-3 flex md:flex-col justify-between leading-normal h-fit w-full px-2"

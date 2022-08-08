@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { GroupOrder } from 'src/app/models/group-order';
+import { StaticItem } from 'src/app/models/static-item';
 import { fetchedItem, OrdersService } from '../../services/orders.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class AddItemComponent {
 
   public userId = this.route.snapshot.queryParamMap.get('user');
   public userLabel = this.route.snapshot.queryParamMap.get('userBattleName');
+
+  public currentSelectedStaticItem = '';
 
   public item!: fetchedItem | null;
   public isInvalid = false;
@@ -34,11 +37,31 @@ export class AddItemComponent {
     private authService: AuthService
   ) {}
 
-  validateURL(url: string, currentOrder: GroupOrder) {
+  public handleSelectedStaticItem = (item: StaticItem) => {
+    this.currentSelectedStaticItem = item._id;
+    this.itemURL = '';
+
+    this.item = {
+      price: item.itemPrice,
+      name: item.itemName,
+      imgSrc: item.imgSrc,
+      itemUrl: item.itemUrl,
+      itemQuantity: 1,
+      isUnavailable: false,
+    };
+
+    console.log(`static item`, item);
+    console.log('item', this.item);
+  };
+
+  public validateURL(url: string, currentOrder: GroupOrder) {
+    console.log('validateURL', url);
     const isUrl =
-      /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(
+      /(([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?/.test(
         url
       );
+
+    console.log(isUrl);
 
     if (!isUrl) {
       this.isInvalid = true;
@@ -65,6 +88,7 @@ export class AddItemComponent {
 
     if (!isIlsemaforo && !isTaiwangun) {
       this.isInvalid = true;
+      this.invalidMessage = 'Negozio non valido';
       return;
     }
 

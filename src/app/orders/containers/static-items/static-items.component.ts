@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, Subject, switchMap, tap } from 'rxjs';
 import { StaticItem } from 'src/app/models/static-item';
 import { SvgEnum } from 'src/app/models/svg.enum';
+import { IFilter } from '../../components/filter/filter.component';
 import { OrdersService } from '../../services/orders.service';
 
 @Component({
@@ -13,9 +15,28 @@ import { OrdersService } from '../../services/orders.service';
 export class StaticItemsComponent {
   public currentCrumbSvg = SvgEnum.adjustments;
   public loading = false;
+  public searchTerm = new FormControl('');
 
   private _staticItemsSubject$ = new Subject<StaticItem[]>();
   public staticItems$: Observable<StaticItem[]> = this._staticItemsSubject$;
+
+  public quickFilters: IFilter[] = [
+    {
+      label: 'Nessun filtro',
+      value: '',
+      svgPath: SvgEnum.emptyCube,
+    },
+    {
+      label: 'Pallini',
+      value: 'pallini',
+      svgPath: '',
+    },
+    {
+      label: 'Equipaggiamento',
+      value: 'equip',
+      svgPath: SvgEnum.map,
+    },
+  ];
 
   constructor(
     private ordersService: OrdersService,
@@ -44,5 +65,9 @@ export class StaticItemsComponent {
     return this.ordersService
       .getStaticItems()
       .pipe(tap((items) => this._staticItemsSubject$.next(items)));
+  }
+
+  public filterByActive(staticItems: StaticItem[], isActive: boolean) {
+    return staticItems.filter((i) => i.isActive === isActive);
   }
 }

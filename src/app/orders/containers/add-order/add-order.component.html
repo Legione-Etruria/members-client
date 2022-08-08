@@ -11,7 +11,7 @@
 
 <ng-container *ngIf="latestOrder$ | async as latestOrder">
   <ng-container *ngIf="staticItems$ | async as staticItems">
-    <div class="flex w-full justify-evenly">
+    <div class="flex w-full lg:justify-evenly overflow-x-scroll">
       <app-static-item-card
         class="m-2"
         *ngFor="let item of staticItems"
@@ -23,6 +23,6 @@
     </div>
   </ng-container>
 </ng-container>
-<div class="m-10 rounded-lg shadow space-y-2">
+<div class="m-4 lg:m-10 rounded-lg shadow space-y-2">
   <app-order-form (submitted)="onSubmit($event)"></app-order-form>
 </div>

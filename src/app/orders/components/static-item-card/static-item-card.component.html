@@ -1,6 +1,6 @@
 <div
   *ngIf="item"
-  class="max-w-xs p-6 rounded-lg shadow-md bg-white transition-all"
+  class="p-6 rounded-lg shadow-md bg-white transition-all"
   [ngClass]="{
     'hover:text-legio-gold-500 cursor-pointer': cardState === 'selectable'
   }"
@@ -12,17 +12,19 @@
     class="object-contain object-center w-full rounded-md h-32"
   />
   <div class="mt-6 mb-2">
-    <span class="block text-xs font-medium tracking-widest uppercase"
-      >{{ item.itemPrice | currency: "€" }} / {{ item.itemMeasueUnit }}</span
+    <span
+      class="flex text-xs font-medium tracking-widest uppercase py-2 border-b"
+      >{{ item.itemPrice | currency: "€" }}
+      <span class="hidden md:block"> / {{ item.itemMeasueUnit }}</span></span
     >
     <h2
-      class="font-semibold tracking-wide"
+      class="font-semibold tracking-wide py-2 whitespace-nowrap text-sm md:text-base"
       [title]="item.itemName"
       *ngIf="item.itemName !== undefined"
     >
       {{
-        item.itemName.length > 35
-          ? (item.itemName | slice: 0:35) + "..."
+        item.itemName.length > 20
+          ? (item.itemName | slice: 0:20) + "..."
           : item.itemName
       }}
     </h2>

@@ -12,35 +12,89 @@
 ></golden-page-header>
 
 <div class="mx-2 mt-2 md:m-10">
-  <div class="border-b p-4">
-    <button
-      class="py-2 px-4 bg-legio-green-300 rounded-lg text-white font-medium uppercase flex space-x-2 hover:bg-legio-green-200"
-      routerLink="/orders/items/static/add"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      <span> Aggiungi Oggetto Rapido</span>
-    </button>
-  </div>
-
   <ng-container *ngIf="staticItems$ | async as staticItems">
-    <div class="flex justify-evenly flex-wrap p-4">
-      <app-static-item-card
-        class="m-2"
-        *ngFor="let item of staticItems"
-        (hideItem)="toggleStaticItem(item._id, item.isActive)"
-        [item]="item"
-      ></app-static-item-card>
+    <div class="border-b p-4">
+      <button
+        class="py-2 px-4 bg-legio-green-300 rounded-lg text-white font-medium uppercase flex space-x-2 hover:bg-legio-green-200"
+        routerLink="/orders/items/static/add"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span> Aggiungi Oggetto Rapido</span>
+      </button>
+    </div>
+
+    <div class="flex flex-col-reverse lg:flex-row justify-between m-4">
+      <div class="flex flex-wrap border-r w-full lg:w-8/12">
+        <app-static-item-card
+          *ngFor="let item of staticItems"
+          class="m-4 px-4"
+          (hideItem)="toggleStaticItem(item._id, item.isActive)"
+          [item]="item"
+        ></app-static-item-card>
+      </div>
+
+      <div class="w-full lg:w-6/12 p-4 space-y-4">
+        <div class="flex space-x-2">
+          <div class="w-full">
+            <div>
+              <label
+                for="search-field"
+                class="text-sm font-medium hidden md:block"
+                >Cerca tra gli oggetti</label
+              >
+              <label
+                for="search-field"
+                class="text-sm font-medium block md:hidden"
+                >Cerca
+              </label>
+            </div>
+
+            <input
+              class="w-full rounded-lg border-none p-2 text-sm font-medium shadow focus:ring-2"
+              placeholder="es. Pallini, 24.40"
+              id="search-field"
+              type="text"
+              [formControl]="searchTerm"
+            />
+          </div>
+          <div class="flex flex-col justify-end">
+            <app-filter
+              [filters]="quickFilters"
+              [currentFilter]="searchTerm.value || ''"
+              (filterChange)="searchTerm.setValue($any($event))"
+            ></app-filter>
+          </div>
+        </div>
+        <div
+          class="bg-white text-xs font-medium text-gray-400 space-y-2 px-2 rounded-lg py-4 border divide-y shadow-lg w-full"
+        >
+          <div class="flex justify-between pt-2">
+            <span
+              >{{ searchTerm.value?.length ? "TOTALE" : "RISULTATI" }}
+            </span>
+            <span>{{ staticItems.length }}</span>
+          </div>
+          <div class="flex justify-between pt-2">
+            <span>ATTIVI</span>
+            <span>{{ filterByActive(staticItems, true).length }}</span>
+          </div>
+          <div class="flex justify-between pt-2">
+            <span>DISATTIVI</span>
+            <span>{{ filterByActive(staticItems, false).length }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </ng-container>
 </div>

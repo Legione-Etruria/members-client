@@ -92,6 +92,17 @@
     </div>
   </div>
 
+  <div class="flex overflow-x-scroll border-r w-full lg:w-8/12">
+    <app-static-item-card
+      *ngFor="let staticItem of currentOrder.staticItems"
+      class="m-2 px-2"
+      [item]="staticItem"
+      [isSelected]="currentSelectedStaticItem === staticItem._id && !itemURL"
+      (toggleSelected)="handleSelectedStaticItem(staticItem)"
+      cardState="selectable"
+    ></app-static-item-card>
+  </div>
+
   <div class="mx-2 md:mx-10 my-4" *ngIf="item">
     <app-order-item-card
       [itemAlt]="item"
