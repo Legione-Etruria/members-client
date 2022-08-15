@@ -385,7 +385,9 @@
                               orderStatus !== 'issued'
                             "
                             [disabled]="
-                              loading || item.itemStatus === 'confirmed'
+                              loading ||
+                              item.itemStatus === 'confirmed' ||
+                              ['cancelled'].includes(orderStatus)
                             "
                             (click)="editItemStatus(item._id, 'confirmed')"
                           >
