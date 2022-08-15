@@ -15,8 +15,13 @@
           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
         />
       </svg>
-      <span class="font-medium tracking-wider mx-2 uppercase whitespace-nowrap"
-        >Ordine in Corso</span
+      <span
+        class="font-medium tracking-wider mx-2 uppercase whitespace-nowrap"
+        >{{
+          currentOrder?.orderStatus === "pending"
+            ? "Ordine in corso"
+            : "Ultimo ordine"
+        }}</span
       >
     </div>
   </div>
@@ -38,7 +43,7 @@
     <div *ngIf="currentOrder && currentOrder?.orderPublicId" class="">
       <app-order-info [currentOrder]="currentOrder"></app-order-info>
 
-      <div>
+      <div *ngIf="currentOrder.orderStatus === 'pending'">
         <button
           class="rounded-lg w-full bg-legio-green-300 hover:bg-legio-green-200 p-2 uppercase font-medium text-white mt-4 text-sm shadow-lg shadow-legio-green-300/50 hover:shadow-legio-green-200/50"
           [routerLink]="isAdmin ? '/orders/dashboard' : '/orders/current'"

@@ -8,9 +8,11 @@ import { AuthService } from '../../auth/services/auth.service';
 import { GroupOrder } from '../../models/group-order';
 import { OrderItem } from '../../models/order-item';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrdersService {
-  public ordersSubject$ = new ReplaySubject<GroupOrder | null>();
+  public ordersSubject$ = new ReplaySubject<GroupOrder | null>(0);
 
   constructor(
     private apiHttp: ApiHttpService,

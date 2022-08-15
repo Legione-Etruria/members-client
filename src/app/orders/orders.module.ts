@@ -24,6 +24,7 @@ import { AddItemWidgetComponent } from './components/add-item-widget/add-item-wi
 import { AddStaticItemFormComponent } from './components/add-static-item-form/add-static-item-form.component';
 import { AddTrackingWidgetComponent } from './components/add-tracking-widget/add-tracking-widget.component';
 import { ChartsComponent } from './components/charts/charts.component';
+import { StaticItemCardComponent } from './components/static-item-card/static-item-card.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { AddItemComponent } from './containers/add-item/add-item.component';
 import { AddOrderComponent } from './containers/add-order/add-order.component';
@@ -37,8 +38,6 @@ import { OrdersDashboardComponent } from './containers/orders-dashboard/orders-d
 import { ParcelTrackingComponent } from './containers/parcel-tracking/parcel-tracking.component';
 import { StaticItemsComponent } from './containers/static-items/static-items.component';
 import { OrdersRoutingModule } from './orders-routing.module';
-import { OrdersService } from './services/orders.service';
-import { StaticItemCardComponent } from './components/static-item-card/static-item-card.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +70,7 @@ import { StaticItemCardComponent } from './components/static-item-card/static-it
     AddStaticItemFormComponent,
     StaticItemCardComponent,
   ],
-  providers: [OrdersService],
+  // providers: [OrdersService],
   imports: [
     CommonModule,
     OrdersRoutingModule,

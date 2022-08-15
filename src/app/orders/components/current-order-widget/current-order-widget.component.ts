@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GroupOrder } from '../../../models/group-order';
 
 @Component({
@@ -6,11 +6,9 @@ import { GroupOrder } from '../../../models/group-order';
   templateUrl: './current-order-widget.component.html',
   styleUrls: ['./current-order-widget.component.scss'],
 })
-export class CurrentOrderWidgetComponent implements OnInit {
+export class CurrentOrderWidgetComponent {
   @Input() currentOrder?: GroupOrder | null;
   @Input() isAdmin = false;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

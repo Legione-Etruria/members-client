@@ -12,7 +12,7 @@
 ></golden-page-header>
 
 <div class="mx-2 mt-2 md:m-10">
-  <ng-container *ngIf="staticItems$ | async as staticItems">
+  <ng-container *ngIf="filteredStaticItems$ | async as staticItems">
     <div class="border-b p-4">
       <button
         class="py-2 px-4 bg-legio-green-300 rounded-lg text-white font-medium uppercase flex space-x-2 hover:bg-legio-green-200"
@@ -35,16 +35,16 @@
     </div>
 
     <div class="flex flex-col-reverse lg:flex-row justify-between m-4">
-      <div class="flex flex-wrap border-r w-full lg:w-8/12">
+      <div class="flex flex-wrap lg:border-r justify-between w-full">
         <app-static-item-card
           *ngFor="let item of staticItems"
-          class="m-4 px-4"
+          class="m-4 px-4 w-full lg:w-5/12"
           (hideItem)="toggleStaticItem(item._id, item.isActive)"
           [item]="item"
         ></app-static-item-card>
       </div>
 
-      <div class="w-full lg:w-6/12 p-4 space-y-4">
+      <div class="w-full lg:w-8/12 p-4 space-y-4">
         <div class="flex space-x-2">
           <div class="w-full">
             <div>
@@ -65,14 +65,14 @@
               placeholder="es. Pallini, 24.40"
               id="search-field"
               type="text"
-              [formControl]="searchTerm"
+              [formControl]="searchField"
             />
           </div>
           <div class="flex flex-col justify-end">
             <app-filter
               [filters]="quickFilters"
-              [currentFilter]="searchTerm.value || ''"
-              (filterChange)="searchTerm.setValue($any($event))"
+              [currentFilter]="searchField.value || ''"
+              (filterChange)="searchField.setValue($any($event))"
             ></app-filter>
           </div>
         </div>
@@ -81,7 +81,7 @@
         >
           <div class="flex justify-between pt-2">
             <span
-              >{{ searchTerm.value?.length ? "TOTALE" : "RISULTATI" }}
+              >{{ searchField.value?.length ? "TOTALE" : "RISULTATI" }}
             </span>
             <span>{{ staticItems.length }}</span>
           </div>

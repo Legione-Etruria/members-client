@@ -11,46 +11,53 @@
     alt=""
     class="object-contain object-center w-full rounded-md h-32"
   />
+
   <div class="mt-6 mb-2">
     <span
       class="flex text-xs font-medium tracking-widest uppercase py-2 border-b"
       >{{ item.itemPrice | currency: "€" }}
       <span class="hidden md:block"> / {{ item.itemMeasueUnit }}</span></span
     >
-    <h2
-      class="font-semibold tracking-wide py-2 whitespace-nowrap text-sm md:text-base"
-      [title]="item.itemName"
-      *ngIf="item.itemName !== undefined"
-    >
-      {{
-        item.itemName.length > 20
-          ? (item.itemName | slice: 0:20) + "..."
-          : item.itemName
-      }}
-    </h2>
+    <div [ngClass]="{ 'flex space-x-1': cardState === 'selectable' }">
+      <h2
+        class="font-semibold tracking-wide py-2 whitespace-nowrap text-sm md:text-base"
+        [title]="item.itemName"
+        *ngIf="item.itemName !== undefined"
+      >
+        {{
+          item.itemName.length > 20
+            ? (item.itemName | slice: 0:20) + "..."
+            : item.itemName
+        }}
+      </h2>
+      <span
+        class="flex flex-col justify-center"
+        *ngIf="cardState === 'selectable'"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          [ngClass]="isSelected ? 'text-legio-gold-400' : 'text-gray-500'"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            *ngIf="isSelected"
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+          <path
+            *ngIf="!isSelected"
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </span>
+    </div>
   </div>
-  <div class="flex justify-end" *ngIf="cardState === 'selectable'">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-6 w-6"
-      [ngClass]="isSelected ? 'text-legio-gold-400' : 'text-gray-500'"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        *ngIf="isSelected"
-        fill-rule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-        clip-rule="evenodd"
-      />
-      <path
-        *ngIf="!isSelected"
-        fill-rule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-        clip-rule="evenodd"
-      />
-    </svg>
-  </div>
+
   <div *ngIf="cardState === 'editable'" class="flex justify-end">
     <div
       class="cursor-pointer transition-all duration-200"
