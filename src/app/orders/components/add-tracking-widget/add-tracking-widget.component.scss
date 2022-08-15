@@ -3,3 +3,9 @@
     left: 10px;
     @apply text-slate-700 top-0 bottom-0 absolute pointer-events-none m-auto
   }
+
+  .dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    transform: translate(0) scale(1);
+    visibility: visible;
+  }
