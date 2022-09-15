@@ -25,6 +25,18 @@ export class DocumentsComponent implements OnInit {
         'Liberatoria consistente in uno scarico di responsabilità da far firmare ai minori non accompagnati da un tutore legale.',
       href: 'https://drive.google.com/file/d/127vbQQVSKsztpbO-mbjW2UB5FBOiSt_e/view',
     },
+    {
+      label: 'Richiesta Certificato non Agonistico',
+      description:
+        'Modulo da compilare agli atleti che vogliono effettuare un certificato non agonistico',
+      href: 'https://drive.google.com/file/d/1u26mZlDkoqKsfed31Eg1W17b6vqsXy7u/view',
+    },
+    {
+      label: 'Richiesta Certificato Agonistico',
+      description:
+        'Modulo da compilare agli atleti che vogliono effettuare un certificato agonistico',
+      href: 'https://drive.google.com/file/d/1rI_wfg9OA6AJMY5JlenQrqEsSwWyh4L1/view',
+    },
   ];
 
   constructor() {}
