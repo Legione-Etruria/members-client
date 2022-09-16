@@ -40,9 +40,10 @@ export class HomeComponent {
           throw new Error('Impossibile error, navBar is missing items');
         }
         this.navItems[2].dropdownData.rows[0][0] = {
-          label: !this.currentOrder?.no_order
-            ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
-            : 'Nessun ordine disp.',
+          label:
+            this.currentOrder?.orderStatus === 'pending'
+              ? `Ordine Corrente (#${this.currentOrder?.orderPublicId})`
+              : 'Nessun ordine disp.',
           routerLink: '/orders/current',
           roles:
             !environment.debugAddItems && 'admin' === this.currentUser?.role
