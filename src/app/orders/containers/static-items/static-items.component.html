@@ -4,7 +4,7 @@
 ></golden-tailwind-loading>
 
 <golden-page-header
-  [currentCrub]="{
+  [currentCrumb]="{
     label: 'Oggetti Rapidi',
     routerLink: '/orders/items/static',
     svgPath: [currentCrumbSvg]
@@ -14,10 +14,7 @@
 <div class="mx-2 mt-2 md:m-10 h-screen">
   <ng-container *ngIf="filteredStaticItems$ | async as staticItems">
     <div class="border-b p-4">
-      <button
-        class="py-2 px-4 bg-legio-green-300 rounded-lg text-white font-medium uppercase flex space-x-2 hover:bg-legio-green-200"
-        routerLink="/orders/items/static/add"
-      >
+      <button class="navigation-button" routerLink="/orders/items/static/add">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6"

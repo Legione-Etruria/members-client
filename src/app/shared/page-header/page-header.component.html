@@ -55,14 +55,14 @@
             stroke="currentColor"
           >
             <path
-              *ngFor="let path of currentCrub.svgPath"
+              *ngFor="let path of currentCrumb.svgPath"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               [attr.d]="path"
             />
           </svg>
-          <span>{{ currentCrub.label }}</span>
+          <span>{{ currentCrumb.label }}</span>
         </a>
       </li>
     </ol>
@@ -83,6 +83,6 @@
   <h1
     class="text-3xl font-bold mx-2 my-4 text-slate-800 uppercase text-center md:text-left"
   >
-    {{ currentCrub.label | titlecase }}
+    {{ currentCrumb.label | titlecase }}
   </h1>
 </div>

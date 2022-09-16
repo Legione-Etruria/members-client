@@ -18,4 +18,5 @@ export interface User {
   signedUpAt: Date;
   birthDate: Date;
   accountGroup: AccountGroup;
+  phoneNumber?: string;
 }

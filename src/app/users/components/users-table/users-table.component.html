@@ -43,7 +43,11 @@
                         "
                       ></golden-table-cell>
                       <golden-table-cell
-                        [label]="user.email"
+                        label="{{ user.email }} {{
+                          user.phoneNumber?.length
+                            ? '- ' + (user.phoneNumber || '' | phone)
+                            : ''
+                        }} "
                       ></golden-table-cell>
                     </div>
                   </td>

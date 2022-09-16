@@ -16,7 +16,7 @@ import {
 })
 export class PageHeaderComponent implements OnInit, OnChanges {
   @Input() headerText = '';
-  @Input() currentCrub!: IBreadcrumb;
+  @Input() currentCrumb!: IBreadcrumb;
   @Input() buttons: { label: string; routerLink: string; hidden?: boolean }[] =
     [];
 
@@ -33,7 +33,7 @@ export class PageHeaderComponent implements OnInit, OnChanges {
   }
 
   private _updateBreadcrumbs() {
-    this.breadcrumbsService.add(this.currentCrub);
+    this.breadcrumbsService.add(this.currentCrumb);
     this.breadcrumbs = this.breadcrumbsService.breadcrumbs;
   }
 

@@ -44,6 +44,7 @@ export class SignupComponent {
             Validators.maxLength(20),
           ],
         ],
+        phoneNumber: [''],
         figtMembership: ['', Validators.required],
         battleName: ['', Validators.required],
         firstName: ['', Validators.required],
@@ -86,9 +87,6 @@ export class SignupComponent {
   onSubmit(): void {
     this.submitted = true;
 
-    console.log('form is valid', this.form.valid);
-    console.log('loading', this.loading);
-
     // stop here if form is invalid
     if (this.form.invalid || this.loading) {
       return;
@@ -97,18 +95,7 @@ export class SignupComponent {
     this.loading = true;
 
     this.authService
-      .signUp(
-        this.f.email.value,
-        this.f.password.value,
-        this.f.role.value,
-        this.f.firstName.value,
-        this.f.lastName.value,
-        this.f.battleName.value,
-        this.f.figtMembership.value,
-        this.f.legioMembershipDate.value,
-        this.f.legioMembershipSubscriptionCost.value,
-        this.f.birthDate.value
-      )
+      .signUp(this.form.value)
       ?.pipe(
         first(),
         takeUntil(this.destroy$),

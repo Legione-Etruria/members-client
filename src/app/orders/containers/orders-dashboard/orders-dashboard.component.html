@@ -1,6 +1,6 @@
 <golden-page-header
   headerText="Dashboard ordini"
-  [currentCrub]="{
+  [currentCrumb]="{
     label: 'Dashboard Ordini',
     svgPath: [
       'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
@@ -16,10 +16,7 @@
   <ng-container *ngIf="pastOrders$ | async as pastOrders">
     <div class="m-2 md:mx-4 md:my-0">
       <div class="flex space-x-4 w-full p-5 border-b">
-        <button
-          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-6"
-          routerLink="/orders/items/static"
-        >
+        <button class="navigation-button" routerLink="/orders/items/static">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -38,7 +35,7 @@
           *ngIf="
             currentOrder.no_order || currentOrder.orderStatus !== 'pending'
           "
-          class="rounded-lg p-2 font-medium text-sm bg-legio-green-400 hover:bg-legio-green-300 text-white flex items-center space-x-2 uppercase px-6"
+          class="navigation-button"
           routerLink="/orders/add"
         >
           <svg

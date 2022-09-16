@@ -1,0 +1,29 @@
+<golden-page-header
+  [currentCrumb]="{
+    label: 'Comunicazioni',
+    routerLink: '/announcements/list',
+    svgPath: [
+      'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'
+    ]
+  }"
+></golden-page-header>
+
+<div class="m-2 lg:m-10">
+  <div class="flex justify-end">
+    <button class="navigation-button" routerLink="/announcements/add">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-7 w-7"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <div class="flex flex-col justify-center">Aggiungi</div>
+    </button>
+  </div>
+</div>

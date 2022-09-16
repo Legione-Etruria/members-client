@@ -67,30 +67,21 @@ export class AuthService {
       );
   }
 
-  signUp(
-    email: string,
-    password: string,
-    role: string,
-    firstName: string,
-    lastName: string,
-    battleName: string,
-    figtMembership: string,
-    legioMembershipDate: Date,
-    legioMembershipSubscriptionCost: number,
-    birthDate: Date
-  ) {
-    return this.apiHttpService.post<User>('/api/v1/users/signup', {
-      email,
-      password,
-      role,
-      firstName,
-      lastName,
-      battleName,
-      figtMembership,
-      legioMembershipDate,
-      birthDate,
-      legioMembershipSubscriptionCost,
-    });
+  signUp(data: {
+    email: string;
+    password: string;
+    role: string;
+    firstName: string;
+    lastName: string;
+    battleName: string;
+    figtMembership: string;
+    legioMembershipDate: Date;
+    legioMembershipSubscriptionCost: number;
+    birthDate: Date;
+    phoneNumber: string;
+  }) {
+    console.log(data);
+    return this.apiHttpService.post<User>('/api/v1/users/signup', data);
   }
 
   signOut() {

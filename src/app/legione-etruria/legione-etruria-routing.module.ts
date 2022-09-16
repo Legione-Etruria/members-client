@@ -40,6 +40,14 @@ const routes: Routes = [
         canActivate: [VerifyGuard],
       },
       {
+        path: 'announcements',
+        loadChildren: () =>
+          import('../announcements/announcements.module').then(
+            (m) => m.AnnouncementsModule
+          ),
+        canActivate: [VerifyGuard],
+      },
+      {
         path: 'orders',
         loadChildren: () =>
           import('../orders/orders.module').then((m) => m.OrdersModule),
