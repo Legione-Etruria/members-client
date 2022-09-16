@@ -1,17 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
+import { map } from 'rxjs';
 import { Announcement } from 'src/app/models/announcement';
+import { UsersService } from 'src/app/users/services/users.service';
 
 @Component({
   selector: 'app-add-announcement',
   templateUrl: './add-announcement.component.html',
   styleUrls: ['./add-announcement.component.scss'],
 })
-export class AddAnnouncementComponent implements OnInit {
-  public data: Partial<Announcement> = {
+export class AddAnnouncementComponent {
+  public users$ = this.usersService
+    .getUsers()
+    .pipe(
+      map((i) => i.map((j) => ({ item_id: j._id, item_text: j.battleName })))
+    );
+
+  public data: Partial<Announcement & { users: string[] }> = {
     title: '',
     description: '',
     location: '',
     attachments: [],
+    users: [],
+  };
+
+  public selectedUsers: { item_id: string; item_text: string }[] = [];
+
+  dropdownSettings: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'item_id',
+    textField: 'item_text',
+    selectAllText: 'Seleziona Tutti',
+    unSelectAllText: 'Deseleziona Tutti',
+    searchPlaceholderText: 'Cerca',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
   };
 
   public froalaOptions = {
@@ -66,7 +89,7 @@ export class AddAnnouncementComponent implements OnInit {
     ],
   };
 
-  constructor() {}
+  constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {}
 
@@ -76,5 +99,17 @@ export class AddAnnouncementComponent implements OnInit {
     type: string;
   }) {
     this.data.attachments?.push(file);
+  }
+
+  public handleUnSelectUser(user: { item_id: string }) {
+    this.data.users?.splice(this.data.users.indexOf(user.item_id), 1);
+  }
+
+  public handleSelectUser(user: { item_id: string }) {
+    this.data.users?.push(user.item_id as string);
+  }
+
+  public handleSelectAllUsers(users: { item_id: string }[]) {
+    (this.data.users as string[]) = users.map((i) => i.item_id as string);
   }
 }

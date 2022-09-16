@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SharedModule } from '../shared/shared.module';
 import { AnnouncementsRoutingModule } from './announcements-routing.module';
 import { AnnouncementFormComponent } from './components/announcement-form/announcement-form.component';
@@ -21,6 +22,7 @@ import { AnnouncementsComponent } from './containers/announcements/announcements
     FroalaEditorModule.forRoot(),
     FroalaViewModule,
     SharedModule,
+    NgMultiSelectDropDownModule,
     FormsModule,
   ],
 })

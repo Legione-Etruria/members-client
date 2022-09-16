@@ -9,8 +9,9 @@
   }"
 ></golden-page-header>
 
-<div class="m-10 p-4 flex justify-around flex-wrap space-y-6 md:space-y-0">
+<div class="m-10 p-4 flex justify-around flex-wrap space-y-6">
   <app-document-card
+    class="first:md:mt-6"
     *ngFor="let document of documents"
     [document]="document"
   ></app-document-card>
