@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { differenceInDays } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Observable, switchMap, tap } from 'rxjs';
+import { catchError, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { GroupOrder } from '../../../models/group-order';
 import { OrdersService } from '../../services/orders.service';
 
@@ -11,8 +11,9 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./current-order.component.scss'],
 })
 export class CurrentOrderComponent {
-  public currentOrder$: Observable<GroupOrder | null> =
-    this.ordersService.getCurrentOrder();
+  public currentOrderSubj$ = new Subject<GroupOrder | null>();
+
+  public currentOrder$: Observable<GroupOrder | null> = this.currentOrderSubj$;
 
   public loading = false;
 
@@ -26,7 +27,10 @@ export class CurrentOrderComponent {
   constructor(
     private ordersService: OrdersService,
     private toastrService: ToastrService
-  ) {}
+  ) {
+    this.emitGetCurrentOrder().subscribe();
+  }
+
   isLastOrderWeek(dueDate: Date) {
     const today = new Date();
     return differenceInDays(new Date(dueDate), today) < 7;
@@ -56,14 +60,21 @@ export class CurrentOrderComponent {
       .removeItem(itemId)
       .pipe(
         tap(() => this.toastrService.success('Oggetto rimosso')),
-        switchMap(() => this.ordersService.getCurrentOrder()),
+        switchMap(() => this.emitGetCurrentOrder()),
         tap(() => (this.loading = false)),
         catchError((err) => {
           this.toastrService.error(err.error.errors[0].message);
           this.loading = false;
-          return this.ordersService.getCurrentOrder();
+          return of();
         })
       )
       .subscribe();
+  }
+
+  public emitGetCurrentOrder() {
+    return this.ordersService.getCurrentOrder().pipe(
+      tap((i) => console.log('get current')),
+      tap((i) => this.currentOrderSubj$.next(i))
+    );
   }
 }
