@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, switchMap, tap } from 'rxjs';
 import { GroupOrder } from 'src/app/models/group-order';
+import { StaticItem } from 'src/app/models/static-item';
 import { OrdersService } from '../../services/orders.service';
 
 @Component({
@@ -11,8 +12,13 @@ import { OrdersService } from '../../services/orders.service';
   styleUrls: ['./edit-order.component.scss'],
 })
 export class EditOrderComponent implements OnInit {
-  public currentOrder$ = this.ordersService.ordersSubject$;
+  public currentOrder$ = this.ordersService.ordersSubject$.pipe(
+    tap((o) => this.setInitialStaticItems(o?.staticItems || []))
+  );
+  public staticItems$ = this.ordersService.getStaticItems(true);
+
   public loading = false;
+  public selectedStaticItems: string[] = [];
 
   constructor(
     private ordersService: OrdersService,
@@ -24,6 +30,8 @@ export class EditOrderComponent implements OnInit {
 
   onSubmit(form: Partial<GroupOrder>, orderID: string) {
     this.loading = true;
+
+    form.staticItemsIds = this.selectedStaticItems;
 
     this.ordersService
       .editOrder(orderID, form)
@@ -41,5 +49,23 @@ export class EditOrderComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  public handleSelectStaticItem(item: string) {
+    if (this.selectedStaticItems.includes(item)) {
+      this.selectedStaticItems = this.selectedStaticItems.filter(
+        (i) => i !== item
+      );
+      return;
+    }
+
+    this.selectedStaticItems.push(item);
+    return;
+  }
+
+  public setInitialStaticItems(items: StaticItem[]) {
+    this.selectedStaticItems = items
+      .filter((i) => i.isActive === true)
+      .map((i) => i._id);
   }
 }

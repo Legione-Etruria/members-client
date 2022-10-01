@@ -20,7 +20,7 @@ export class HomeComponent {
     map(() => this.authService.currentUserValue)
   );
 
-  public currentUser?: User;
+  public currentUser?: User = this.authService.currentUserValue;
   public openMobileDropdown = false;
   public showDropdown = 'none';
   public currentOrder$ = this.ordersService.ordersSubject$;
@@ -142,7 +142,7 @@ export class HomeComponent {
     },
     {
       label: 'Comunicazioni',
-      disabled: false,
+      disabled: this.currentUser?.role === 'admin' ? false : true,
       routerLink: '/announcements/list',
       roles: ['admin', 'athlete'],
       svgPath: [

@@ -12,6 +12,18 @@
   class="m-10 rounded-lg shadow"
   *ngIf="currentOrder$ | async as currentOrder"
 >
+  <ng-container *ngIf="staticItems$ | async as staticItems">
+    <div class="flex w-full lg:justify-evenly overflow-x-scroll">
+      <app-static-item-card
+        class="m-2"
+        *ngFor="let item of staticItems"
+        cardState="selectable"
+        [item]="item"
+        (toggleSelected)="handleSelectStaticItem(item._id)"
+        [isSelected]="selectedStaticItems.includes(item._id)"
+      ></app-static-item-card>
+    </div>
+  </ng-container>
   <app-order-form
     (submitted)="onSubmit($event, currentOrder._id)"
     [loading]="loading"

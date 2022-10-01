@@ -9,6 +9,7 @@ import { AnnouncementsRoutingModule } from './announcements-routing.module';
 import { AnnouncementFormComponent } from './components/announcement-form/announcement-form.component';
 import { AddAnnouncementComponent } from './containers/add-announcement/add-announcement.component';
 import { AnnouncementsComponent } from './containers/announcements/announcements.component';
+import { AnnouncementsService } from './services/announcements.service';
 
 @NgModule({
   declarations: [
@@ -25,5 +26,6 @@ import { AnnouncementsComponent } from './containers/announcements/announcements
     NgMultiSelectDropDownModule,
     FormsModule,
   ],
+  providers: [AnnouncementsService],
 })
 export class AnnouncementsModule {}

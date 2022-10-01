@@ -12,7 +12,7 @@ import { OrdersService } from '../../services/orders.service';
 })
 export class CurrentOrderComponent {
   public currentOrder$: Observable<GroupOrder | null> =
-    this.ordersService.ordersSubject$;
+    this.ordersService.getCurrentOrder();
 
   public loading = false;
 

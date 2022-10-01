@@ -42,7 +42,7 @@ export class OrdersDashboardComponent implements OnInit {
   );
   public carriers$ = this.ordersService.getCarriers();
   public currentOrder$: Observable<GroupOrder | null> =
-    this.ordersService.ordersSubject$;
+    this.ordersService.getCurrentOrder();
   public pastOrders$: Observable<GroupOrder[]> = this.pastOrdersSubject$;
   public activeOrder?: GroupOrder;
   loading = true;

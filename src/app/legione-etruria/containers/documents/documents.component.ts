@@ -26,16 +26,10 @@ export class DocumentsComponent implements OnInit {
       href: 'https://drive.google.com/file/d/127vbQQVSKsztpbO-mbjW2UB5FBOiSt_e/view',
     },
     {
-      label: 'Richiesta Certificato non Agonistico',
+      label: 'Modulo Certificato Medici',
       description:
-        'Modulo da compilare agli atleti che vogliono effettuare un certificato non agonistico',
-      href: 'https://drive.google.com/file/d/1u26mZlDkoqKsfed31Eg1W17b6vqsXy7u/view',
-    },
-    {
-      label: 'Richiesta Certificato Agonistico',
-      description:
-        'Modulo da compilare agli atleti che vogliono effettuare un certificato agonistico',
-      href: 'https://drive.google.com/file/d/1rI_wfg9OA6AJMY5JlenQrqEsSwWyh4L1/view',
+        'Modulo da compilare e consegnare ad un laboratorio Synlab base per ottenere il certificato medico sportivo agonistico.',
+      href: 'https://drive.google.com/drive/folders/1inB38xA_wGXAt12XLA-dUD64Koy_SrFg',
     },
   ];
 

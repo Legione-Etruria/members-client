@@ -2,7 +2,7 @@
   <ngx-dropzone
     (change)="onSelect($event); onSubmit()"
     [multiple]="false"
-    class="w-8/12"
+    class="lg:w-8/12"
     [disabled]="loading"
   >
     <ngx-dropzone-label
@@ -24,7 +24,7 @@
           </svg>
         </div>
 
-        <div class="text-justify">
+        <div class="text-justify p-4 md:p-0">
           <p>Fai click per caricare un file</p>
           <p>oppure trascinalo all'interno di questo riquadro.</p>
         </div>

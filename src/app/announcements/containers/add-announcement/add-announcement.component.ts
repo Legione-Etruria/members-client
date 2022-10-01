@@ -91,8 +91,6 @@ export class AddAnnouncementComponent {
 
   constructor(private usersService: UsersService) {}
 
-  ngOnInit(): void {}
-
   public handleFileChanged(file: {
     name: string;
     base64: string;
