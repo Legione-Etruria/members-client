@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { format } from 'date-fns';
+import { format, startOfYear } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, first, Subject, takeUntil, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -34,30 +34,8 @@ export class SignupComponent {
     private toastr: ToastrService
   ) {
     this.form = this.formBuilder.group(
-      {
-        email: ['', [Validators.required, Validators.email]],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(20),
-          ],
-        ],
-        phoneNumber: [''],
-        figtMembership: ['', Validators.required],
-        battleName: ['', Validators.required],
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        legioMembershipDate: [new Date(), Validators.required],
-        legioMembershipSubscriptionCost: [0, Validators.required],
-        passwordConfirm: ['', Validators.required],
-        role: [''],
-        birthDate: [new Date(), Validators.required],
-      },
-      {
-        validators: [PasswordValidator.match('password', 'passwordConfirm')],
-      }
+      this.formInitialValues(),
+      this.formInitialValidators()
     );
   }
 
@@ -100,10 +78,13 @@ export class SignupComponent {
         first(),
         takeUntil(this.destroy$),
         tap(() => {
-          this.adminSelectors
-            ? (this.form.reset(), (this.loading = false))
-            : this.router.navigate(['/signin']);
-          this.toastr.success(`Registrato correttamente`);
+          this.form.reset();
+          this.loading = false;
+          (this.form = this.formBuilder.group(
+            this.formInitialValues(),
+            this.formInitialValidators()
+          )),
+            this.toastr.success(`Registrato correttamente`);
         }),
         catchError(async ({ error }: ErrorEvent) => {
           this.toastr.error(error.errors[0].message);
@@ -112,5 +93,35 @@ export class SignupComponent {
         })
       )
       .subscribe();
+  }
+
+  private formInitialValues() {
+    return {
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(20),
+        ],
+      ],
+      phoneNumber: [''],
+      figtMembership: ['', Validators.required],
+      battleName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      legioMembershipDate: [startOfYear(new Date()), Validators.required],
+      legioMembershipSubscriptionCost: [0, Validators.required],
+      passwordConfirm: ['', Validators.required],
+      role: [''],
+      birthDate: [new Date(), Validators.required],
+    };
+  }
+
+  private formInitialValidators() {
+    return {
+      validators: [PasswordValidator.match('password', 'passwordConfirm')],
+    };
   }
 }

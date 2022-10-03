@@ -3,19 +3,20 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { format, getMonth, getYear, parseISO } from 'date-fns';
+import { format, getMonth, getYear, isDate, parseISO } from 'date-fns';
 import { TailwindFormsService } from '../../services/tailwind-forms.service';
 
 @Component({
   selector: 'golden-tailwind-datepicker',
   templateUrl: './tailwind-datepicker.component.html',
 })
-export class TailwindDatepickerComponent implements OnInit {
+export class TailwindDatepickerComponent implements OnInit, OnChanges {
   @Input() parent!: UntypedFormGroup;
   @Input() label!: string;
   @Input() name!: string;
@@ -74,10 +75,26 @@ export class TailwindDatepickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.lifeCycleFunctions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['validationErrors']) {
+      this.validationErrors =
+        this.tailwindFormService.fillValidationErrorsWithMissing(
+          this.parent.get(this.name),
+          this.validationErrors
+        );
+    }
+
+    this.lifeCycleFunctions();
+  }
+
+  private lifeCycleFunctions() {
     this.getNoOfDays();
 
-    if (this.parent.get(this.name)?.value) {
-      const initValue = parseISO(this.parent.get(this.name)?.value);
+    if (isDate(this.parent.get(this.name)?.value)) {
+      const initValue = new Date(this.parent.get(this.name)?.value);
 
       if (initValue) {
         this.datepickerValue = format(initValue, 'dd/MM/yyyy');
@@ -92,16 +109,6 @@ export class TailwindDatepickerComponent implements OnInit {
 
     this.checkDisableForwards();
     this.checkDisableBackwards();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['validationErrors']) {
-      this.validationErrors =
-        this.tailwindFormService.fillValidationErrorsWithMissing(
-          this.parent.get(this.name),
-          this.validationErrors
-        );
-    }
   }
 
   get hasErrors() {

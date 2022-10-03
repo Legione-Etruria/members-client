@@ -9,19 +9,21 @@ import {
 } from '@angular/core';
 import { TailwindQuickActionsComponent } from './components/tailwind-quick-actions/tailwind-quick-actions.component';
 
+export interface appContextMenuConfig {
+  contextMenuLabel: string;
+  actions: {
+    label: string;
+    svgPath?: string;
+    isDisabled?: boolean;
+    routingData: { routerLink?: string; queryParams?: any; href?: string };
+  }[];
+}
+
 @Directive({
   selector: '[appContextMenu]',
 })
 export class TailwindActionsDirective {
-  @Input() appContextMenu!: {
-    contextMenuLabel: string;
-    actions: {
-      label: string;
-      svgPath?: string;
-      isDisabled?: boolean;
-      routingData: { routerLink?: string; queryParams?: any; href?: string };
-    }[];
-  };
+  @Input() appContextMenu!: appContextMenuConfig;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
@@ -32,17 +34,21 @@ export class TailwindActionsDirective {
   activeContextMenu!: ComponentRef<TailwindQuickActionsComponent>;
 
   @HostListener('document:mouseup', ['$event'])
-  @HostListener('document:mousedown', ['$event'])
   @HostListener('document:touchstart', ['$event'])
-  mousedown2(event: any): void {
+  mouseup(event: any): void {
     if (
-      !this.elementRef.nativeElement.contains(event.target) &&
+      (!event.target?.__ngContext__?.length ||
+        event.target?.__ngContext__[0].localName !==
+          'golden-tailwind-quick-actions') &&
+      !this.elementRef.nativeElement.contains(event.srcElement) &&
       ![
         'contextmenu-wrapper',
+        'contextmenu-label-wrapper',
+        'contextmenu-label',
+        'contextmenu-loop-wrapper',
         'contextmenu-loop',
         'contextmenu-option',
-        'contextmenu-loop-wrapper',
-      ].includes(event.target.parentElement?.id)
+      ].includes((event.target.parentElement as HTMLElement).id)
     ) {
       this.viewContainerRef.clear();
     }

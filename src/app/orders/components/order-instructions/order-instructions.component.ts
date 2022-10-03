@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order-instructions',
@@ -9,7 +10,7 @@ export class OrderInstructionsComponent implements OnInit {
   @Input() title = '';
   @Input() body = '';
 
-  private localStorageDismiss = 'order.instructions';
+  private localStorageDismiss = environment.dimissTutorials;
   public hasPermanentlyDismissed =
     'true' === localStorage.getItem(this.localStorageDismiss);
   public hasDismissed = false;

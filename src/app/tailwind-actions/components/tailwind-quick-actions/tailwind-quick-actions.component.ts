@@ -29,9 +29,9 @@ export class TailwindQuickActionsComponent implements AfterViewInit {
   public cmSize: { width: number; height: number } = { width: 0, height: 0 };
 
   ngAfterViewInit() {
-    this.cmSize.width = parseInt(this.cmWrapper.nativeElement?.offsetWidth);
+    this.cmSize.width = Number(this.cmWrapper.nativeElement?.offsetWidth);
 
-    this.cmSize.height = parseInt(this.cmWrapper.nativeElement?.offsetHeight);
+    this.cmSize.height = Number(this.cmWrapper.nativeElement?.offsetHeight);
 
     this.loading = false;
   }

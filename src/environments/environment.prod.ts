@@ -3,4 +3,5 @@ export const environment = {
   localStorageJWT: 'legio.JWT',
   apiUrl: 'https://backend.vps.legioneetruria.com',
   debugAddItems: false,
+  dimissTutorials: 'tutorials.dismiss',
 };

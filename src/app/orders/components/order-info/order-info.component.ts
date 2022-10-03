@@ -45,10 +45,10 @@ export class OrderInfoComponent implements OnInit {
     items: OrderItem[],
     condition: OrderItem['itemStatus']
   ): number {
-    return (
+    return Math.round(
       items?.reduce((acc: number, curr) => {
         if (curr.itemStatus === condition) {
-          return acc + Math.round(curr.itemPrice) * curr.itemQuantity;
+          return acc + curr.itemPrice * curr.itemQuantity;
         }
 
         return acc;

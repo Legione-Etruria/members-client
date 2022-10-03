@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { OrderItem } from '../../../models/order-item';
 import { OrdersService } from '../../services/orders.service';
 
@@ -12,7 +12,7 @@ import { OrdersService } from '../../services/orders.service';
 export class CompareCartComponent implements OnInit {
   public shop: string = this.route.snapshot.queryParamMap.get('shop') || '';
   public orderId: string = this.route.snapshot.queryParamMap.get('order') || '';
-  public mergedItems: OrderItem[] = [];
+
   public order$ = this.ordersService.getOrder(this.orderId).pipe(
     map((o) => ({
       ...o,
@@ -22,9 +22,9 @@ export class CompareCartComponent implements OnInit {
           ['pending-payment', 'confirmed'].includes(i.itemStatus)
       ),
     })),
-    tap((o) => {
+    map((o) => {
       console.log(o);
-      this.mergedItems = this.mergeItems(o.items || []);
+      return { ...o, items: this.mergeItems(o.items || []) };
     })
   );
 
@@ -52,7 +52,7 @@ export class CompareCartComponent implements OnInit {
   getPriceToPay(items: OrderItem[]): number {
     return (
       items?.reduce((acc: number, curr) => {
-        return acc + curr.itemPrice * curr.itemQuantity;
+        return curr.itemPrice * curr.itemQuantity + acc;
       }, 0) || 0
     );
   }

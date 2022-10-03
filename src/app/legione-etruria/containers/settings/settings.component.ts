@@ -36,6 +36,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ];
 
   private destroy$ = new Subject<void>();
+  private dismissTutorials = environment.dimissTutorials;
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -99,5 +100,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.toastr.error(err.errors[0].message);
       })
     );
+  }
+
+  public handleDismissTutorials() {
+    if (localStorage.getItem(this.dismissTutorials) === 'true') {
+      localStorage.setItem(this.dismissTutorials, 'false');
+      return;
+    }
+    localStorage.setItem(this.dismissTutorials, 'true');
+  }
+
+  public isDismissTutorialsChecked() {
+    return localStorage.getItem(this.dismissTutorials) === 'true';
   }
 }

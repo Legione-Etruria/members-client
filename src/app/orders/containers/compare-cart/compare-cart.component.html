@@ -46,7 +46,7 @@
     </div>
 
     <div class="space-y-2 p-4 my-4 border-t">
-      <div *ngFor="let item of mergedItems" class="shadow-md rounded-lg">
+      <div *ngFor="let item of order.items" class="shadow-md rounded-lg">
         <app-order-item-card
           [hideElements]="['itemStatus', 'removeItem']"
           [item]="item"
@@ -55,7 +55,7 @@
 
       <div
         class="bg-white p-2 rounded-lg shadow-md text-center"
-        *ngIf="!mergedItems.length"
+        *ngIf="!order.items?.length"
       >
         Nessun oggetto disponibile per la comparazione
       </div>

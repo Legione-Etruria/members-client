@@ -54,6 +54,9 @@ export class HomeComponent {
             this.currentOrder?.orderStatus !== 'pending' ||
             (!environment.debugAddItems && 'admin' === this.currentUser?.role),
         };
+
+        this.navItems[5].disabled =
+          this.currentUser?.role === 'admin' ? false : true;
       })
     );
   };
@@ -142,7 +145,7 @@ export class HomeComponent {
     },
     {
       label: 'Comunicazioni',
-      disabled: this.currentUser?.role === 'admin' ? false : true,
+      disabled: true,
       routerLink: '/announcements/list',
       roles: ['admin', 'athlete'],
       svgPath: [
