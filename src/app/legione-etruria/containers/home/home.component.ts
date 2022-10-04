@@ -12,7 +12,7 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  public CURRENT_VERSION = '0.78';
+  public CURRENT_VERSION = '0.85';
 
   public user$ = this.authService.currentUserSubject.pipe(
     tap((i) => (this.currentUser = i)),

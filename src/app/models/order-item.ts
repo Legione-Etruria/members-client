@@ -23,4 +23,5 @@ export interface OrderItem {
     | 'cancelled'
     | 'confirmed';
   isChecked: boolean;
+  staticItem: string;
 }

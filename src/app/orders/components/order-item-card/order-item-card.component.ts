@@ -18,7 +18,7 @@ export class OrderItemCardComponent implements OnInit {
   };
   @Input() showInput = false;
   @Input() hideElements: ('removeItem' | 'itemStatus' | 'checked')[] = [];
-  @Input() disableDrag = true;
+  @Input() disableDnd = true;
   @Output() removeItem = new EventEmitter<void>();
   @Output() addItem = new EventEmitter<void>();
   @Output() editQuantity = new EventEmitter<number>();

@@ -48,10 +48,8 @@ export class AddItemComponent {
       itemUrl: item.itemUrl,
       itemQuantity: 1,
       isUnavailable: false,
+      staticItem: item._id,
     };
-
-    console.log(`static item`, item);
-    console.log('item', this.item);
   };
 
   public validateURL(url: string, currentOrder: GroupOrder) {

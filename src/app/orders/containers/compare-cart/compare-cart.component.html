@@ -56,7 +56,7 @@
         <app-order-item-card
           [hideElements]="['itemStatus', 'removeItem']"
           [item]="item"
-          [disableDrag]="false"
+          [disableDnd]="true"
           (checkedChanged)="toggleChecked(item, $event)"
         ></app-order-item-card>
       </li>

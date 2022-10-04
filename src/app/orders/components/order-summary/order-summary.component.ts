@@ -26,7 +26,7 @@ export class OrderSummaryComponent {
     return (
       items?.reduce((acc: number, curr) => {
         if (curr.itemStatus === condition) {
-          return acc + Math.round(curr.itemPrice) * curr.itemQuantity;
+          return acc + this.roundPrice(curr) * curr.itemQuantity;
         }
 
         return acc;
@@ -34,6 +34,12 @@ export class OrderSummaryComponent {
     );
   }
 
+  private roundPrice(item: OrderItem) {
+    if (item.staticItem) {
+      return item.itemPrice;
+    }
+    return Math.round(item.itemPrice);
+  }
   //a function that asks for an orderitem array and checks wheter or not at least one item has an itemstatus of 'pending-payment'
   isPaymentPending(items: OrderItem[]): boolean {
     return items?.some((item) => item.itemStatus === 'pending-payment');

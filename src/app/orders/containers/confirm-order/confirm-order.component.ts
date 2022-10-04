@@ -73,11 +73,18 @@ export class ConfirmOrderComponent {
     return (
       items?.reduce((acc: number, curr) => {
         if (curr.itemStatus === condition) {
-          return acc + Math.round(curr.itemPrice) * curr.itemQuantity;
+          return acc + this.roundPrice(curr) * curr.itemQuantity;
         }
 
         return acc;
       }, 0) || 0
     );
+  }
+
+  private roundPrice(item: OrderItem) {
+    if (item.staticItem) {
+      return item.itemPrice;
+    }
+    return Math.round(item.itemPrice);
   }
 }

@@ -132,4 +132,5 @@ export interface fetchedItem {
   itemQuantity?: number;
   userId?: string;
   isUnavailable?: boolean;
+  staticItem?: string;
 }
