@@ -14,6 +14,7 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DndModule } from 'ngx-drag-drop';
 import { LightboxModule } from 'ngx-lightbox';
 import { ApiHttpModule } from '../api-http/api-http.module';
 import { AuthModule } from '../auth/auth.module';
@@ -84,6 +85,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
     AuthModule,
     UsersModule,
     TailwindFormsModule,
+    DndModule,
   ],
 
   exports: [CurrentOrderWidgetComponent],

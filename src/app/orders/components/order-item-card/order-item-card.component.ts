@@ -17,16 +17,26 @@ export class OrderItemCardComponent implements OnInit {
     isUnavailable?: boolean;
   };
   @Input() showInput = false;
+  @Input() hideElements: ('removeItem' | 'itemStatus' | 'checked')[] = [];
+  @Input() disableDrag = true;
   @Output() removeItem = new EventEmitter<void>();
   @Output() addItem = new EventEmitter<void>();
   @Output() editQuantity = new EventEmitter<number>();
   @Output() checkedChanged = new EventEmitter<boolean>();
-  @Input() hideElements: ('removeItem' | 'itemStatus' | 'checked')[] = [];
 
   public itemQuantity = 0;
 
+  public draggable: { data: string | null; effectAllowed: 'move' } = {
+    // note that data is handled with JSON.stringify/JSON.parse
+    // only set simple data or POJO's as methods will be lost
+    data: null,
+    effectAllowed: 'move',
+  };
+
   ngOnInit(): void {
     this.itemQuantity = this.itemAlt?.itemQuantity || this.item?.itemQuantity;
+
+    this.draggable.data = JSON.stringify(this.itemAlt || this.item);
   }
 
   emitRemove() {

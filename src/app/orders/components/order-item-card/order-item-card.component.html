@@ -1,4 +1,11 @@
-<div class="lg:flex bg-white rounded-lg">
+<div
+  class="lg:flex bg-white rounded-lg"
+  [dndDraggable]="draggable.data"
+  [dndDisableIf]="disableDrag"
+  [dndEffectAllowed]="draggable.effectAllowed"
+  [dndType]="'move'"
+  [ngClass]="{ 'cursor-pointer': !disableDrag }"
+>
   <div
     class="h-40 lg:h-full lg:w-24 bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
   >

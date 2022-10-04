@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, tap } from 'rxjs/operators';
@@ -11,7 +11,8 @@ import { AccountGroup } from '../../../models/account-group';
   styleUrls: ['./quick-switch.component.scss'],
 })
 export class QuickSwitchComponent {
-  @Input() isVisible = true;
+  @Output() public toggleHidden = new EventEmitter<void>();
+  public isVisible = true;
 
   public loading = false;
 
@@ -28,6 +29,7 @@ export class QuickSwitchComponent {
 
   public onAccountSelected(accountId: string) {
     this.loading = true;
+
     this.authService
       .switchAccount(accountId)
       .pipe(
@@ -40,6 +42,9 @@ export class QuickSwitchComponent {
             this.router.navigate(['/']);
             this.loading = false;
             this.isVisible = false;
+            setTimeout(() => {
+              this.toggleHidden.emit();
+            }, 500);
           }, 1000);
         }),
         catchError(async (err: ErrorEvent) => {

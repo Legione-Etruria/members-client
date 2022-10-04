@@ -32,35 +32,26 @@ export class CompareCartComponent implements OnInit {
   }
 
   //merge the given items and sum the quantity in case of duplicates
-  public mergeItems(items: OrderItem[], mapIds: boolean = false) {
-    const merged = items.reduce(
-      (acc: (OrderItem & { ids: string[] })[], curr) => {
-        const index = acc.findIndex((i) => i.itemName === curr.itemName);
+  public mergeItems(items: OrderItem[]) {
+    return items.reduce((acc: (OrderItem & { ids: string[] })[], curr) => {
+      const index = acc.findIndex((i) => i.itemName === curr.itemName);
 
-        if (index === -1) {
-          return [
-            ...acc,
-            { ...curr, ids: [curr._id], isChecked: curr.isChecked },
-          ];
-        }
+      if (index === -1) {
+        return [
+          ...acc,
+          { ...curr, ids: [curr._id], isChecked: curr.isChecked },
+        ];
+      }
 
-        acc[index].itemQuantity += curr.itemQuantity;
-        acc[index].ids.push(curr._id);
+      acc[index].itemQuantity += curr.itemQuantity;
+      acc[index].ids.push(curr._id);
 
-        if (acc[index].isChecked) {
-          acc[index].isChecked = curr.isChecked;
-        }
+      if (acc[index].isChecked) {
+        acc[index].isChecked = curr.isChecked;
+      }
 
-        return acc;
-      },
-      []
-    );
-
-    if (!mapIds) {
-      return merged;
-    }
-
-    return merged.map((i) => i._id);
+      return acc;
+    }, []);
   }
 
   //a function that sums all the items' prices that have an itemstatus of 'pending-payment'
@@ -96,5 +87,13 @@ export class CompareCartComponent implements OnInit {
       })),
       tap((i: any) => this.orderSubj$.next(i))
     );
+  }
+
+  public onDrop(e: any) {
+    console.log(e);
+  }
+
+  public mapIds(items: OrderItem[]) {
+    return items.map((i) => i._id);
   }
 }
