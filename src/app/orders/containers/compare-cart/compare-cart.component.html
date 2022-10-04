@@ -40,7 +40,7 @@
       <div class="text-right">
         <span class="border-r px-2">Totale </span>
         <span class="px-2 text-legio-gold">
-          {{ getPriceToPay(order.items || []) | currency: "€" }}</span
+          {{ getTotal(order.items || []) | currency: "€" }}</span
         >
       </div>
     </div>
@@ -50,6 +50,7 @@
         <app-order-item-card
           [hideElements]="['itemStatus', 'removeItem']"
           [item]="item"
+          (checkedChanged)="toggleChecked(item, $event)"
         ></app-order-item-card>
       </div>
 

@@ -10,6 +10,7 @@ import { HighlightSearchPipe } from './pipes/highlight-search.pipe';
 import { PhonePipe } from './pipes/phone.pipe';
 import { TableCellComponent } from './table-cell/table-cell.component';
 import { TailwindLoadingComponent } from './tailwind-loading/tailwind-loading.component';
+import { ToggleComponent } from './toggle/toggle.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     MximizedLoadingComponent,
     PhonePipe,
     UploadFileComponent,
+    ToggleComponent,
   ],
   imports: [CommonModule, RouterModule, NgxDropzoneModule],
   exports: [
@@ -35,6 +37,7 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     MximizedLoadingComponent,
     PhonePipe,
     UploadFileComponent,
+    ToggleComponent,
   ],
 })
 export class SharedModule {}

@@ -20,12 +20,12 @@ export class OrderItemCardComponent implements OnInit {
   @Output() removeItem = new EventEmitter<void>();
   @Output() addItem = new EventEmitter<void>();
   @Output() editQuantity = new EventEmitter<number>();
-  @Input() hideElements: ('removeItem' | 'itemStatus')[] = [];
+  @Output() checkedChanged = new EventEmitter<boolean>();
+  @Input() hideElements: ('removeItem' | 'itemStatus' | 'checked')[] = [];
 
   public itemQuantity = 0;
 
   ngOnInit(): void {
-    console.log(this.itemAlt);
     this.itemQuantity = this.itemAlt?.itemQuantity || this.item?.itemQuantity;
   }
 

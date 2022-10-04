@@ -3,7 +3,7 @@ import { GroupOrder } from './group-order';
 
 export interface OrderItem {
   _id: string;
-  id?: string;
+
   createdAt: Date;
   updatedAt: Date;
   user: User | string;
@@ -22,5 +22,5 @@ export interface OrderItem {
     | 'pending-payment'
     | 'cancelled'
     | 'confirmed';
-  // Se ci sono riferimenti ad ID di altri documenti, usa `Types.ObjectId`
+  isChecked: boolean;
 }

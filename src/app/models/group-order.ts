@@ -4,7 +4,7 @@ import { ParcelTracker } from './parcel-tracker';
 import { StaticItem } from './static-item';
 export interface GroupOrder {
   _id: string;
-  id?: string;
+
   startDate: Date;
   dueDate: Date;
   shops: ('ilsemaforo' | 'taiwangun')[];

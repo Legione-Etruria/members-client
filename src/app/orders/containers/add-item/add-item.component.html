@@ -112,7 +112,7 @@
         (removeItem)="item = null"
         (editQuantity)="itemQuantity = $event; updateItemQuantity()"
         (addItem)="addItem(currentOrder._id)"
-        [hideElements]="[]"
+        [hideElements]="['checked']"
       ></app-order-item-card>
     </div>
   </div>

@@ -23,7 +23,7 @@ export class HomeComponent {
   public currentUser?: User = this.authService.currentUserValue;
   public openMobileDropdown = false;
   public showDropdown = 'none';
-  public currentOrder$ = this.ordersService.ordersSubject$;
+  public currentOrder$ = this.ordersService.getCurrentOrder();
   public currentOrder!: GroupOrder | null;
 
   constructor(

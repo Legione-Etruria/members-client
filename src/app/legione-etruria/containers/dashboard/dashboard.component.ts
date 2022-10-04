@@ -10,7 +10,7 @@ import { GroupOrder } from '../../../models/group-order';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  public user = this.authService.currentUserValue;
+  public user$ = this.authService.currentUserSubject;
   public currentOrder$: Observable<GroupOrder | null> =
     this.ordersService.ordersSubject$;
 

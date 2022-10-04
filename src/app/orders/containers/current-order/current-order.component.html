@@ -58,8 +58,8 @@
                   (editQuantity)="editQuantity(item._id, $event)"
                   [hideElements]="
                     'pending-confirmation' === item.itemStatus
-                      ? []
-                      : ['removeItem']
+                      ? ['checked']
+                      : ['removeItem', 'checked']
                   "
                 ></app-order-item-card>
               </div>

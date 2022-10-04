@@ -66,6 +66,13 @@ export class OrdersService {
     );
   }
 
+  toggleChecked(items: string[], checked: boolean) {
+    return this.apiHttp.post('/api/v1/orders/items/toggle-checked', {
+      items,
+      value: checked,
+    });
+  }
+
   getTracker(trackerId: string) {
     return this.apiHttp.get<ParcelTracker>(
       '/api/v1/orders/tracking/get?trackerId=' + trackerId
