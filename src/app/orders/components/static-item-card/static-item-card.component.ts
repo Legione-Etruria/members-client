@@ -8,9 +8,8 @@ import { StaticItem } from 'src/app/models/static-item';
 })
 export class StaticItemCardComponent {
   @Input() item?: StaticItem;
-  @Input() cardState: 'selectable' | 'editable' = 'editable';
+  @Input() cardState: 'selectable' | 'editable' | 'stateless' = 'editable';
   @Input() isSelected = false;
-
   @Output() hideItem = new EventEmitter<void>();
   @Output() toggleSelected = new EventEmitter<void>();
 

@@ -38,6 +38,16 @@ export class AddItemComponent {
   ) {}
 
   public handleSelectedStaticItem = (item: StaticItem) => {
+    if (this.currentSelectedStaticItem === item._id) {
+      if (!this.item || !this.item.itemQuantity) {
+        console.log('not found');
+        return;
+      }
+
+      this.updateItemQuantity(this.item.itemQuantity + 1);
+      return;
+    }
+
     this.currentSelectedStaticItem = item._id;
     this.itemURL = '';
 
@@ -94,20 +104,27 @@ export class AddItemComponent {
     return;
   }
 
-  updateItemQuantity() {
-    if (this.itemQuantity < 1) {
-      this.itemQuantity = 1;
+  updateItemQuantity(qta: number) {
+    if (qta < 1) {
+      qta = 1;
     }
 
     if (!this.item) {
       return;
     }
 
-    this.item.itemQuantity = this.itemQuantity;
+    this.item.itemQuantity = qta;
+
+    this.item = Object.assign({}, this.item);
+    // const itemTemp = this.item;
+    // this.item = null;
+
+    // setTimeout(() => {
+    //   this.item = itemTemp;
+    // }, 1);
   }
 
   getItemData() {
-    this.loading = true;
     this.loading = true;
     this.ordersService
       .getItemData(this.itemURL)
@@ -115,7 +132,7 @@ export class AddItemComponent {
         tap((value) => {
           this.item = value;
           this.item.itemUrl = this.itemURL;
-          this.item.itemQuantity = this.itemQuantity;
+          this.item.itemQuantity = 1;
           this.loading = false;
         }),
         catchError(async (err) => {

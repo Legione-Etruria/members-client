@@ -210,17 +210,13 @@ export class ItemsListComponent implements OnInit {
               user: (curr.user as User).battleName,
               allCollected:
                 'confirmed' === curr.itemStatus ? curr.isCollected : false,
-              total: !['cancelled', 'pending-confirmation'].includes(
-                curr.itemStatus
-              )
-                ? curr.itemQuantity * curr.itemPrice
-                : 0,
-              notPayed: ['pending-payment'].includes(curr.itemStatus)
-                ? curr.itemQuantity * curr.itemPrice
-                : 0,
-              notConfirmed: ['pending-confirmation'].includes(curr.itemStatus)
-                ? curr.itemQuantity * curr.itemPrice
-                : 0,
+              total: this.sumPrice(
+                ['pending-confirmation', 'cancelled'],
+                curr,
+                true
+              ),
+              notPayed: this.sumPrice(['pending-payment'], curr),
+              notConfirmed: this.sumPrice(['pending-confirmation'], curr),
               items: [curr],
             },
           ];
@@ -234,23 +230,42 @@ export class ItemsListComponent implements OnInit {
         }
 
         acc[index].items.push(curr);
-        acc[index].total += !['cancelled', 'pending-confirmation'].includes(
-          curr.itemStatus
-        )
-          ? curr.itemQuantity * curr.itemPrice
-          : 0;
+        acc[index].total += this.sumPrice(
+          ['pending-confirmation', 'cancelled'],
+          curr,
+          true
+        );
 
-        acc[index].notPayed += ['pending-payment'].includes(curr.itemStatus)
-          ? curr.itemQuantity * curr.itemPrice
-          : 0;
-        acc[index].notConfirmed += ['pending-confirmation'].includes(
-          curr.itemStatus
-        )
-          ? curr.itemQuantity * curr.itemPrice
-          : 0;
+        acc[index].notPayed += this.sumPrice(['pending-payment'], curr);
+        acc[index].notConfirmed += this.sumPrice(
+          ['pending-confirmation'],
+          curr
+        );
+
         return acc;
       },
       []
     );
+  }
+
+  private sumPrice(
+    conditions: OrderItem['itemStatus'][],
+    item: OrderItem,
+    negateCondition = false
+  ) {
+    if (
+      conditions.includes(item.itemStatus) ||
+      (negateCondition && !conditions.includes(item.itemStatus))
+    ) {
+      return item.itemQuantity * this.roundPrice(item);
+    }
+    return 0;
+  }
+
+  private roundPrice(item: OrderItem) {
+    if (item.staticItem) {
+      return item.itemPrice;
+    }
+    return Math.round(item.itemPrice);
   }
 }

@@ -76,19 +76,19 @@
           class="animate__fadeInLeft animate__animated animate__fast my-2"
           *ngIf="users$ | async as users"
         >
+          <!-- <div
+            class="h-full w-full animate__fadeInLeft animate__animated"
+            *ngIf="carriers$ | async as carriers"
+          >
+            <app-add-tracking-widget
+              (TNConfirm)="addTracker($event, activeOrder._id)"
+              [carriers]="carriers"
+            ></app-add-tracking-widget>
+          </div> -->
           <app-add-item-widget
             [users]="users"
             [class.pointer-events-none]="'pending' !== activeOrder.orderStatus"
           ></app-add-item-widget>
-        </div>
-        <div
-          class="h-full w-full animate__fadeInLeft animate__animated"
-          *ngIf="carriers$ | async as carriers"
-        >
-          <app-add-tracking-widget
-            (TNConfirm)="addTracker($event, activeOrder._id)"
-            [carriers]="carriers"
-          ></app-add-tracking-widget>
         </div>
       </div>
       <div class="w-full md:w-6/12 animate__fadeInUp animate__animated">

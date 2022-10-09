@@ -75,7 +75,7 @@ export class TailwindDatepickerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.lifeCycleFunctions();
+    this.lifeCycle();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,19 +87,20 @@ export class TailwindDatepickerComponent implements OnInit, OnChanges {
         );
     }
 
-    this.lifeCycleFunctions();
+    this.lifeCycle();
   }
 
-  private lifeCycleFunctions() {
+  private lifeCycle() {
     this.getNoOfDays();
 
-    if (isDate(this.parent.get(this.name)?.value)) {
-      const initValue = new Date(this.parent.get(this.name)?.value);
+    const value = this.parent.get(this.name)?.value;
+    if (isDate(value) || this.isIsoDate(value)) {
+      const dateValue = new Date(value);
 
-      if (initValue) {
-        this.datepickerValue = format(initValue, 'dd/MM/yyyy');
-        this.month = getMonth(initValue);
-        this.year = getYear(initValue);
+      if (dateValue) {
+        this.datepickerValue = format(dateValue, 'dd/MM/yyyy');
+        this.month = getMonth(dateValue);
+        this.year = getYear(dateValue);
       }
     }
 
@@ -253,5 +254,15 @@ export class TailwindDatepickerComponent implements OnInit, OnChanges {
         (this.month = getMonth(today)),
         (this.year = getYear(today)))
       : (this.disableButtons.backwards = false);
+  }
+
+  isIsoDate(str: string) {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+    const d = new Date(str);
+    return (
+      d instanceof Date &&
+      !isNaN(d as unknown as number) &&
+      d.toISOString() === str
+    ); // valid date
   }
 }

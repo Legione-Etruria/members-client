@@ -45,9 +45,8 @@
         *ngFor="let staticItem of currentOrder.staticItems"
         class="m-2 px-2"
         [item]="staticItem"
-        [isSelected]="currentSelectedStaticItem === staticItem._id && !itemURL"
         (toggleSelected)="handleSelectedStaticItem(staticItem)"
-        cardState="selectable"
+        cardState="stateless"
       ></app-static-item-card>
     </div>
 
@@ -106,11 +105,11 @@
       </div>
     </div>
 
-    <div class="mx-2 md:mx-10 my-4" *ngIf="item">
+    <div class="mx-2 md:mx-10 my-4">
       <app-order-item-card
-        [itemAlt]="item"
+        [itemAlt]="item || undefined"
         (removeItem)="item = null"
-        (editQuantity)="itemQuantity = $event; updateItemQuantity()"
+        (editQuantity)="updateItemQuantity($event)"
         (addItem)="addItem(currentOrder._id)"
         [hideElements]="['checked']"
       ></app-order-item-card>

@@ -1,24 +1,20 @@
 <div class="bg-white rounded-lg shadow-md px-4 py-2 space-y-2 flex flex-col">
-  <div
-    class="flex rounded-lg bg-white border mt-1 peer-focus:ring-2"
-    x-data="{ search: '' }"
-  >
+  <div class="flex rounded-lg border mt-1 peer-focus:ring-2">
     <input
       [(ngModel)]="trackingNumber"
       type="search"
       class="w-full border-none bg-transparent px-4 text-gray-900 outline-none focus:outline-none peer py-2"
       placeholder="Numero di tracking"
-      x-model="search"
     />
   </div>
 
-  <div class="mt-1 relative my-2 dropdown">
+  <div class="mt-1 my-2 dropdown">
     <input
       [(ngModel)]="inputDropdown"
       (ngModelChange)="selectedCarrier = undefined"
       placeholder="Nessun Corriere Selezionato"
       type="text"
-      class="h-12 relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      class="h-12 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
     />
     <div class="dropdown">
       <span

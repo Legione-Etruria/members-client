@@ -77,4 +77,20 @@ export class CurrentOrderComponent {
       tap((i) => this.currentOrderSubj$.next(i))
     );
   }
+
+  public hideCardItems(
+    item: GroupOrder['items'][0]
+  ): ('removeItem' | 'checked')[] {
+    switch (item.itemStatus) {
+      case 'pending-confirmation': {
+        return ['checked'];
+      }
+      case 'cancelled': {
+        return ['checked'];
+      }
+      default: {
+        return ['removeItem', 'checked'];
+      }
+    }
+  }
 }

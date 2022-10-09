@@ -1,10 +1,11 @@
 <div
-  class="lg:flex bg-white rounded-lg"
+  class="lg:flex bg-white rounded-lg shadow"
   [dndDraggable]="draggable.data"
   [dndDisableIf]="disableDnd"
   [dndEffectAllowed]="draggable.effectAllowed"
   [dndType]="'move'"
   [ngClass]="{ 'cursor-pointer': !disableDnd }"
+  *ngIf="this.item || this.itemAlt"
 >
   <div
     class="h-40 lg:h-full lg:w-24 bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"

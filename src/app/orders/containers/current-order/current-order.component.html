@@ -56,11 +56,7 @@
                   [item]="item"
                   (removeItem)="removeItem(item._id)"
                   (editQuantity)="editQuantity(item._id, $event)"
-                  [hideElements]="
-                    'pending-confirmation' === item.itemStatus
-                      ? ['checked']
-                      : ['removeItem', 'checked']
-                  "
+                  [hideElements]="hideCardItems(item)"
                 ></app-order-item-card>
               </div>
             </div>

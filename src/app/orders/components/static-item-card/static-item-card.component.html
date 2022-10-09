@@ -2,7 +2,10 @@
   *ngIf="item"
   class="p-6 rounded-lg shadow-md bg-white transition-all"
   [ngClass]="{
-    'hover:text-legio-gold-500 cursor-pointer': cardState === 'selectable'
+    'hover:text-legio-gold-500 cursor-pointer': [
+      'selectable',
+      'stateless'
+    ].includes(cardState)
   }"
   (click)="selectItemClicked()"
 >

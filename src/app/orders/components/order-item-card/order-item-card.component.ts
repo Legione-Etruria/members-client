@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { OrderItem } from 'src/app/models/order-item';
 
 @Component({
@@ -6,7 +13,7 @@ import { OrderItem } from 'src/app/models/order-item';
   templateUrl: './order-item-card.component.html',
   styleUrls: ['./order-item-card.component.scss'],
 })
-export class OrderItemCardComponent implements OnInit {
+export class OrderItemCardComponent implements OnInit, OnChanges {
   @Input() item!: OrderItem;
   @Input() itemAlt?: {
     price?: number;
@@ -16,6 +23,7 @@ export class OrderItemCardComponent implements OnInit {
     itemQuantity?: number;
     isUnavailable?: boolean;
   };
+
   @Input() showInput = false;
   @Input() hideElements: ('removeItem' | 'itemStatus' | 'checked')[] = [];
   @Input() disableDnd = true;
@@ -37,6 +45,9 @@ export class OrderItemCardComponent implements OnInit {
     this.itemQuantity = this.itemAlt?.itemQuantity || this.item?.itemQuantity;
 
     this.draggable.data = JSON.stringify(this.itemAlt || this.item);
+  }
+  ngOnChanges(): void {
+    this.itemQuantity = this.itemAlt?.itemQuantity || this.item?.itemQuantity;
   }
 
   emitRemove() {
