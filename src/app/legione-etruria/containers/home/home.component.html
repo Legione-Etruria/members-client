@@ -45,7 +45,7 @@
       >
         <ng-container *ngFor="let navItem of navItems">
           <a
-            class="flex hover:bg-legio-gold-500 cursor-pointer rounded-lg group"
+            class="flex hover:bg-legio-gold-500 cursor-pointer rounded-lg"
             [ngClass]="{
               'pointer-events-none cursor-default ': navItem.disabled
             }"
@@ -56,7 +56,7 @@
             "
             [attr.href]="navItem.href"
           >
-            <button
+            <a
               *ngIf="
                 navItem.roles?.includes(user.role) || 'admin' === user.role
               "
@@ -67,11 +67,19 @@
                     : null
                   : null
               "
+              (click)="
+                handleShowDropdown(
+                  navItem.dropdownData?.label || '',
+                  navItem.dropdownData?.rows || []
+                );
+                navItem.routerLink ? (openMobileDropdown = false) : null
+              "
               [queryParams]="navItem.routerParams"
               [ngClass]="{
                 'pointer-events-none text-slate-400 ': navItem.disabled
               }"
-              class="px-3 py-2 font-medium text-sm text-white w-full rounded group-focus-within:selected"
+              class="px-3 py-2 font-medium text-sm text-white w-full rounded"
+              [class.selected]="showDropdown === navItem.dropdownData?.label"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{
                 queryParams: 'ignored',
@@ -113,20 +121,12 @@
                     d="M19 9l-7 7-7-7"
                   /></svg
               ></span>
-              <button
-                type="button"
-                class="hidden group-focus-within:{{
-                  navItem.dropdownData?.rows?.length ? 'block' : ''
-                }}"
-              >
-                <div
-                  [ngTemplateOutlet]="dropdownOptions"
-                  [ngTemplateOutletContext]="
-                    navItem.dropdownData || { rows: [] }
-                  "
-                ></div>
-              </button>
-            </button>
+              <ng-container
+                *ngIf="navItem.dropdownData?.label === showDropdown"
+                [ngTemplateOutlet]="dropdownOptions"
+                [ngTemplateOutletContext]="navItem.dropdownData || { rows: [] }"
+              ></ng-container>
+            </a>
           </a>
         </ng-container>
       </nav>
@@ -229,7 +229,7 @@
                   <a
                     class="block py-2 px-4 {{
                       item.disabled ? null : 'hover:bg-gray-200'
-                    }} mx-2 rounded text-left"
+                    }} mx-2 rounded"
                     role="menuitem"
                     (click)="handleShowDropdown(''); openMobileDropdown = false"
                     [routerLink]="item.routerLink ? item.routerLink : null"
