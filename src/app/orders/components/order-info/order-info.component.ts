@@ -20,6 +20,8 @@ export class OrderInfoComponent implements OnInit {
     | 'id'
     | 'startDate'
     | 'endDate'
+    | 'staticItems'
+    | 'tracking'
   )[] = [];
   public apiLoaded = new Observable<boolean>();
 

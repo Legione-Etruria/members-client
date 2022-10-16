@@ -90,13 +90,19 @@
         {{ currentOrder.orderNotes || "/" }}</span
       >
     </div>
-    <div class="flex justify-between pt-2">
+    <div
+      class="flex justify-between pt-2"
+      *ngIf="!hideItems.includes('staticItems')"
+    >
       <span class="mt-1">OGGETTI RAPIDI</span>
       <span class="mt-1 whitespace-nowrap px-2">
         {{ currentOrder.staticItems.length || "/" }}</span
       >
     </div>
-    <div class="flex justify-between pt-2">
+    <div
+      class="flex justify-between pt-2"
+      *ngIf="!hideItems.includes('tracking')"
+    >
       <span class="mt-1">TRACKING</span>
       <span class="mt-1 uppercase space-y-1 text-xs"
         ><p
