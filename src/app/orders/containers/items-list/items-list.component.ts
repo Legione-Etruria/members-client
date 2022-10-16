@@ -179,9 +179,7 @@ export class ItemsListComponent implements OnInit {
   }
 
   checkUnavailable(items: OrderItem[]) {
-    return items.filter(
-      (i) => i.isUnavailable === true && i.itemStatus !== 'cancelled'
-    );
+    return items.filter((i) => i.isUnavailable === true);
   }
 
   //a function that groups items by user
@@ -194,6 +192,8 @@ export class ItemsListComponent implements OnInit {
           allCollected: boolean;
           total: number;
           notPayed: number;
+          cancelled: number;
+          confirmed: number;
           notConfirmed: number;
           items: GroupOrder['items'];
         }[],
@@ -216,6 +216,8 @@ export class ItemsListComponent implements OnInit {
                 true
               ),
               notPayed: this.sumPrice(['pending-payment'], curr),
+              cancelled: this.sumPrice(['cancelled'], curr),
+              confirmed: this.sumPrice(['confirmed'], curr),
               notConfirmed: this.sumPrice(['pending-confirmation'], curr),
               items: [curr],
             },
@@ -237,6 +239,8 @@ export class ItemsListComponent implements OnInit {
         );
 
         acc[index].notPayed += this.sumPrice(['pending-payment'], curr);
+        acc[index].cancelled += this.sumPrice(['cancelled'], curr);
+        acc[index].confirmed += this.sumPrice(['confirmed'], curr);
         acc[index].notConfirmed += this.sumPrice(
           ['pending-confirmation'],
           curr

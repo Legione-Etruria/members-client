@@ -11,7 +11,7 @@
     class="h-40 lg:h-full lg:w-24 bg-cover text-center overflow-hidden flex flex-col justify-center md:mx-2 rounded-lg"
   >
     <img
-      [src]="itemAlt?.imgSrc || item.imgSrc"
+      [src]="itemAlt?.imgSrc || item?.imgSrc"
       alt=""
       class="rounded-lg object-cover md:h-24 md:my-4"
     />
@@ -34,8 +34,8 @@
               d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
             />
           </svg>
-          <a [href]="itemAlt?.itemUrl || item.itemUrl" target="_blank"
-            >{{ getHostname(itemAlt?.itemUrl || item.itemUrl || "") }}...</a
+          <a [href]="itemAlt?.itemUrl || item?.itemUrl" target="_blank"
+            >{{ getHostname(itemAlt?.itemUrl || item?.itemUrl || "") }}...</a
           >
         </p>
         <div class="flex flex-row space-x-2">
@@ -77,21 +77,21 @@
           <p class="text-gray-700 text-base">
             {{ itemAlt?.price || item?.itemPrice || 0 | currency: "€" }}/Pz.
 
-            <ng-container *ngIf="itemQuantity > 1">
+            <ng-container *ngIf="getQuantity() > 1">
               ({{
-                (itemAlt?.price || item?.itemPrice || 0) * itemQuantity
+                (itemAlt?.price || item?.itemPrice || 0) * getQuantity()
                   | currency: "€"
               }})</ng-container
             >
           </p>
+
           <p class="text-gray-400 text-base">
             <input
               [class.pointer-events-none]="
                 !itemAlt && item?.itemStatus !== 'pending-confirmation'
               "
               type="number"
-              [(ngModel)]="itemQuantity"
-              (blur)="emitEdit(itemQuantity)"
+              [formControl]="itemQuantity"
               class="rounded h-6 border-none focus:ring-0 focus:border-none hover:transition-all ease-in-out delay-150 hover:-translate-t-1 hover:scale-110 duration-300 p-2 w-10"
             />
             <span> Pz.</span>
@@ -165,8 +165,8 @@
           *ngIf="!hideElements.includes('checked')"
         >
           <app-toggle
-            [checked]="item.isChecked"
-            (toggled)="checkedChanged.emit(!item.isChecked)"
+            [checked]="item?.isChecked || false"
+            (toggled)="checkedChanged.emit(!item?.isChecked)"
             labelDirection="left"
             label="Controllato"
           ></app-toggle>
