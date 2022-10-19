@@ -4,15 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum, Lightbox } from 'ngx-lightbox';
 import { ToastrService } from 'ngx-toastr';
 import {
+  catchError,
   combineLatest,
   map,
   Observable,
+  of,
   startWith,
   Subject,
   switchMap,
   tap,
 } from 'rxjs';
 import { SvgEnum } from 'src/app/models/svg.enum';
+import { TailwindDialogConfirmComponent } from 'src/app/tailwind-dialog/components/tailwind-dialog-confirm/tailwind-dialog-confirm.component';
+import { TailwindDialogService } from 'src/app/tailwind-dialog/services/tailwind-dialog.service';
 import { User } from '../../../auth/models/user';
 import { GroupOrder } from '../../../models/group-order';
 import { OrderItem } from '../../../models/order-item';
@@ -71,7 +75,8 @@ export class ItemsListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private _lightbox: Lightbox
+    private _lightbox: Lightbox,
+    private tailwindDialogService: TailwindDialogService
   ) {
     if (!this.orderId) {
       this.toastr.error('Nessun ordine selezionato');
@@ -111,6 +116,41 @@ export class ItemsListComponent implements OnInit {
         )
       )
       .pipe(tap(() => (this.loading = false)));
+  }
+
+  public removeItem(item: OrderItem) {
+    const modalRef = this.tailwindDialogService.open(
+      TailwindDialogConfirmComponent,
+      {
+        data: {
+          title: 'Rimuovi elemento',
+          description: `Sei sicuro di voler rimuovere l'elemento <b>${item.itemName}</b>?`,
+          actionButton: {
+            label: 'Rimuovi',
+          },
+          cancelButton: {
+            label: 'Annulla',
+          },
+        },
+      }
+    );
+
+    modalRef.afterClosed
+      .pipe(
+        switchMap((result) => {
+          if (result === 'cancel' || !result) {
+            return of();
+          }
+
+          return this.ordersService.removeItem(item._id);
+        }),
+        switchMap(() => this.emitGetActiveOrder()),
+        tap(() => this.toastr.success('Elemento rimosso con successo', 'Ok')),
+        catchError(async (err) =>
+          this.toastr.error(err.error.errors[0].message, 'Errore')
+        )
+      )
+      .subscribe();
   }
 
   public handleShowDropdown(user: string) {

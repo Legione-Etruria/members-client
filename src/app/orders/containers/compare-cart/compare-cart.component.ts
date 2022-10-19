@@ -77,7 +77,9 @@ export class CompareCartComponent implements OnInit {
         items: o?.items.filter(
           (i) =>
             i.itemShop === this.shop &&
-            ['pending-payment', 'confirmed'].includes(i.itemStatus)
+            ['pending-payment', 'confirmed', 'pending-confirmation'].includes(
+              i.itemStatus
+            )
         ),
       })),
       map((o) => ({

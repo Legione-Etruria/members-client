@@ -90,6 +90,21 @@
         }"
       ></golden-tailwind-input>
       <golden-tailwind-input
+        *ngIf="isHidden('phoneNumber')"
+        [parent]="form"
+        label="Numero di Telefono"
+        name="phoneNumber"
+        type="text"
+        placeholder="Es. +393913225127"
+        [mask]="'000 000 0000'"
+        class="border-none"
+        [validationErrors]="{
+          required: ' ',
+          pattern: 'Numero di telefono non valido',
+          email: 'Email non valida'
+        }"
+      ></golden-tailwind-input>
+      <golden-tailwind-input
         *ngIf="isHidden('firstName')"
         [parent]="form"
         label="Nome"
