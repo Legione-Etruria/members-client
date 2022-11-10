@@ -3,17 +3,22 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { Papa } from 'ngx-papaparse';
 import { ToastrService } from 'ngx-toastr';
 
+export interface ParsedFile {
+  base64: string;
+  name: string;
+  type: string;
+}
+
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
 })
 export class UploadFileComponent {
-  @Output() fileChanged = new EventEmitter<{
-    base64: string;
-    name: string;
-    type: string;
-  }>();
+  @Output() fileChanged = new EventEmitter<ParsedFile>();
+  @Output() fileRemoved = new EventEmitter<ParsedFile>();
   public file?: File;
+
+  private _file?: ParsedFile;
 
   // public uploadLogs$ = new Subject<{
   //   assigned: Rfid[];
@@ -32,7 +37,12 @@ export class UploadFileComponent {
   }
 
   onRemove() {
-    // console.log(event);
+    if (!this._file) {
+      return;
+    }
+
+    this.fileRemoved.emit(this._file);
+    this._file = undefined;
     this.file = undefined;
   }
 
@@ -55,12 +65,13 @@ export class UploadFileComponent {
         delimiter: ',',
         header: true,
         complete: (result) => {
-          // console.log(result);
-          this.fileChanged.emit({
+          this._file = {
             base64: fileReader.result as string,
             name: this.file?.name || 'ignoto',
             type: this.file?.type || 'pdf',
-          });
+          };
+          // console.log(result);
+          this.fileChanged.emit(this._file);
         },
       });
 

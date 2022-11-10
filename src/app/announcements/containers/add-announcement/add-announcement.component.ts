@@ -12,9 +12,7 @@ import { UsersService } from 'src/app/users/services/users.service';
 export class AddAnnouncementComponent {
   public users$ = this.usersService
     .getUsers()
-    .pipe(
-      map((i) => i.map((j) => ({ item_id: j._id, item_text: j.battleName })))
-    );
+    .pipe(map((i) => i.map((j) => ({ value: j._id, label: j.battleName }))));
 
   public data: Partial<Announcement & { users: string[] }> = {
     title: '',

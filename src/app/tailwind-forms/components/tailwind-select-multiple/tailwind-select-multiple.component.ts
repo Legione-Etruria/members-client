@@ -12,8 +12,10 @@ export class TailwindSelectMultipleComponent implements OnInit {
   @Input() public valuePath!: string;
   @Input() public labelPath!: string;
   @Input() public rows: any[] = [];
+
   public checkboxAll = false;
   public indeterminate = false;
+  public searchTerm = '';
 
   ngOnInit(): void {
     if (!this.valuePath) {
@@ -79,5 +81,25 @@ export class TailwindSelectMultipleComponent implements OnInit {
 
   getRowLabel(row: any, path: string) {
     return this.getRowValue(row, path);
+  }
+
+  filteredRows() {
+    return this.rows.filter((i) => {
+      const rowValue = this.getRowValue(i, this.valuePath);
+      const rowLabel = this.getRowLabel(i, this.labelPath);
+
+      if (!this.searchTerm.length) {
+        return true;
+      }
+
+      const isInValue = String(rowValue)
+        .toLowerCase()
+        .includes(this.searchTerm.toLowerCase());
+      const isInLabel = String(rowLabel)
+        .toLowerCase()
+        .includes(this.searchTerm.toLowerCase());
+
+      return isInValue || isInLabel;
+    });
   }
 }

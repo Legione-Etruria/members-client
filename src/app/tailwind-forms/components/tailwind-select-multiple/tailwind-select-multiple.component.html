@@ -1,17 +1,42 @@
 <fieldset>
-  <div class="relative flex items-start pr-6">
-    <div class="min-w-0 flex-1 text-sm">
-      <legend class="text-sm font-medium text-gray-700">{{ label }}</legend>
-    </div>
-    <div class="ml-3 flex h-5 items-center">
-      <input
-        type="checkbox"
-        id="toggleAll"
-        class="focus:ring-app-color-500 text-app-color-600 h-4 w-4 rounded border-gray-300"
-        [checked]="checkboxAll"
-        [indeterminate]="indeterminate"
-        (change)="toggleAll(rows)"
-      />
+  <div class="relative flex items-start pr-6 mt-2">
+    <div class="ml-3 flex items-center space-x-2 w-full h-fit">
+      <div class="w-10/12">
+        <div class="absolute h-8 my-1 mx-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 text-gray-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
+        </div>
+        <input
+          type="text"
+          class="border rounded-lg p-1 pl-8 outline-none w-full"
+          [(ngModel)]="searchTerm"
+        />
+      </div>
+      <div class="flex space-x-1 p-1 px-2 bg-gray-100 rounded-lg border">
+        <input
+          type="checkbox"
+          id="toggleAll"
+          class="focus:ring-app-color-500 text-app-color-600 h-4 w-4 border-gray-300 mt-1"
+          [checked]="checkboxAll"
+          [indeterminate]="indeterminate"
+          (change)="toggleAll(rows)"
+        />
+        <label for="toggleAll" class="font-semibold text-gray-500"
+          >Seleziona Tutti</label
+        >
+      </div>
     </div>
   </div>
   <div
@@ -20,7 +45,7 @@
     <div class="divide-y divide-gray-200 border-b">
       <div
         class="relative flex items-start py-4 px-6 hover:bg-gray-100"
-        *ngFor="let row of rows"
+        *ngFor="let row of filteredRows()"
         (click)="toggleCustomer(row, rows)"
       >
         <div class="min-w-0 flex-1 text-sm">
