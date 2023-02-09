@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { addMonths } from 'date-fns';
 import { GroupOrder } from '../../../models/group-order';
 
@@ -30,6 +34,10 @@ export class OrderFormComponent implements OnInit {
     {
       label: 'Taiwangun',
       value: 'taiwangun',
+    },
+    {
+      label: 'Solo Rapidi',
+      value: 'solo rapidi',
     },
   ];
 

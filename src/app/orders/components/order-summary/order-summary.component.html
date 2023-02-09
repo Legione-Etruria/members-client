@@ -3,7 +3,7 @@
     ORDINE DI GRUPPO #{{ currentOrder.orderPublicId }}
   </h1>
   <div class="text-gray-500 text-right text-sm">
-    Scade il {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
+    Scade il {{ currentOrder.dueDate | date : "dd/MM/yyyy" }}
   </div>
   <div class="text-sm text-gray-400 uppercase text-right">
     <span> {{ getTotalQuantity(items) }}</span>
@@ -37,7 +37,7 @@
       <span>Totale</span>
       <span>{{
         getPriceToPay(items, "pending-payment") +
-          getPriceToPay(items, "confirmed") | currency: "€"
+          getPriceToPay(items, "confirmed") | currency : "€"
       }}</span>
     </div>
 
@@ -56,12 +56,12 @@
         >
         <span *ngIf="!isPaymentPending(items) && isLastOrderWeek()">
           Conferma ({{
-            getPriceToPay(items, "pending-confirmation") | currency: "€"
+            getPriceToPay(items, "pending-confirmation") | currency : "€"
           }})</span
         >
         <span *ngIf="!isLastOrderWeek()">
           Potrai confermare dal
-          {{ lastOrderWeek() | date: "dd/MM/yyyy" }}</span
+          {{ lastOrderWeek() | date : "dd/MM/yyyy" }}</span
         >
       </button>
     </div>
@@ -82,24 +82,19 @@
         <a
           href="https://www.taiwangun.com/"
           target="_blank"
-          *ngIf="currentOrder.shops.includes('taiwangun')"
+          *ngIf="currentOrder.shops.includes(shops.Taiwangun)"
         >
-          <button
-            class="text-legio-green text-left px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-0 transition duration-500 cursor-pointer"
-          >
-            TaiwanGun
-          </button>
+          <button class="negozi-disponibili">TaiwanGun</button>
         </a>
         <a
           href="https://www.ilsemaforo-softair.com/"
           target="_blank"
-          *ngIf="currentOrder.shops.includes('ilsemaforo')"
+          *ngIf="currentOrder.shops.includes(shops.Ilsemaforo)"
         >
-          <button
-            class="text-legio-green text-left px-6 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-0 transition duration-500 cursor-pointer"
-          >
-            IlSemaforo
-          </button>
+          <button class="negozi-disponibili">IlSemaforo</button>
+        </a>
+        <a *ngIf="currentOrder.shops.includes(shops.SoloRapidi)">
+          <button class="negozi-disponibili">Solo Oggetti Rapidi</button>
         </a>
       </div>
     </div>
@@ -135,7 +130,7 @@
   >
     <div class="flex justify-between">
       <span> {{ rowLabel }}</span>
-      <span>{{ getPriceToPay(items, statusCheck) | currency: "€" }}</span>
+      <span>{{ getPriceToPay(items, statusCheck) | currency : "€" }}</span>
     </div>
   </ng-template>
 </div>

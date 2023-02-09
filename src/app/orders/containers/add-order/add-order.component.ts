@@ -35,10 +35,12 @@ export class AddOrderComponent implements OnInit {
           this.toastr.success('Ordine Aggiunto');
           this.router.navigate(['/orders/dashboard']);
         }),
-        catchError((err) => {
-          this.toastr.error(err.message);
-          return err;
-        })
+        catchError(
+          async (err: { error: { errors: { message: string }[] } }) => {
+            this.toastr.error(err.error.errors[0].message);
+            return err;
+          }
+        )
       )
       .subscribe();
   }

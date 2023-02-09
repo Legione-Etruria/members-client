@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Color, LegendPosition } from '@swimlane/ngx-charts';
-import { GroupOrder } from 'src/app/models/group-order';
+import { EnumShops, GroupOrder } from 'src/app/models/group-order';
 
 @Component({
   selector: 'app-charts',
@@ -14,4 +14,6 @@ export class ChartsComponent {
   @Input() chartColors: string | Color = '#9C9E7F';
   @Input() legendPos: LegendPosition = LegendPosition.Below;
   @Input() formatCurrency: (value: any) => string = (value) => value;
+
+  public shops = EnumShops;
 }

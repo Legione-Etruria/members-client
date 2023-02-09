@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { GroupOrder } from 'src/app/models/group-order';
+import { EnumShops, GroupOrder } from 'src/app/models/group-order';
 import { StaticItem } from 'src/app/models/static-item';
 import { fetchedItem, OrdersService } from '../../services/orders.service';
 
@@ -28,6 +28,8 @@ export class AddItemComponent {
 
   public currentOrder$ = this.ordersService.ordersSubject$.asObservable();
   public currentUser = this.authService.currentUserValue;
+
+  public shops = EnumShops;
 
   constructor(
     private ordersService: OrdersService,
@@ -69,8 +71,6 @@ export class AddItemComponent {
         url
       );
 
-    console.log(isUrl);
-
     if (!isUrl) {
       this.isInvalid = true;
       this.invalidMessage = 'URL non valido';
@@ -87,11 +87,11 @@ export class AddItemComponent {
     }
 
     const isIlsemaforo =
-      currentOrder.shops.includes('ilsemaforo') &&
+      currentOrder.shops.includes(EnumShops.Ilsemaforo) &&
       url.startsWith('https://www.ilsemaforo-softair.com');
 
     const isTaiwangun =
-      currentOrder.shops.includes('taiwangun') &&
+      currentOrder.shops.includes(EnumShops.Taiwangun) &&
       url.startsWith('https://www.taiwangun.com/');
 
     if (!isIlsemaforo && !isTaiwangun) {
@@ -104,7 +104,7 @@ export class AddItemComponent {
     return;
   }
 
-  updateItemQuantity(qta: number) {
+  public updateItemQuantity(qta: number) {
     if (qta < 1) {
       qta = 1;
     }

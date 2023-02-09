@@ -4,10 +4,13 @@
 >
   <div class="flex flex-col space-y-2">
     <button
-      *ngIf="currentOrder?.shops?.includes('ilsemaforo')"
+      *ngIf="currentOrder?.shops?.includes(shops.Ilsemaforo)"
       class="flex space-x-2 justify-center rounded-lg px-4 py-2 font-medium text-white bg-slate-800 hover:opacity-80 uppercase tracking-wider transition ease-in scale-90 hover:scale-100 delay-75 duration-300 disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700"
       routerLink="/orders/dashboard/compare"
-      [queryParams]="{ order: currentOrder?.orderPublicId, shop: 'ilsemaforo' }"
+      [queryParams]="{
+        order: currentOrder?.orderPublicId,
+        shop: shops.Ilsemaforo
+      }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,10 +26,13 @@
       <span class="my-1 text-red-500 font-bold">IlSemaforo</span>
     </button>
     <button
-      *ngIf="currentOrder?.shops?.includes('taiwangun')"
+      *ngIf="currentOrder?.shops?.includes(shops.Taiwangun)"
       class="flex space-x-2 justify-center rounded-lg px-4 py-2 font-medium text-black bg-gray-100 transition ease-in scale-90 hover:scale-100 delay-75 duration-300 uppercase tracking-wider hover:opacity-50 disabled:pointer-events-none disabled:bg-gray-200 disabled:text-slate-700 group"
       routerLink="/orders/dashboard/compare"
-      [queryParams]="{ order: currentOrder?.orderPublicId, shop: 'taiwangun' }"
+      [queryParams]="{
+        order: currentOrder?.orderPublicId,
+        shop: shops.Taiwangun
+      }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -52,6 +52,7 @@
 
     <div
       class="bg-white rounded-lg shadow flex flex-col-reverse md:flex-row w-auto md:space-x-2 p-4"
+      *ngIf="!currentOrder.shops.includes(shops.SoloRapidi)"
     >
       <div class="w-full">
         <label class="font-medium">Link all'oggetto che vuoi aggiungere</label>

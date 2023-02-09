@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GroupOrder } from '../../../models/group-order';
+import { EnumShops, GroupOrder } from '../../../models/group-order';
 
 @Component({
   selector: 'app-order-action',
@@ -10,6 +10,8 @@ export class OrderActionComponent {
   @Input() currentOrder?: GroupOrder;
   @Input() pendingConfirmation?: 'issued' | 'cancelled';
   @Output() handleAction = new EventEmitter<typeof this.pendingConfirmation>();
+
+  public shops = EnumShops;
 
   constructor() {}
 

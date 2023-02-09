@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { differenceInDays, subDays } from 'date-fns';
-import { GroupOrder } from 'src/app/models/group-order';
+import { EnumShops, GroupOrder } from 'src/app/models/group-order';
 import { OrderItem } from 'src/app/models/order-item';
 
 @Component({
@@ -11,6 +11,8 @@ import { OrderItem } from 'src/app/models/order-item';
 export class OrderSummaryComponent {
   @Input() currentOrder!: GroupOrder;
   @Input() items: OrderItem[] = [];
+
+  public shops = EnumShops;
 
   constructor() {}
   //a function that asks for an OrderItems array and sums all the items quantities
