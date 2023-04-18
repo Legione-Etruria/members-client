@@ -16,4 +16,7 @@ export class ChartsComponent {
   @Input() formatCurrency: (value: any) => string = (value) => value;
 
   public shops = EnumShops;
+
+  public ilSemaforoFreeShippingThreshold = 150;
+  public taiwanGunFreeShippingThreshold = 325;
 }
