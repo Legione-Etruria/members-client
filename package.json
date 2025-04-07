@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build  --configuration production",
+    "build": "rm -rf ./dist && ng build  --configuration production",
     "watch": "ng build --watch --configuration development",
-    "deploy": "rm -rf ./dist && npm run build && cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n legio -a members-client && rm ./deploy.tar",
-    "deploy-notify": "rm -rf ./dist && npm run build && cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n notify -a legione-etruria-members-client && rm ./deploy.tar",
+    "deploy": "npm run build && cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n legio -a members-client && rm ./deploy.tar",
+    "deploy-notify": "cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n notify -a legione-etruria-members-client && rm ./deploy.tar",
     "test": "ng test"
   },
   "private": true,

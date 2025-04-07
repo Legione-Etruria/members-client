@@ -99,7 +99,7 @@ export class OrdersService {
 
   getItemData(url: string) {
     return this.httpClient.get<{ name: string; price: number; imgSrc: string }>(
-      'https://scraper.vps.legioneetruria.com/scrape?url=' +
+      'https://legione-etruria-scraper.vps.notifyapp.it/scrape?url=' +
         url +
         '&apikey=3f77f60c-cbfa-4779-aac8-1e36d95f100e'
     );
