@@ -22,7 +22,7 @@
     >
       <span class="mt-1">DATA INIZIO</span>
       <span class="mt-1">
-        {{ currentOrder.startDate | date: "dd/MM/yyyy" }}
+        {{ currentOrder.startDate | date : "dd/MM/yyyy" }}
       </span>
     </div>
     <div
@@ -31,7 +31,7 @@
     >
       <span class="mt-1">DATA SCADENZA</span>
       <span class="mt-1">
-        {{ currentOrder.dueDate | date: "dd/MM/yyyy" }}
+        {{ currentOrder.dueDate | date : "dd/MM/yyyy" }}
       </span>
     </div>
     <div class="flex justify-between pt-2" *ngIf="!hideItems.includes('shops')">
@@ -60,7 +60,7 @@
       <span class="mt-1">NON PAGATO</span>
       <span class="mt-1">
         {{
-          getPriceToPay(currentOrder.items, "pending-payment") | currency: "€"
+          getPriceToPay(currentOrder.items, "pending-payment") | currency : "€"
         }}</span
       >
     </div>
@@ -68,7 +68,7 @@
       <span class="mt-1">PAGATO</span>
       <span class="mt-1">
         {{
-          getPriceToPay(currentOrder.items, "confirmed") | currency: "€"
+          getPriceToPay(currentOrder.items, "confirmed") | currency : "€"
         }}</span
       >
     </div>
@@ -77,7 +77,8 @@
       <span class="mt-1">
         {{
           getPriceToPay(currentOrder.items, "confirmed") +
-            getPriceToPay(currentOrder.items, "pending-payment") | currency: "€"
+            getPriceToPay(currentOrder.items, "pending-payment")
+            | currency : "€"
         }}</span
       >
     </div>
@@ -86,7 +87,7 @@
       *ngIf="!hideItems.includes('orderNotes')"
     >
       <span class="mt-1">NOTE ORDINE</span>
-      <span class="mt-1 whitespace-nowrap px-2">
+      <span class="mt-1 px-2 whitespace-pre-wrap truncate text-right">
         {{ currentOrder.orderNotes || "/" }}</span
       >
     </div>
