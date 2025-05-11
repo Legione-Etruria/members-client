@@ -62,10 +62,7 @@ export class UserFormComponent implements OnInit {
         battleName: [this.user?.battleName || '', Validators.required],
         firstName: [this.user?.firstName || '', Validators.required],
         lastName: [this.user?.lastName || '', Validators.required],
-        phoneNumber: [
-          this.user?.phoneNumber || '',
-          [Validators.required, Validators.pattern('[0-9]{8/10}')],
-        ],
+        phoneNumber: [this.user?.phoneNumber || '', [Validators.required]],
         legioMembershipDate: [
           this.user?.legioMembershipDate || new Date(),
           Validators.required,
@@ -87,7 +84,7 @@ export class UserFormComponent implements OnInit {
     this.destroy$.next();
   }
 
-  public isHidden(value: typeof this.toHide[0]) {
+  public isHidden(value: (typeof this.toHide)[0]) {
     return !this.toHide.includes(value);
   }
 

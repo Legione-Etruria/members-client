@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "rm -rf ./dist && ng build  --configuration=production",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "deploy": "npm run build && cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n legio -a members-client && rm ./deploy.tar",
     "deploy-notify": "cp ./Dockerfile ./dist/le-members-client && cp ./captain-definition ./dist/le-members-client && tar --strip-components=3 -cvf ./deploy.tar --exclude='*.map' ./dist/le-members-client/* && caprover deploy -t ./deploy.tar -n notify -a legione-etruria-members-client && rm ./deploy.tar",
