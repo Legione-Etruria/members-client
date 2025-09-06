@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './containers/create/create.component';
 import { LinkAccountComponent } from './containers/link-account/link-account.component';
+import { TemporaryUserComponent } from './containers/temporary-user/temporary-user.component';
 import { UsersComponent } from './containers/users/users.component';
 
 const routes: Routes = [
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'link',
     component: LinkAccountComponent,
+  },
+  {
+    path: 'temporary',
+    component: TemporaryUserComponent,
   },
 ];
 

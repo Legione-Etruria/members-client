@@ -1,0 +1,83 @@
+<golden-page-header
+  [currentCrumb]="{
+    label: 'Polizza Temporanea',
+    svgPath: [
+      'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+    ],
+    routerLink: '/users/temporary'
+  }"
+></golden-page-header>
+
+<div class="flex flex-col px-4">
+  <div
+    [ngClass]="{
+      'bg-legio-gold-400 text-black animate-pulse': affiliationExpired
+    }"
+    class="px-4 py-2 flex rounded shrink bg-legio-green-400 text-white w-full text-center flex-col space-y-2"
+  >
+    <h1>Affiliazione n. {{ affiliationData.id }}</h1>
+    <b>Scade il {{ affiliationData.expiresOn | date : "dd/MM/yyyy" }}</b>
+  </div>
+
+  <div class="flex space-x-2 px-4 py-2 overflow-x-auto">
+    <div
+      *ngFor="let item of pastSubmittedUsers"
+      (click)="updateUserForm(item)"
+      class="p-2 rounded-lg shadow hover:bg-gray-200 cursor-pointer px-6 text-gray-500 bg-white"
+    >
+      <div class="flex flex-col justify-center">
+        <h1
+          class="text font-bold tracking-wider uppercase text-center space-x-2"
+        >
+          <span> {{ item.name }}</span>
+        </h1>
+      </div>
+      <div class="flex justify-center">
+        <span class="text-sm"> {{ item.surname }} </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-2 p-8">
+    <golden-tailwind-datepicker
+      [parent]="form"
+      name="date"
+      label="Data Polizza"
+      [validationErrors]="validationErrors"
+    ></golden-tailwind-datepicker>
+    <div class="w-full border-b my-2"></div>
+    <golden-tailwind-input
+      [parent]="form"
+      name="name"
+      label="Nome"
+      placeholder="Mario"
+      [validationErrors]="validationErrors"
+    ></golden-tailwind-input>
+    <golden-tailwind-input
+      [parent]="form"
+      name="surname"
+      label="Cognome"
+      placeholder="Rossi"
+      [validationErrors]="validationErrors"
+    ></golden-tailwind-input>
+    <golden-tailwind-datepicker
+      [parent]="form"
+      name="birthDate"
+      label="Data di Nascita"
+      [validationErrors]="validationErrors"
+      [toggleTimelineAxis]="false"
+    ></golden-tailwind-datepicker>
+    <golden-tailwind-input
+      [parent]="form"
+      name="birthPlace"
+      label="Luogo di Nascita"
+      [validationErrors]="validationErrors"
+      placeholder="Prato"
+    ></golden-tailwind-input>
+
+    <golden-tailwind-submit-button
+      [invalid]="form.invalid || affiliationExpired"
+      (click)="onSubmit()"
+    ></golden-tailwind-submit-button>
+  </div>
+</div>

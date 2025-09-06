@@ -89,6 +89,11 @@ export class HomeComponent {
               roles: ['admin'],
               routerLink: '/users/create',
             },
+            {
+              label: 'Polizza temporanea',
+              roles: ['admin'],
+              routerLink: '/users/temporary',
+            },
           ],
         ],
       },

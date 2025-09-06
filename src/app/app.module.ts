@@ -10,11 +10,12 @@ import { LegioneEtruriaModule } from './legione-etruria/legione-etruria.module';
 import { TailwindDialogModule } from './tailwind-dialog/tailwind-dialog.module';
 import { TailwindToastsModule } from './tailwind-toasts/tailwind-toasts.module';
 import { UsersModule } from './users/users.module';
+import { TemporaryUserComponent } from './temporary-user/temporary-user.component';
 
 export const tokenGetter = () =>
   localStorage.getItem(environment.localStorageJWT);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TemporaryUserComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

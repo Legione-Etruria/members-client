@@ -13,6 +13,7 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { CreateComponent } from './containers/create/create.component';
 import { LinkAccountComponent } from './containers/link-account/link-account.component';
 import { QuickSwitchComponent } from './containers/quick-switch/quick-switch.component';
+import { TemporaryUserComponent } from './containers/temporary-user/temporary-user.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UsersService } from './services/users.service';
 import { UsersRoutingModule } from './users-routing.module';
@@ -28,6 +29,7 @@ import { UsersRoutingModule } from './users-routing.module';
     QuickSwitchComponent,
     UserCardComponent,
     LinkAccountComponent,
+    TemporaryUserComponent,
   ],
   imports: [
     CommonModule,
